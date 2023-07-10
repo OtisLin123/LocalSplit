@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:local_split/Component/Calculator/calculator_controller.dart';
 import 'package:local_split/Manager/group_manager.dart';
 import 'package:local_split/Model/group_data.dart';
 import 'package:local_split/Model/person_data.dart';
@@ -14,6 +15,9 @@ class AddSpendController extends GetxController {
   TextEditingController spendNameTextEditingController =
       TextEditingController();
   TextEditingController textEditingController = TextEditingController();
+
+  TextEditingController calculatorTextEditController = TextEditingController();
+  CalculatorController calculatorController = CalculatorController();
 
   final Rx<PersonData> _paidPerson =
       PersonData(name: 'UnknownPaidPerson'.tr, key: 'unknown').obs;
@@ -37,6 +41,10 @@ class AddSpendController extends GetxController {
   PersonData get person => _person.value;
   set person(PersonData data) => _person.value = data;
 
+  final Rx<bool> _showKeyboard = false.obs;
+  bool get showKeyboard => _showKeyboard.value;
+  set showKeyboard(bool value) => _showKeyboard.value = value;
+
   @override
   void onReady() {
     ///-implement you code-///
@@ -50,6 +58,7 @@ class AddSpendController extends GetxController {
 
     data = GroupManager().getGroup(groupkey);
     focusNode.addListener(() {
+      showKeyboard = focusNode.hasFocus;
       if (focusNode.hasFocus) {
         textEditingController.text = (cost == 0.0) ? '' : cost.toString();
       }
@@ -65,6 +74,13 @@ class AddSpendController extends GetxController {
         }
       }
     }
+
+    calculatorController.result = cost;
+    calculatorTextEditController.text = calculatorController.resultString;
+
+    calculatorTextEditController.addListener(() {
+      cost = double.parse(calculatorTextEditController.text);
+    });
 
     textEditingController.text = (cost == 0.0) ? '' : cost.toString();
     spendNameTextEditingController.text = spendName;

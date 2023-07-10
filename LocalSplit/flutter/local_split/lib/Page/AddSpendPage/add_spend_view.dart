@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:local_split/Component/Calculator/calculator.dart';
 import 'package:local_split/Component/person_item.dart';
 import 'package:local_split/Component/person_select_widget.dart';
 import 'package:local_split/Helper/text_style_helper.dart';
@@ -40,111 +41,122 @@ class AddSpendView extends GetView<AddSpendController> {
         ),
       ),
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("SpendName".tr,
-                          style: TextStyleHelper().subTitleWithNavy),
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: 'EnterSpendName'.tr,
-                      ),
-                      controller: controller.spendNameTextEditingController,
-                      onChanged: (value) {
-                        controller.spendName = value;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("PaidPerson".tr,
-                          style: TextStyleHelper().subTitleWithNavy),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 40,
-                      child: Obx(() {
-                        return _buildPaidPersonWidgte(context);
-                      }),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("CostMoney".tr,
-                          style: TextStyleHelper().subTitleWithNavy),
-                    ),
-                    TextField(
-                      focusNode: controller.focusNode,
-                      textInputAction: TextInputAction.go,
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                        signed: true,
-                      ),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+            Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text("SpendName".tr,
+                              style: TextStyleHelper().subTitleWithNavy),
+                        ),
+                        TextField(
+                          decoration: InputDecoration(
+                            hintText: 'EnterSpendName'.tr,
+                          ),
+                          controller: controller.spendNameTextEditingController,
+                          onChanged: (value) {
+                            controller.spendName = value;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text("PaidPerson".tr,
+                              style: TextStyleHelper().subTitleWithNavy),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: 40,
+                          child: Obx(() {
+                            return _buildPaidPersonWidgte(context);
+                          }),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text("CostMoney".tr,
+                              style: TextStyleHelper().subTitleWithNavy),
+                        ),
+                        TextField(
+                          focusNode: controller.focusNode,
+                          readOnly: true,
+                          controller: controller.calculatorTextEditController,
+                          decoration: InputDecoration(
+                            hintText: 'TypeCost'.tr,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Obx(
+                            () {
+                              return PersonSelectWidget(
+                                selectPeople: controller.splitPeople,
+                                unselectPeople: controller.getAvaliablePeople(),
+                                selectOnDelect: (id) {
+                                  controller.removeSplitPerson(id);
+                                },
+                                unselectOnClick: (id) {
+                                  controller.addSplitPerson(id);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                          child: Text("Confirm".tr),
+                          onPressed: () {
+                            controller.spendUid == null
+                                ? controller.addSpendData()
+                                : controller.modifySpendData();
+                            Get.back();
+                          },
+                        ),
                       ],
-                      decoration: InputDecoration(
-                        hintText: 'TypeCost'.tr,
-                      ),
-                      controller: controller.textEditingController,
-                      onChanged: (value) {
-                        if (value.isEmpty) {
-                          controller.cost = 0;
-                        } else {
-                          controller.cost = double.parse(value);
-                        }
-                      },
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Obx(
-                        () {
-                          return PersonSelectWidget(
-                            selectPeople: controller.splitPeople,
-                            unselectPeople: controller.getAvaliablePeople(),
-                            selectOnDelect: (id) {
-                              controller.removeSplitPerson(id);
-                            },
-                            unselectOnClick: (id) {
-                              controller.addSplitPerson(id);
-                            },
-                          );
+                  ),
+                ),
+              ],
+            ),
+            Obx(() {
+              return Visibility(
+                visible: controller.showKeyboard,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    height: 200,
+                    child: Container(
+                      color: Colors.white,
+                      child: Calculator(
+                        calculatorController: controller.calculatorController,
+                        textEditController: controller.calculatorTextEditController,
+                        onDone: () {
+                          controller.focusNode.unfocus();
                         },
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      child: Text("Confirm".tr),
-                      onPressed: () {
-                        controller.spendUid == null
-                            ? controller.addSpendData()
-                            : controller.modifySpendData();
-                        Get.back();
-                      },
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            })
           ],
         ),
       ),
