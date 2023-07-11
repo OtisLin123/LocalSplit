@@ -9,10 +9,6 @@ import Foundation
 import UIKit
 
 extension UIViewController {
-    func add(_ child: UIView) {
-        view.addSubview(child)
-    }
-    
     func add(_ child: UIViewController) {
         addChild(child)
         view.addSubview(child.view)

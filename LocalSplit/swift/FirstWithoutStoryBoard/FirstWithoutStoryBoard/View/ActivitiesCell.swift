@@ -8,24 +8,35 @@
 import UIKit
 
 class ActivitiesCell: UICollectionViewCell {
-    var imageView: UIImageView!
-    var titleLable: UILabel!
+    var data: ActivityModel!
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        let w = Double(UIScreen.main.bounds.size.width)
-        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: w/3-10, height: w/3-10))
+        super.init(frame: frame)    
         self.addSubview(imageView)
-        
-        titleLable = UILabel(frame:CGRect(x: 0, y: 0, width: w/3-10, height: 40))
-        titleLable.textAlignment = .center
-        titleLable.textColor = UIColor.white
-        self.addSubview(titleLable)
+        self.addSubview(titleLabel)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setUpData(_ data: ActivityModel) {
+        self.data = data
+        titleLabel.text = data.name
+    }
+    
+    lazy var imageView: UIImageView = {
+        let w = Double(UIScreen.main.bounds.size.width)
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: w/3-10, height: w/3-10))
+        return imageView
+    }()
+    
+    lazy var titleLabel: UILabel = {
+        let w = Double(UIScreen.main.bounds.size.width)
+        let titleLabel = UILabel(frame:CGRect(x: 0, y: 0, width: w/3-10, height: 40))
+        titleLabel.textAlignment = .center
+        titleLabel.textColor = UIColor.white
+        return titleLabel
+    }()
     
 }

@@ -8,33 +8,24 @@
 import UIKit
 
 class MemberEditorPageController: UIViewController {
-    let textField = UITextField(frame: .zero)
-    let memberTableViewController = MemberTableViewController()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
         
+        self.view.backgroundColor = .white
         self.title = "MemberEditor"
         
-        let safeArea = UIViewController()
-        safeArea.view.translatesAutoresizingMaskIntoConstraints = false
         add(safeArea)
-        
-        textField.textColor = .black
-        textField.translatesAutoresizingMaskIntoConstraints = false;
-        
-        let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-        addButton.translatesAutoresizingMaskIntoConstraints = false;
-        addButton.setImage(UIImage(systemName: "plus.app")?.withTintColor(.black), for: .normal)
-        addButton.addTarget(self, action: #selector(didAddButtonClick), for: .touchUpInside)
-        
-        memberTableViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        safeArea.add(textField)
-        safeArea.add(addButton)
+        safeArea.view.addSubview(textField)
+        safeArea.view.addSubview(addButton)
         safeArea.add(memberTableViewController)
-        
+        doLayout()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        textField.addUnderLine(color: UIColor.darkGray.cgColor)
+    }
+    
+    func doLayout() {
         /// layout safe area
         NSLayoutConstraint.activate([
             safeArea.view.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
@@ -67,12 +58,38 @@ class MemberEditorPageController: UIViewController {
         ])
     }
     
-    override func viewDidLayoutSubviews() {
-        textField.addUnderLine(color: UIColor.darkGray.cgColor)
-    }
+    lazy var safeArea: UIViewController = {
+        let safeArea = UIViewController()
+        safeArea.view.translatesAutoresizingMaskIntoConstraints = false
+        return safeArea
+    }()
+    
+    lazy var textField: UITextField = {
+        let textField = UITextField(frame: .zero)
+        textField.textColor = .black
+        textField.translatesAutoresizingMaskIntoConstraints = false;
+        return textField
+    }()
+    
+    lazy var addButton: UIButton = {
+        let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+        addButton.translatesAutoresizingMaskIntoConstraints = false;
+        addButton.setImage(UIImage(systemName: "plus.app")?.withTintColor(.black), for: .normal)
+        addButton.addTarget(self, action: #selector(didAddButtonClick), for: .touchUpInside)
+        return addButton
+    }()
+    
+    lazy var memberTableViewController: MemberTableViewController = {
+        let controller = MemberTableViewController()
+        controller.view.translatesAutoresizingMaskIntoConstraints = false
+        return controller
+    }()
     
     @objc func didAddButtonClick() {
-        guard ((textField.text?.isEmpty) != nil) else {
+        guard ((textField.text) != nil) else {
+            return
+        }
+        guard !textField.text!.isEmpty else {
             return
         }
         memberTableViewController.addData(name: textField.text!)

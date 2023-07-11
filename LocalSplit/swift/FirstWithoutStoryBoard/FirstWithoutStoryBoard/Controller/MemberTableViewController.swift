@@ -7,35 +7,22 @@
 
 import UIKit
 
-class MemberTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var data = ["陳偉殷","王建民","陳金鋒","林智勝"]
-    
-    let tableView = UITableView()
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MemberCell
-        cell.titleLabel.text = data[indexPath.row]
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
-    }
+class MemberTableViewController: UIViewController {
     
     override func viewDidLoad() {
-        
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(MemberCell.self, forCellReuseIdentifier: "Cell")
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.allowsSelection = false
-        
-        add(tableView)
-        
+        self.view.addSubview(tableView)
+        doLayout()
+        applySnapShot()
+    }
+    
+    func applySnapShot() {
+        var snapShot = NSDiffableDataSourceSnapshot<Section, MemberModel>()
+        snapShot.appendSections([.main])
+        snapShot.appendItems(memberData, toSection: .main)
+        dataSource.apply(snapShot, animatingDifferences: true)
+    }
+    
+    func doLayout() {
         /// layout table view
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -45,10 +32,61 @@ class MemberTableViewController: UIViewController, UITableViewDelegate, UITableV
         ])
     }
     
-    func addData(name value: String) {
-        data.append(value)
-        
-        print(data)
-    }
+    lazy var tableView: UITableView = {
+        let view = UITableView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.register(MemberCell.self, forCellReuseIdentifier: "Cell")
+        view.delegate = self
+        view.allowsSelection = false
+        return view
+    }()
     
+    lazy var dataSource: UITableViewDiffableDataSource = {
+        let data = UITableViewDiffableDataSource<Section, MemberModel>(tableView: tableView) {
+        tableView, indexPath, model in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MemberCell
+            cell.titleLabel.text = model.name
+            cell.selectionStyle = .none
+            cell.cellDelegate = self
+            cell.indexPath = indexPath
+            return cell
+        }
+        data.defaultRowAnimation = .fade
+        return data
+    }()
+}
+
+// Public method
+extension MemberTableViewController {
+    func addData(name value: String) {
+        memberData.append(MemberModel(name: value))
+        applySnapShot()
+    }
+}
+
+// delegate
+extension MemberTableViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+}
+
+extension MemberTableViewController: MemberCellDelegate {
+    func didDeleteTap(_ indexPath: IndexPath) {
+        guard indexPath.row >= 0 && indexPath.row < memberData.count else {
+            return
+        }
+        memberData.remove(at: indexPath.row)
+        applySnapShot()
+        tableView.reloadData()
+    }
+}
+
+//define
+enum Section: CaseIterable {
+    case main
+}
+
+struct MemberModel: Hashable {
+    var name: String
 }
