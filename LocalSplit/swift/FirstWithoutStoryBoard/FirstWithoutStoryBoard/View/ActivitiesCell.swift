@@ -11,18 +11,13 @@ class ActivitiesCell: UICollectionViewCell {
     var data: ActivityModel!
     
     override init(frame: CGRect) {
-        super.init(frame: frame)    
+        super.init(frame: frame)
         self.addSubview(imageView)
         self.addSubview(titleLabel)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setUpData(_ data: ActivityModel) {
-        self.data = data
-        titleLabel.text = data.name
     }
     
     lazy var imageView: UIImageView = {
@@ -39,4 +34,12 @@ class ActivitiesCell: UICollectionViewCell {
         return titleLabel
     }()
     
+}
+
+// Public method
+extension ActivitiesCell {
+    func setUpData(_ data: ActivityModel) {
+        self.data = data
+        titleLabel.text = data.name
+    }
 }

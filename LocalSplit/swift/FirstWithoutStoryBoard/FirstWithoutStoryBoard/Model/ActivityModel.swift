@@ -10,6 +10,6 @@ import Foundation
 struct ActivityModel: Hashable, Codable, Identifiable {
     var id: String
     var name: String
-    var people: [String]
+    var people: [MemberModel]
     var expense: [ExpenseModel]
 }

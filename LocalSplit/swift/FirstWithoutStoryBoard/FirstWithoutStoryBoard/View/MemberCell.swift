@@ -8,24 +8,53 @@
 import UIKit
 
 class MemberCell: UITableViewCell {
-    var titleLabel = UILabel()
     var indexPath: IndexPath!
     weak var cellDelegate: MemberCellDelegate? = nil
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        titleLabel.textColor = .black
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        let deleteButton = UIButton()
-        deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
-        deleteButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
-        deleteButton.addTarget(self, action: #selector(didDeleteClick), for: .touchUpInside)
-        
         contentView.addSubview(titleLabel)
         contentView.addSubview(deleteButton)
-        
+        doLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var deleteButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
+        button.addTarget(self, action: #selector(didDeleteClick), for: .touchUpInside)
+        return button
+    }()
+}
+
+extension MemberCell {
+    @objc func didDeleteClick() {
+        cellDelegate?.didDeleteTap(indexPath)
+    }
+}
+
+extension MemberCell {
+    func setData(_ data: MemberModel, showDelete: Bool) {
+        titleLabel.text = data.name
+        deleteButton.layer.opacity = showDelete ? 1 : 0
+    }
+}
+
+// Private method
+extension MemberCell {
+    private func doLayout() {
         /// layout label
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -42,15 +71,5 @@ class MemberCell: UITableViewCell {
             deleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             deleteButton.leftAnchor.constraint(equalTo: titleLabel.rightAnchor),
         ])
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension MemberCell {
-    @objc func didDeleteClick() {
-        cellDelegate?.didDeleteTap(indexPath)
     }
 }

@@ -52,9 +52,9 @@ class MemberTableController: UIViewController {
         let data = UITableViewDiffableDataSource<Section, MemberModel>(tableView: tableView) {
         tableView, indexPath, model in
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MemberCell
-            cell.titleLabel.text = model.name
             cell.selectionStyle = .none
             cell.cellDelegate = self
+            cell.setData(model, showDelete: true)
             cell.indexPath = indexPath
             return cell
         }
@@ -88,8 +88,4 @@ extension MemberTableController: MemberCellDelegate {
 //define
 enum Section: CaseIterable {
     case main
-}
-
-struct MemberModel: Hashable {
-    var name: String
 }

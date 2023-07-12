@@ -16,7 +16,6 @@
 		1B2A113C2A5800990016A4FC /* ActivitiesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A113B2A5800990016A4FC /* ActivitiesCell.swift */; };
 		1B2A113E2A5806FF0016A4FC /* ActivityGridController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A113D2A5806FF0016A4FC /* ActivityGridController.swift */; };
 		1B2A11402A58109F0016A4FC /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A113F2A58109F0016A4FC /* Extension.swift */; };
-		1B758E292A5BA07200CCC186 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B758E282A5BA07200CCC186 /* ModelData.swift */; };
 		1B758E2C2A5BF87600CCC186 /* MemberCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B758E2B2A5BF87600CCC186 /* MemberCellDelegate.swift */; };
 		1B758E2E2A5C0FD700CCC186 /* ActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B758E2D2A5C0FD700CCC186 /* ActivityModel.swift */; };
 		1B758E302A5C10FD00CCC186 /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B758E2F2A5C10FD00CCC186 /* ExpenseModel.swift */; };
@@ -24,6 +23,9 @@
 		1B996EE92A5D428B006167AB /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EE82A5D428B006167AB /* helper.swift */; };
 		1B996EEB2A5D5514006167AB /* ActivitiesPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */; };
 		1B996EEF2A5E4FF8006167AB /* MemberEditorPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EEE2A5E4FF8006167AB /* MemberEditorPageViewModel.swift */; };
+		1B996EF12A5E7B50006167AB /* ActivityInfoPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EF02A5E7B50006167AB /* ActivityInfoPage.swift */; };
+		1B996EF52A5E8B44006167AB /* ActivityInfoPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EF42A5E8B44006167AB /* ActivityInfoPageViewModel.swift */; };
+		1B996EF72A5EA8E2006167AB /* MemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EF62A5EA8E2006167AB /* MemberModel.swift */; };
 		1BEEC92B2A567EB7003ABD4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEC92A2A567EB7003ABD4A /* AppDelegate.swift */; };
 		1BEEC92D2A567EB7003ABD4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEC92C2A567EB7003ABD4A /* SceneDelegate.swift */; };
 		1BEEC92F2A567EB7003ABD4A /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEC92E2A567EB7003ABD4A /* FirstViewController.swift */; };
@@ -62,7 +64,6 @@
 		1B2A113B2A5800990016A4FC /* ActivitiesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesCell.swift; sourceTree = "<group>"; };
 		1B2A113D2A5806FF0016A4FC /* ActivityGridController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGridController.swift; sourceTree = "<group>"; };
 		1B2A113F2A58109F0016A4FC /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
-		1B758E282A5BA07200CCC186 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		1B758E2B2A5BF87600CCC186 /* MemberCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCellDelegate.swift; sourceTree = "<group>"; };
 		1B758E2D2A5C0FD700CCC186 /* ActivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityModel.swift; sourceTree = "<group>"; };
 		1B758E2F2A5C10FD00CCC186 /* ExpenseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseModel.swift; sourceTree = "<group>"; };
@@ -70,6 +71,9 @@
 		1B996EE82A5D428B006167AB /* helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
 		1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesPageViewModel.swift; sourceTree = "<group>"; };
 		1B996EEE2A5E4FF8006167AB /* MemberEditorPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberEditorPageViewModel.swift; sourceTree = "<group>"; };
+		1B996EF02A5E7B50006167AB /* ActivityInfoPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityInfoPage.swift; sourceTree = "<group>"; };
+		1B996EF42A5E8B44006167AB /* ActivityInfoPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityInfoPageViewModel.swift; sourceTree = "<group>"; };
+		1B996EF62A5EA8E2006167AB /* MemberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModel.swift; sourceTree = "<group>"; };
 		1BEEC9272A567EB7003ABD4A /* FirstWithoutStoryBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirstWithoutStoryBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEEC92A2A567EB7003ABD4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1BEEC92C2A567EB7003ABD4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +121,7 @@
 				1B2A113D2A5806FF0016A4FC /* ActivityGridController.swift */,
 				179B91112A5959A90089C810 /* MemberEditorPageController.swift */,
 				1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */,
+				1B996EF02A5E7B50006167AB /* ActivityInfoPage.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -125,9 +130,9 @@
 			isa = PBXGroup;
 			children = (
 				1B2A11382A57ED660016A4FC /* activitiesData.json */,
-				1B758E282A5BA07200CCC186 /* ModelData.swift */,
 				1B758E2D2A5C0FD700CCC186 /* ActivityModel.swift */,
 				1B758E2F2A5C10FD00CCC186 /* ExpenseModel.swift */,
+				1B996EF62A5EA8E2006167AB /* MemberModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 				1B996EE52A5D2E0E006167AB /* ActivityGridViewModel.swift */,
 				1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */,
 				1B996EEE2A5E4FF8006167AB /* MemberEditorPageViewModel.swift */,
+				1B996EF42A5E8B44006167AB /* ActivityInfoPageViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -361,17 +367,19 @@
 				1B2A113C2A5800990016A4FC /* ActivitiesCell.swift in Sources */,
 				179B91122A5959A90089C810 /* MemberEditorPageController.swift in Sources */,
 				1B758E2C2A5BF87600CCC186 /* MemberCellDelegate.swift in Sources */,
-				1B758E292A5BA07200CCC186 /* ModelData.swift in Sources */,
+				1B996EF12A5E7B50006167AB /* ActivityInfoPage.swift in Sources */,
 				1B758E2E2A5C0FD700CCC186 /* ActivityModel.swift in Sources */,
 				1B758E302A5C10FD00CCC186 /* ExpenseModel.swift in Sources */,
 				1B2A113E2A5806FF0016A4FC /* ActivityGridController.swift in Sources */,
 				1784B70C2A5AF1DA00E744D0 /* MemberTableController.swift in Sources */,
+				1B996EF52A5E8B44006167AB /* ActivityInfoPageViewModel.swift in Sources */,
 				1B996EE92A5D428B006167AB /* helper.swift in Sources */,
 				1B2A11402A58109F0016A4FC /* Extension.swift in Sources */,
 				1B996EE62A5D2E0E006167AB /* ActivityGridViewModel.swift in Sources */,
 				1BEEC92F2A567EB7003ABD4A /* FirstViewController.swift in Sources */,
 				1784B70E2A5AF33100E744D0 /* MemberCell.swift in Sources */,
 				1BEEC92B2A567EB7003ABD4A /* AppDelegate.swift in Sources */,
+				1B996EF72A5EA8E2006167AB /* MemberModel.swift in Sources */,
 				1B2A11312A57E4A10016A4FC /* SecondViewController.swift in Sources */,
 				1B996EEF2A5E4FF8006167AB /* MemberEditorPageViewModel.swift in Sources */,
 				1BEEC92D2A567EB7003ABD4A /* SceneDelegate.swift in Sources */,

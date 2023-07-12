@@ -8,7 +8,7 @@
 import Foundation
 
 class ActivitiesPageViewModel: NSObject {
-    private(set) var activitiesData : [ActivityModel]! {
+    private(set) var activities : [ActivityModel]! {
         didSet {
             self.bindActivitiesPageViewModelToController()
         }
@@ -22,6 +22,12 @@ class ActivitiesPageViewModel: NSObject {
     }
     
     func callFuncToGetActivitiesData() {
-        activitiesData = Helper().load("activitiesData")
+        activities = Helper().load("activitiesData")
+    }
+}
+
+extension ActivitiesPageViewModel {
+    func addActivitu(_ data: ActivityModel) {
+        activities.append(data)
     }
 }

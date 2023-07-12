@@ -12,6 +12,7 @@ class ActivityGridController: UIViewController {
     var fullScreenSize: CGSize?
     var countOfRow: Int = 1
     private var activityGridViewModel: ActivityGridViewModel!
+    var activityGridControllerCallBackDelegate: ActivityGridControllerCallBackDelegate?
     
     convenience init(count countOfRow: Int, activities: [ActivityModel]){
         self.init()
@@ -48,12 +49,8 @@ class ActivityGridController: UIViewController {
 
 // Public method
 extension ActivityGridController {
-    func collectionReload() {
-        collectionView.reloadData()
-    }
-    
-    func addData(_ value: String) {
-        
+    func setActivitiesData(activities : [ActivityModel]) {
+        activityGridViewModel.setActivitiesData(activities: activities)
     }
 }
 
@@ -90,6 +87,10 @@ extension ActivityGridController: UICollectionViewDelegate {
         cell.layer.cornerRadius = CGFloat(8)
         cell.layer.backgroundColor = UIColor.random.cgColor
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        activityGridControllerCallBackDelegate?.didActivitySelected(id: activityGridViewModel.activitiesData[indexPath.row].id)
     }
 }
 

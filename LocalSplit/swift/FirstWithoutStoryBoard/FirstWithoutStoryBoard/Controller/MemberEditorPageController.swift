@@ -110,7 +110,9 @@ class MemberEditorPageController: UIViewController {
         guard !textField.text!.isEmpty else {
             return
         }
-        addMember(MemberModel(name: textField.text!))
+        addMember(MemberModel(
+            id: UUID().uuidString,
+            name: textField.text!))
         textField.text = ""
     }
 }

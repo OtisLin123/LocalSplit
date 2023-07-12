@@ -12,13 +12,23 @@ protocol MembersDataCallBackDelegate {
     func replaceMembersData(members: [MemberModel])
 }
 
+protocol ActivityInfoCallBackDelegate {
+    func createActivity(data: ActivityInfoData)
+    func modifyActivityInfo(data: ActivityInfoData)
+}
+
+protocol ActivityGridControllerCallBackDelegate {
+    func didActivitySelected(id: String)
+}
+
+
 class ActivitiesPage: UIViewController {
     private var activitiesPageViewModel: ActivitiesPageViewModel!
-    private var activities: [ActivityModel] = Helper().load("activitiesData")
-    private var members: [MemberModel] = [MemberModel(name: "Apple")]
+    private var members: [MemberModel] = [MemberModel(id: "", name: "Apple")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        initViewModel()
         
         self.view.backgroundColor = .white
         self.title = "Activities"
@@ -28,8 +38,6 @@ class ActivitiesPage: UIViewController {
         safeArea.add(activitiesGridViewController)
         safeArea.view.addSubview(createButton)
         doLayout()
-        
-        initViewModel()
     }
     
     lazy var createButton: UIButton = {
@@ -54,23 +62,36 @@ class ActivitiesPage: UIViewController {
     }()
     
     lazy var activitiesGridViewController: ActivityGridController = {
-        let gridController = ActivityGridController(count: 2, activities: activities)
+        let gridController = ActivityGridController(count: 2, activities: activitiesPageViewModel.activities)
         gridController.view.translatesAutoresizingMaskIntoConstraints = false
+        gridController.activityGridControllerCallBackDelegate = self
         return gridController
     }()
-    
+}
+
+// Slot
+extension ActivitiesPage {
     @objc private func didClickCreatButton() {
-        print("didClickCreatButton")
+        let activityInfoPage =
+        ActivityInfoPage(
+            data: ActivityInfoData(
+                id: UUID().uuidString,
+                activityName: "",
+                selectedMembers: []
+            ),
+            mode: ActivityInfoPageMode.Create, totalMembers: members
+        )
+        activityInfoPage.activityInfoCallBackDelegate = self
+        activityInfoPage.view.backgroundColor = .white
+        self.navigationController?.pushViewController(activityInfoPage, animated: true)
     }
     
     @objc private func didClickMemberEditorButton() {
-        print("didClickCreatButton")
         let memberEditorController = MemberEditorPageController(members: self.members)
         memberEditorController.view.backgroundColor = .white
         memberEditorController.membersDataCallBackDelegate = self
         self.navigationController?.pushViewController(memberEditorController, animated: true)
     }
-    
 }
 
 // Private method
@@ -79,7 +100,7 @@ extension ActivitiesPage {
         self.activitiesPageViewModel = ActivitiesPageViewModel()
         self.activitiesPageViewModel.bindActivitiesPageViewModelToController = {
             DispatchQueue.main.async {
-                self.activitiesGridViewController.collectionReload()
+                self.activitiesGridViewController.setActivitiesData(activities: self.activitiesPageViewModel.activities)
             }
         }
     }
@@ -114,5 +135,33 @@ extension ActivitiesPage {
 extension ActivitiesPage: MembersDataCallBackDelegate {
     func replaceMembersData(members: [MemberModel]) {
         self.members = members
+    }
+}
+
+extension ActivitiesPage: ActivityInfoCallBackDelegate {
+    func createActivity(data: ActivityInfoData) {
+        activitiesPageViewModel.addActivitu(
+            ActivityModel(id: data.id, name: data.activityName, people: data.selectedMembers, expense: []))
+    }
+    
+    func modifyActivityInfo(data: ActivityInfoData) {
+        
+    }
+}
+
+extension ActivitiesPage: ActivityGridControllerCallBackDelegate {
+    func didActivitySelected(id: String) {
+        let activityInfoPage =
+        ActivityInfoPage(
+            data: ActivityInfoData(
+                id: UUID().uuidString,
+                activityName: "",
+                selectedMembers: []
+            ),
+            mode: ActivityInfoPageMode.Create, totalMembers: members
+        )
+        activityInfoPage.activityInfoCallBackDelegate = self
+        activityInfoPage.view.backgroundColor = .white
+        self.navigationController?.pushViewController(activityInfoPage, animated: true)
     }
 }

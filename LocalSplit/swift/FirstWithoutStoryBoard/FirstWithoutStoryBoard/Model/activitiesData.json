@@ -4,8 +4,14 @@
         "id": "001",
         "name": "魔藥學",
         "people": [
-            "Aapple",
-            "Orange"
+            {
+                "id": "111",
+                "name": "Aapple"
+            },
+            {
+                "id": "112",
+                "name": "Orange"
+            }
         ],
         "expense": [
             {
@@ -31,9 +37,18 @@
         "id": "002",
         "name": "日本滑雪",
         "people": [
-            "Aapple",
-            "Orange",
-            "Banana"
+            {
+                "id": "111",
+                "name": "Aapple"
+            },
+            {
+                "id": "113",
+                "name": "Banana"
+            },
+            {
+                "id": "112",
+                "name": "Orange"
+            }
         ],
         "expense": [
             {

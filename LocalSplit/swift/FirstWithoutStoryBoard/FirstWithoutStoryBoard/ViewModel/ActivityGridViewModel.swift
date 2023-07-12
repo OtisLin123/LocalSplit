@@ -22,3 +22,10 @@ class ActivityGridViewModel : NSObject {
         super.init()
     }
 }
+
+// Public Method
+extension ActivityGridViewModel {
+    func setActivitiesData(activities : [ActivityModel]) {
+        self.activitiesData = activities
+    }
+}
