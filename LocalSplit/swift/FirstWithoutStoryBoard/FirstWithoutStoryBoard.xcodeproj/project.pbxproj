@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1784B70C2A5AF1DA00E744D0 /* MemberTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784B70B2A5AF1DA00E744D0 /* MemberTableViewController.swift */; };
+		1784B70C2A5AF1DA00E744D0 /* MemberTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */; };
 		1784B70E2A5AF33100E744D0 /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784B70D2A5AF33100E744D0 /* MemberCell.swift */; };
 		179B91122A5959A90089C810 /* MemberEditorPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179B91112A5959A90089C810 /* MemberEditorPageController.swift */; };
 		1B2A11312A57E4A10016A4FC /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A11302A57E4A10016A4FC /* SecondViewController.swift */; };
@@ -21,6 +21,9 @@
 		1B758E2E2A5C0FD700CCC186 /* ActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B758E2D2A5C0FD700CCC186 /* ActivityModel.swift */; };
 		1B758E302A5C10FD00CCC186 /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B758E2F2A5C10FD00CCC186 /* ExpenseModel.swift */; };
 		1B996EE62A5D2E0E006167AB /* ActivityGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EE52A5D2E0E006167AB /* ActivityGridViewModel.swift */; };
+		1B996EE92A5D428B006167AB /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EE82A5D428B006167AB /* helper.swift */; };
+		1B996EEB2A5D5514006167AB /* ActivitiesPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */; };
+		1B996EEF2A5E4FF8006167AB /* MemberEditorPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EEE2A5E4FF8006167AB /* MemberEditorPageViewModel.swift */; };
 		1BEEC92B2A567EB7003ABD4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEC92A2A567EB7003ABD4A /* AppDelegate.swift */; };
 		1BEEC92D2A567EB7003ABD4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEC92C2A567EB7003ABD4A /* SceneDelegate.swift */; };
 		1BEEC92F2A567EB7003ABD4A /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEC92E2A567EB7003ABD4A /* FirstViewController.swift */; };
@@ -50,7 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1784B70B2A5AF1DA00E744D0 /* MemberTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTableViewController.swift; sourceTree = "<group>"; };
+		1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTableController.swift; sourceTree = "<group>"; };
 		1784B70D2A5AF33100E744D0 /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
 		179B91112A5959A90089C810 /* MemberEditorPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberEditorPageController.swift; sourceTree = "<group>"; };
 		1B2A11302A57E4A10016A4FC /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +67,9 @@
 		1B758E2D2A5C0FD700CCC186 /* ActivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityModel.swift; sourceTree = "<group>"; };
 		1B758E2F2A5C10FD00CCC186 /* ExpenseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseModel.swift; sourceTree = "<group>"; };
 		1B996EE52A5D2E0E006167AB /* ActivityGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGridViewModel.swift; sourceTree = "<group>"; };
+		1B996EE82A5D428B006167AB /* helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
+		1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesPageViewModel.swift; sourceTree = "<group>"; };
+		1B996EEE2A5E4FF8006167AB /* MemberEditorPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberEditorPageViewModel.swift; sourceTree = "<group>"; };
 		1BEEC9272A567EB7003ABD4A /* FirstWithoutStoryBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirstWithoutStoryBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEEC92A2A567EB7003ABD4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1BEEC92C2A567EB7003ABD4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,7 +116,7 @@
 				1B2A11352A57EB320016A4FC /* ActivitiesPageController.swift */,
 				1B2A113D2A5806FF0016A4FC /* ActivityGridController.swift */,
 				179B91112A5959A90089C810 /* MemberEditorPageController.swift */,
-				1784B70B2A5AF1DA00E744D0 /* MemberTableViewController.swift */,
+				1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -147,8 +153,18 @@
 			isa = PBXGroup;
 			children = (
 				1B996EE52A5D2E0E006167AB /* ActivityGridViewModel.swift */,
+				1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */,
+				1B996EEE2A5E4FF8006167AB /* MemberEditorPageViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1B996EE72A5D427F006167AB /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				1B996EE82A5D428B006167AB /* helper.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		1BEEC91E2A567EB7003ABD4A = {
@@ -174,6 +190,7 @@
 		1BEEC9292A567EB7003ABD4A /* FirstWithoutStoryBoard */ = {
 			isa = PBXGroup;
 			children = (
+				1B996EE72A5D427F006167AB /* Helper */,
 				1B996EDE2A5D2434006167AB /* ViewModel */,
 				1B758E2A2A5BF85F00CCC186 /* Protocol */,
 				1B2A113A2A5800880016A4FC /* View */,
@@ -348,15 +365,18 @@
 				1B758E2E2A5C0FD700CCC186 /* ActivityModel.swift in Sources */,
 				1B758E302A5C10FD00CCC186 /* ExpenseModel.swift in Sources */,
 				1B2A113E2A5806FF0016A4FC /* ActivityGridController.swift in Sources */,
-				1784B70C2A5AF1DA00E744D0 /* MemberTableViewController.swift in Sources */,
+				1784B70C2A5AF1DA00E744D0 /* MemberTableController.swift in Sources */,
+				1B996EE92A5D428B006167AB /* helper.swift in Sources */,
 				1B2A11402A58109F0016A4FC /* Extension.swift in Sources */,
 				1B996EE62A5D2E0E006167AB /* ActivityGridViewModel.swift in Sources */,
 				1BEEC92F2A567EB7003ABD4A /* FirstViewController.swift in Sources */,
 				1784B70E2A5AF33100E744D0 /* MemberCell.swift in Sources */,
 				1BEEC92B2A567EB7003ABD4A /* AppDelegate.swift in Sources */,
 				1B2A11312A57E4A10016A4FC /* SecondViewController.swift in Sources */,
+				1B996EEF2A5E4FF8006167AB /* MemberEditorPageViewModel.swift in Sources */,
 				1BEEC92D2A567EB7003ABD4A /* SceneDelegate.swift in Sources */,
 				1B2A11362A57EB320016A4FC /* ActivitiesPageController.swift in Sources */,
+				1B996EEB2A5D5514006167AB /* ActivitiesPageViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

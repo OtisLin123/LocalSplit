@@ -6,37 +6,17 @@
 //
 
 import Foundation
-
-
-var memberData = [MemberModel(name: "Apple"),
-                  MemberModel(name: "Orange"),
-                  MemberModel(name: "Banana"),]
-
-var activities: [ActivityModel] =  load("activitiesData")
-
-func load<T: Decodable>(_ filename: String) -> T {
-    let decoder = JSONDecoder()
-    let data: Data
+class ModelData: NSObject {
+    lazy var memberData: [MemberModel] = {
+        let memberData = [MemberModel(name: "Apple"),
+                          MemberModel(name: "Orange"),
+                          MemberModel(name: "Banana"),]
+        return memberData
+    }()
     
-    guard let file = Bundle.main.url(forResource: "activitiesData", withExtension: "json")
-    else {
-        fatalError("Coluden't find \(filename) in main bundle")
-    }
-    
-    do {
-        data = try Data(contentsOf: file)
-    } catch {
-        fatalError("Coluden't load \(filename) from main bundle: \n\(error)")
-    }
-    
-    do {
-        let decoder = JSONDecoder()
-        return try decoder.decode(T.self, from: data)
-    } catch {
-        fatalError("Coluden't parse \(filename) as \(T.self):\n\(error)")
-    }
+    lazy var activities: [ActivityModel] = {
+        var activities: [ActivityModel] = Helper().load("activitiesData")
+        return activities
+    }()
 }
-
-
-
 

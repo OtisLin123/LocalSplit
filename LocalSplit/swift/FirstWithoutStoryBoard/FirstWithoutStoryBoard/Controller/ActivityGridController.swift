@@ -13,9 +13,10 @@ class ActivityGridController: UIViewController {
     var countOfRow: Int = 1
     private var activityGridViewModel: ActivityGridViewModel!
     
-    convenience init(count countOfRow: Int){
+    convenience init(count countOfRow: Int, activities: [ActivityModel]){
         self.init()
         self.countOfRow = countOfRow
+        initViewModel(activities: activities)
     }
     
     override func viewDidLoad() {
@@ -25,8 +26,6 @@ class ActivityGridController: UIViewController {
         
         self.view.addSubview(collectionView)
         doLayout()
-        
-        callToViewModelForUIUpdate()
     }
     
     lazy var collectionViewFlowLayout: UICollectionViewFlowLayout = {
@@ -49,17 +48,12 @@ class ActivityGridController: UIViewController {
 
 // Public method
 extension ActivityGridController {
-    func addData(_ value: String) {
-        
+    func collectionReload() {
+        collectionView.reloadData()
     }
     
-    func callToViewModelForUIUpdate() {
-        self.activityGridViewModel = ActivityGridViewModel()
-        self.activityGridViewModel.bindActivityGridViewModelToController = {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
+    func addData(_ value: String) {
+        
     }
 }
 
@@ -67,6 +61,15 @@ extension ActivityGridController {
 extension ActivityGridController {
     private func doLayout() {
         collectionView.expend(to: self)
+    }
+    
+    private func initViewModel(activities: [ActivityModel]) {
+        self.activityGridViewModel = ActivityGridViewModel(activities: activities)
+        self.activityGridViewModel.bindDidActivitiesChanged = {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
     }
 }
 

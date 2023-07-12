@@ -7,7 +7,19 @@
 
 import UIKit
 
+protocol MemberDataDelegate {
+    func deleteMember(index: Int)
+}
+
 class MemberEditorPageController: UIViewController {
+    private var memberEditorPageViewModel: MemberEditorPageViewModel!
+    var membersDataCallBackDelegate: MembersDataCallBackDelegate? = nil
+    
+    convenience init(members: [MemberModel]) {
+        self.init()
+        initViewModel(members: members)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,6 +31,11 @@ class MemberEditorPageController: UIViewController {
         safeArea.view.addSubview(addButton)
         safeArea.add(memberTableViewController)
         doLayout()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        membersDataCallBackDelegate?.replaceMembersData(members: memberEditorPageViewModel.members)
+        super.viewWillDisappear(animated)
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,9 +96,10 @@ class MemberEditorPageController: UIViewController {
         return addButton
     }()
     
-    lazy var memberTableViewController: MemberTableViewController = {
-        let controller = MemberTableViewController()
+    lazy var memberTableViewController: MemberTableController = {
+        let controller = MemberTableController(members: memberEditorPageViewModel.members)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
+        controller.memberDataDelegate = self
         return controller
     }()
     
@@ -92,8 +110,30 @@ class MemberEditorPageController: UIViewController {
         guard !textField.text!.isEmpty else {
             return
         }
-        memberTableViewController.addData(name: textField.text!)
+        addMember(MemberModel(name: textField.text!))
         textField.text = ""
     }
+}
+
+// Public method
+extension MemberEditorPageController: MemberDataDelegate {
+    func deleteMember(index: Int) {
+        memberEditorPageViewModel.removeMember(index)
+    }
     
+    func addMember(_ data: MemberModel) {
+        memberEditorPageViewModel.addMember(data)
+    }
+}
+
+// Private method
+extension MemberEditorPageController {
+    func initViewModel(members: [MemberModel]) {
+        memberEditorPageViewModel = MemberEditorPageViewModel(members: members)
+        memberEditorPageViewModel.bindDidMemberChanged = {
+            DispatchQueue.main.async {
+                self.memberTableViewController.setData(members: self.memberEditorPageViewModel.members)
+            }
+        }
+    }
 }

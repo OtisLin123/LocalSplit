@@ -7,7 +7,14 @@
 
 import UIKit
 
-class MemberTableViewController: UIViewController {
+class MemberTableController: UIViewController {
+    var members: [MemberModel] = []
+    var memberDataDelegate: MemberDataDelegate? = nil
+    
+    convenience init (members: [MemberModel]) {
+        self.init()
+        self.members = members
+    }
     
     override func viewDidLoad() {
         self.view.addSubview(tableView)
@@ -18,7 +25,7 @@ class MemberTableViewController: UIViewController {
     func applySnapShot() {
         var snapShot = NSDiffableDataSourceSnapshot<Section, MemberModel>()
         snapShot.appendSections([.main])
-        snapShot.appendItems(memberData, toSection: .main)
+        snapShot.appendItems(members, toSection: .main)
         dataSource.apply(snapShot, animatingDifferences: true)
     }
     
@@ -57,28 +64,24 @@ class MemberTableViewController: UIViewController {
 }
 
 // Public method
-extension MemberTableViewController {
-    func addData(name value: String) {
-        memberData.append(MemberModel(name: value))
+extension MemberTableController {
+    func setData(members: [MemberModel]) {
+        self.members = members
         applySnapShot()
+        tableView.reloadData()
     }
 }
 
 // delegate
-extension MemberTableViewController: UITableViewDelegate {
+extension MemberTableController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
 }
 
-extension MemberTableViewController: MemberCellDelegate {
+extension MemberTableController: MemberCellDelegate {
     func didDeleteTap(_ indexPath: IndexPath) {
-        guard indexPath.row >= 0 && indexPath.row < memberData.count else {
-            return
-        }
-        memberData.remove(at: indexPath.row)
-        applySnapShot()
-        tableView.reloadData()
+        memberDataDelegate?.deleteMember(index: indexPath.row)
     }
 }
 

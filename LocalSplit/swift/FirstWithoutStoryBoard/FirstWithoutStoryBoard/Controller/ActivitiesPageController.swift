@@ -7,7 +7,15 @@
 
 import UIKit
 import Combine
+
+protocol MembersDataCallBackDelegate {
+    func replaceMembersData(members: [MemberModel])
+}
+
 class ActivitiesPage: UIViewController {
+    private var activitiesPageViewModel: ActivitiesPageViewModel!
+    private var activities: [ActivityModel] = Helper().load("activitiesData")
+    private var members: [MemberModel] = [MemberModel(name: "Apple")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,8 +28,10 @@ class ActivitiesPage: UIViewController {
         safeArea.add(activitiesGridViewController)
         safeArea.view.addSubview(createButton)
         doLayout()
+        
+        initViewModel()
     }
-
+    
     lazy var createButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 80))
         button.setTitle("Create Activity", for: .normal)
@@ -44,7 +54,7 @@ class ActivitiesPage: UIViewController {
     }()
     
     lazy var activitiesGridViewController: ActivityGridController = {
-        let gridController = ActivityGridController(count: 2)
+        let gridController = ActivityGridController(count: 2, activities: activities)
         gridController.view.translatesAutoresizingMaskIntoConstraints = false
         return gridController
     }()
@@ -55,12 +65,26 @@ class ActivitiesPage: UIViewController {
     
     @objc private func didClickMemberEditorButton() {
         print("didClickCreatButton")
-        let memberEditorController = MemberEditorPageController()
+        let memberEditorController = MemberEditorPageController(members: self.members)
         memberEditorController.view.backgroundColor = .white
+        memberEditorController.membersDataCallBackDelegate = self
         self.navigationController?.pushViewController(memberEditorController, animated: true)
     }
     
-    func doLayout() {
+}
+
+// Private method
+extension ActivitiesPage {
+    private func initViewModel() {
+        self.activitiesPageViewModel = ActivitiesPageViewModel()
+        self.activitiesPageViewModel.bindActivitiesPageViewModelToController = {
+            DispatchQueue.main.async {
+                self.activitiesGridViewController.collectionReload()
+            }
+        }
+    }
+    
+    private func doLayout() {
         /// layout safe area
         NSLayoutConstraint.activate([
             safeArea.view.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
@@ -84,5 +108,11 @@ class ActivitiesPage: UIViewController {
             createButton.rightAnchor.constraint(equalTo: safeArea.view.rightAnchor),
             createButton.bottomAnchor.constraint(equalTo: safeArea.view.bottomAnchor),
         ])
+    }
+}
+
+extension ActivitiesPage: MembersDataCallBackDelegate {
+    func replaceMembersData(members: [MemberModel]) {
+        self.members = members
     }
 }

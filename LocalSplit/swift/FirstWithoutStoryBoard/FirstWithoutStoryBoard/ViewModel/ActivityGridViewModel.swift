@@ -7,22 +7,18 @@
 
 import Foundation
 
-class ActivityGridViewModel : NSObject{
+class ActivityGridViewModel : NSObject {
     
-    private(set) var activitiesData : [ActivityModel]! {
+    private(set) var activitiesData : [ActivityModel] {
         didSet {
-            self.bindActivityGridViewModelToController()
+            self.bindDidActivitiesChanged()
         }
     }
     
-    var bindActivityGridViewModelToController : (() -> ()) = {}
+    var bindDidActivitiesChanged: (() -> ()) = {}
     
-    override init() {
+    init(activities : [ActivityModel]){
+        self.activitiesData = activities
         super.init()
-        callFuncToGetActivitiesData()
-    }
-    
-    func callFuncToGetActivitiesData() {
-        activitiesData = activities
     }
 }
