@@ -12,18 +12,10 @@ protocol MembersDataCallBackDelegate {
     func replaceMembersData(members: [MemberModel])
 }
 
-protocol ActivityInfoCallBackDelegate {
-    func receiveData(data: ActivityInfoData)
-}
-
-protocol ActivityGridControllerCallBackDelegate {
-    func didActivitySelected(id: String)
-}
-
-
 class ActivitiesPage: UIViewController {
     private var viewModel: ActivitiesPageViewModel!
-    private var members: [MemberModel] = [MemberModel(id: "", name: "Apple")]
+    private var members: [MemberModel] = Helper().load("membersData")
+//    [MemberModel(id: "111", name: "Apple"), MemberModel(id: "113", name: "Banana"), MemberModel(id: "112", name: "Orange")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,31 +25,30 @@ class ActivitiesPage: UIViewController {
         self.title = "Activities"
         
         self.navigationItem.rightBarButtonItem = userBarButton;
-        add(safeArea)
-        safeArea.add(activitiesGridViewController)
-        safeArea.view.addSubview(createButton)
+        add(activitiesGridViewController)
+        self.view.addSubview(createButton)
         doLayout()
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        createButton.sizeThatFits(.zero)
+    }
+    
     lazy var createButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 80))
+        let button = UIButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         button.setTitle("Create Activity", for: .normal)
         button.backgroundColor = .lightGray
+        button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(didClickCreatButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     lazy var userBarButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "person.badge.plus"), style: .plain, target: self, action: #selector(didClickMemberEditorButton))
         return button
-    }()
-    
-    lazy var safeArea: UIViewController = {
-        let safeArea = UIViewController()
-        safeArea.view.translatesAutoresizingMaskIntoConstraints = false
-        safeArea.view.backgroundColor = .blue
-        return safeArea
     }()
     
     lazy var activitiesGridViewController: ActivityGridController = {
@@ -105,28 +96,19 @@ extension ActivitiesPage {
     }
     
     private func doLayout() {
-        /// layout safe area
-        NSLayoutConstraint.activate([
-            safeArea.view.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
-            safeArea.view.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
-            safeArea.view.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
-            safeArea.view.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
-        ])
-        
         /// layout grid view
         NSLayoutConstraint.activate([
-            activitiesGridViewController.view.topAnchor.constraint(equalTo: safeArea.view.topAnchor),
-            activitiesGridViewController.view.leftAnchor.constraint(equalTo: safeArea.view.leftAnchor),
-            activitiesGridViewController.view.rightAnchor.constraint(equalTo: safeArea.view.rightAnchor),
+            activitiesGridViewController.view.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
+            activitiesGridViewController.view.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
+            activitiesGridViewController.view.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
             activitiesGridViewController.view.bottomAnchor.constraint(equalTo: createButton.topAnchor),
         ])
         
         /// layout  button
         NSLayoutConstraint.activate([
-            createButton.topAnchor.constraint(equalTo: activitiesGridViewController.view.bottomAnchor),
-            createButton.leftAnchor.constraint(equalTo: safeArea.view.leftAnchor),
-            createButton.rightAnchor.constraint(equalTo: safeArea.view.rightAnchor),
-            createButton.bottomAnchor.constraint(equalTo: safeArea.view.bottomAnchor),
+            createButton.topAnchor.constraint(equalTo: activitiesGridViewController.view.bottomAnchor, constant: 20),
+            createButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
+            createButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
         ])
     }
 }
@@ -151,7 +133,15 @@ extension ActivitiesPage: ActivityInfoCallBackDelegate {
 
 // MARK: - ActivityGridControllerCallBackDelegate
 extension ActivitiesPage: ActivityGridControllerCallBackDelegate {
-    func didActivitySelected(id: String) {
+    func didClickActivity(id: String) {
+        let activity = viewModel.getActivity(id)
+        
+        guard activity != nil else {
+            return
+        }
+    }
+    
+    func didClickModify(id: String) {
         let activity = viewModel.getActivity(id)
         
         guard activity != nil else {

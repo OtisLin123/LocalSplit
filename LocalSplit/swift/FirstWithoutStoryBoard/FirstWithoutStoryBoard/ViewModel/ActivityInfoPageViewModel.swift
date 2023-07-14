@@ -42,8 +42,32 @@ class ActivityInfoPageViewModel: NSObject {
     }
 }
 
+// MARK: - Public method
 extension ActivityInfoPageViewModel {
     func setSelectedMember(_ members: [MemberModel]) {
         self.selectedMembers = members
     }
+    
+    func getMemberItems() -> [MemberItem] {
+        var memberItem: [MemberItem] = []
+        totalMembers.forEach {
+            member in
+            let isSelected = selectedMembers.contains {
+                selectMember in
+                selectMember.id == member.id
+            }
+            memberItem.append(MemberItem(data: member, isSelected: isSelected))
+        }
+        return memberItem
+    }
+    
+    func getSelectedMemberItems() -> [MemberItem] {
+        var memberItem: [MemberItem] = []
+        selectedMembers.forEach {
+            member in
+            memberItem.append(MemberItem(data: member, isSelected: false))
+        }
+        return memberItem
+    }
 }
+

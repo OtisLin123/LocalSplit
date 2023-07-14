@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+protocol ActivityGridControllerCallBackDelegate {
+    func didClickActivity(id: String)
+    func didClickModify(id: String)
+}
+
 class ActivityGridController: UIViewController {
     var fullScreenSize: CGSize?
     var countOfRow: Int = 1
@@ -86,11 +91,12 @@ extension ActivityGridController: UICollectionViewDelegate {
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.cornerRadius = CGFloat(8)
         cell.layer.backgroundColor = UIColor.random.cgColor
+        cell.callBack = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        activityGridControllerCallBackDelegate?.didActivitySelected(id: activityGridViewModel.activitiesData[indexPath.row].id)
+        activityGridControllerCallBackDelegate?.didClickActivity(id: activityGridViewModel.activitiesData[indexPath.row].id)
     }
 }
 
@@ -98,5 +104,12 @@ extension ActivityGridController: UICollectionViewDelegate {
 extension ActivityGridController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
+    }
+}
+
+// MARK: - ActivitiesCellCallBack
+extension ActivityGridController: ActivitiesCellCallBack {
+    func didClickModifyButton(id: String) {
+        activityGridControllerCallBackDelegate?.didClickModify(id: id)
     }
 }

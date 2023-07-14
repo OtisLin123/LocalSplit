@@ -32,4 +32,13 @@ extension MemberEditorPageViewModel {
         members.append(member)
         print("add \(member.name)")
     }
+    
+    func getMemberItems() -> [MemberItem] {
+        var memberItem: [MemberItem] = []
+        members.forEach {
+            member in
+            memberItem.append(MemberItem(data: member, isSelected: false))
+        }
+        return memberItem
+    }
 }

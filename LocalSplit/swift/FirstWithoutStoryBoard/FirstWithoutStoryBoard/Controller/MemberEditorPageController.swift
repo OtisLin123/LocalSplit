@@ -12,7 +12,7 @@ protocol MemberDataDelegate {
 }
 
 class MemberEditorPageController: UIViewController {
-    private var memberEditorPageViewModel: MemberEditorPageViewModel!
+    private var viewModel: MemberEditorPageViewModel!
     var membersDataCallBackDelegate: MembersDataCallBackDelegate? = nil
     
     convenience init(members: [MemberModel]) {
@@ -34,7 +34,7 @@ class MemberEditorPageController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        membersDataCallBackDelegate?.replaceMembersData(members: memberEditorPageViewModel.members)
+        membersDataCallBackDelegate?.replaceMembersData(members: viewModel.members)
         super.viewWillDisappear(animated)
     }
     
@@ -64,7 +64,7 @@ class MemberEditorPageController: UIViewController {
     }()
     
     lazy var memberTableViewController: MemberTableController = {
-        let controller = MemberTableController(members: memberEditorPageViewModel.members, showDelete: true)
+        let controller = MemberTableController(members: viewModel.getMemberItems(), showDelete: true)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         controller.memberDataDelegate = self
         return controller
@@ -74,21 +74,21 @@ class MemberEditorPageController: UIViewController {
 // MARK: - Public method
 extension MemberEditorPageController: MemberDataDelegate {
     func deleteMember(index: Int) {
-        memberEditorPageViewModel.removeMember(index)
+        viewModel.removeMember(index)
     }
     
     func addMember(_ data: MemberModel) {
-        memberEditorPageViewModel.addMember(data)
+        viewModel.addMember(data)
     }
 }
 
 // MARK: - Private method
 extension MemberEditorPageController {
     private func initViewModel(members: [MemberModel]) {
-        memberEditorPageViewModel = MemberEditorPageViewModel(members: members)
-        memberEditorPageViewModel.bindDidMemberChanged = {
+        viewModel = MemberEditorPageViewModel(members: members)
+        viewModel.bindDidMemberChanged = {
             DispatchQueue.main.async {
-                self.memberTableViewController.setData(members: self.memberEditorPageViewModel.members)
+                self.memberTableViewController.setData(members: self.viewModel.getMemberItems())
             }
         }
     }

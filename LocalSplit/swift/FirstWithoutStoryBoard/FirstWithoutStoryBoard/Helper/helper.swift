@@ -11,7 +11,7 @@ class Helper {
         let decoder = JSONDecoder()
         let data: Data
         
-        guard let file = Bundle.main.url(forResource: "activitiesData", withExtension: "json")
+        guard let file = Bundle.main.url(forResource: filename, withExtension: "json")
         else {
             fatalError("Coluden't find \(filename) in main bundle")
         }

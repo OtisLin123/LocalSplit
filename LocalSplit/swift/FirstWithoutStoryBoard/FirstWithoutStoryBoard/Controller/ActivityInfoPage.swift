@@ -14,6 +14,10 @@ struct ActivityInfoData {
     var selectedMembers: [MemberModel]!
 }
 
+protocol ActivityInfoCallBackDelegate {
+    func receiveData(data: ActivityInfoData)
+}
+
 class ActivityInfoPage: UIViewController {
     var viewModel: ActivityInfoPageViewModel!
     var activityInfoCallBackDelegate: ActivityInfoCallBackDelegate?
@@ -76,10 +80,10 @@ class ActivityInfoPage: UIViewController {
         
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         button.setTitle(buttonTitle, for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = UIColor.black.cgColor
-        button.layer.borderWidth = 1
+        button.backgroundColor = .lightGray
         button.addTarget(self, action: #selector(didConfirmButtonClick), for: .touchUpInside)
         return button
     }()
@@ -96,7 +100,7 @@ class ActivityInfoPage: UIViewController {
     }()
     
     lazy var memberTableViewController: MemberTableController = {
-        let controller = MemberTableController(members: viewModel.selectedMembers, showDelete: false)
+        let controller = MemberTableController(members: viewModel.getMemberItems())
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         return controller
     }()
@@ -108,7 +112,7 @@ extension ActivityInfoPage {
         viewModel = ActivityInfoPageViewModel(data: data, mode: mode, totalMembers: totalMembers)
         viewModel.bindDidSelectedMemberChanged = {
             DispatchQueue.main.async {
-                self.memberTableViewController.setData(members: self.viewModel.selectedMembers)
+                self.memberTableViewController.setData(members: self.viewModel.getSelectedMemberItems())
             }
         }
         viewModel.bindDidTotalMemberChanged = {
@@ -119,7 +123,7 @@ extension ActivityInfoPage {
     }
     
     private func applyDataOnView() {
-        memberTableViewController.setData(members: viewModel.selectedMembers)
+        memberTableViewController.setData(members: viewModel.getSelectedMemberItems())
         textField.text = viewModel.activityName
     }
     
@@ -150,17 +154,13 @@ extension ActivityInfoPage {
         
         // layout create button
         NSLayoutConstraint.activate([
-            confirmButton.heightAnchor.constraint(equalToConstant: 40),
-            confirmButton.widthAnchor.constraint(equalToConstant: 100),
-            confirmButton.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
-            confirmButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
+            confirmButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             confirmButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
             confirmButton.topAnchor.constraint(equalTo: memberTableViewController.view.bottomAnchor),
         ])
     }
     
     private func updateCreateButtonEnabled() {
-        print(!(textField.text?.isEmpty ?? true))
         self.confirmButton.isUserInteractionEnabled = !(textField.text?.isEmpty ?? true)
     }
 }
@@ -179,7 +179,9 @@ extension ActivityInfoPage {
     }
     
     @objc func didAddActivityMemberButtonClick() {
-        //        self.present(<#T##viewControllerToPresent: UIViewController##UIViewController#>, animated: <#T##Bool#>)
+        let page = MemberSelectorPageController(memberItems: viewModel.getMemberItems())
+        page.callBackDelegate = self
+        self.navigationController?.present(UINavigationController(rootViewController:page), animated: true)
     }
     
     @objc func didActivityNameChanged() {
@@ -192,5 +194,11 @@ extension ActivityInfoPage {
 extension ActivityInfoPage: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
+    }
+}
+
+extension ActivityInfoPage: MemberSelectorCallBackDelegate {
+    func receiveSelectedMembers(_ members: [MemberModel]) {
+        self.viewModel.setSelectedMember(members)
     }
 }

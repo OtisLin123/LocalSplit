@@ -7,15 +7,27 @@
 
 import UIKit
 
+struct MemberItem: Hashable {
+    var data: MemberModel!
+    var isSelected: Bool = false
+}
+
+protocol MemberTableCallBackDelegate {
+    func didMemberSelectedChanged(_: [MemberItem])
+}
+
 class MemberTableController: UIViewController {
-    var members: [MemberModel] = []
+    var members: [MemberItem] = []
     var memberDataDelegate: MemberDataDelegate? = nil
     var showDelete: Bool = true
+    var allowsMultipleSelection: Bool = false
+    var callBackDelegate: MemberTableCallBackDelegate?
     
-    convenience init (members: [MemberModel], showDelete: Bool) {
+    convenience init (members: [MemberItem], showDelete: Bool = false, allowsMultipleSelection: Bool = false) {
         self.init()
         self.members = members
         self.showDelete = showDelete
+        self.allowsMultipleSelection = allowsMultipleSelection
     }
     
     override func viewDidLoad() {
@@ -24,8 +36,13 @@ class MemberTableController: UIViewController {
         applySnapShot()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setDefaultSelectOnTable()
+    }
+    
     func applySnapShot() {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, MemberModel>()
+        var snapShot = NSDiffableDataSourceSnapshot<Section, MemberItem>()
         snapShot.appendSections([.main])
         snapShot.appendItems(members, toSection: .main)
         dataSource.apply(snapShot, animatingDifferences: true)
@@ -47,16 +64,17 @@ class MemberTableController: UIViewController {
         view.register(MemberCell.self, forCellReuseIdentifier: "Cell")
         view.delegate = self
         view.allowsSelection = false
+        view.allowsMultipleSelection = allowsMultipleSelection
         return view
     }()
     
     lazy var dataSource: UITableViewDiffableDataSource = {
-        let data = UITableViewDiffableDataSource<Section, MemberModel>(tableView: tableView) {
+        let data = UITableViewDiffableDataSource<Section, MemberItem>(tableView: tableView) {
         tableView, indexPath, model in
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MemberCell
             cell.selectionStyle = .none
             cell.cellDelegate = self
-            cell.setData(model, showDelete: self.showDelete)
+            cell.setData(model.data, showDelete: self.showDelete)
             cell.indexPath = indexPath
             return cell
         }
@@ -67,10 +85,26 @@ class MemberTableController: UIViewController {
 
 // MARK: - Public method
 extension MemberTableController {
-    func setData(members: [MemberModel]) {
+    func setData(members: [MemberItem]) {
         self.members = members
         applySnapShot()
         tableView.reloadData()
+    }
+}
+
+// MARK: - Private method
+extension MemberTableController {
+    private func setDefaultSelectOnTable() {
+        guard allowsMultipleSelection else {
+            return
+        }
+        
+        for (index, member) in members.enumerated() {
+            if member.isSelected {
+                let indexPath = IndexPath(row: index, section: Section.main.rawValue)
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            }
+        }
     }
 }
 
@@ -78,6 +112,20 @@ extension MemberTableController {
 extension MemberTableController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var memberItem = members[indexPath.row]
+        memberItem.isSelected = true
+        members[indexPath.row] = memberItem
+        callBackDelegate?.didMemberSelectedChanged(members)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        var memberItem = members[indexPath.row]
+        memberItem.isSelected = false
+        members[indexPath.row] = memberItem
+        callBackDelegate?.didMemberSelectedChanged(members)
     }
 }
 
@@ -89,6 +137,6 @@ extension MemberTableController: MemberCellDelegate {
 }
 
 // MARK: - Section Enum
-enum Section: CaseIterable {
+enum Section: Int, CaseIterable {
     case main
 }
