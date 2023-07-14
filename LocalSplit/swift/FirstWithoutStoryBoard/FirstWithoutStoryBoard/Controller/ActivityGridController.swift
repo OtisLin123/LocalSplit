@@ -47,14 +47,14 @@ class ActivityGridController: UIViewController {
     }()
 }
 
-// Public method
+// MARK: - Public method
 extension ActivityGridController {
     func setActivitiesData(activities : [ActivityModel]) {
         activityGridViewModel.setActivitiesData(activities: activities)
     }
 }
 
-// Private method
+// MARK: - Private method
 extension ActivityGridController {
     private func doLayout() {
         collectionView.expend(to: self)
@@ -70,7 +70,7 @@ extension ActivityGridController {
     }
 }
 
-// UICollectionViewDelegate
+// MARK: - UICollectionViewDelegate
 extension ActivityGridController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if activityGridViewModel == nil {
@@ -94,7 +94,7 @@ extension ActivityGridController: UICollectionViewDelegate {
     }
 }
 
-// UICollectionViewDataSource
+// MARK: - UICollectionViewDataSource
 extension ActivityGridController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1

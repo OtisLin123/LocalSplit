@@ -21,7 +21,7 @@ class MemberEditorPageViewModel: NSObject {
     }
 }
 
-// Public method
+// MARK: - Public method
 extension MemberEditorPageViewModel {
     func removeMember(_ index: Int) {
         members.remove(at: index)

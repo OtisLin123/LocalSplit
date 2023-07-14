@@ -8,8 +8,8 @@
 import Foundation
 
 struct ActivityModel: Hashable, Codable, Identifiable {
-    var id: String
-    var name: String
-    var people: [MemberModel]
-    var expense: [ExpenseModel]
+    var id: String = ""
+    var name: String = ""
+    var people: [MemberModel] = []
+    var expense: [ExpenseModel] = []
 }

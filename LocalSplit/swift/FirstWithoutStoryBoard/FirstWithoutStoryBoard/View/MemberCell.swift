@@ -45,6 +45,7 @@ extension MemberCell {
     }
 }
 
+// MARK: - Public method
 extension MemberCell {
     func setData(_ data: MemberModel, showDelete: Bool) {
         titleLabel.text = data.name
@@ -52,7 +53,7 @@ extension MemberCell {
     }
 }
 
-// Private method
+// MARK: - Private method
 extension MemberCell {
     private func doLayout() {
         /// layout label

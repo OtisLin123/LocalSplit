@@ -10,10 +10,12 @@ import UIKit
 class MemberTableController: UIViewController {
     var members: [MemberModel] = []
     var memberDataDelegate: MemberDataDelegate? = nil
+    var showDelete: Bool = true
     
-    convenience init (members: [MemberModel]) {
+    convenience init (members: [MemberModel], showDelete: Bool) {
         self.init()
         self.members = members
+        self.showDelete = showDelete
     }
     
     override func viewDidLoad() {
@@ -54,7 +56,7 @@ class MemberTableController: UIViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MemberCell
             cell.selectionStyle = .none
             cell.cellDelegate = self
-            cell.setData(model, showDelete: true)
+            cell.setData(model, showDelete: self.showDelete)
             cell.indexPath = indexPath
             return cell
         }
@@ -63,7 +65,7 @@ class MemberTableController: UIViewController {
     }()
 }
 
-// Public method
+// MARK: - Public method
 extension MemberTableController {
     func setData(members: [MemberModel]) {
         self.members = members
@@ -72,20 +74,21 @@ extension MemberTableController {
     }
 }
 
-// delegate
+// MARK: - UITableViewDelegate
 extension MemberTableController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
 }
 
+// MARK: - MemberCellDelegate
 extension MemberTableController: MemberCellDelegate {
     func didDeleteTap(_ indexPath: IndexPath) {
         memberDataDelegate?.deleteMember(index: indexPath.row)
     }
 }
 
-//define
+// MARK: - Section Enum
 enum Section: CaseIterable {
     case main
 }

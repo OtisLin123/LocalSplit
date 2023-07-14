@@ -36,7 +36,7 @@ class ActivitiesCell: UICollectionViewCell {
     
 }
 
-// Public method
+// MARK: - Public method
 extension ActivitiesCell {
     func setUpData(_ data: ActivityModel) {
         self.data = data

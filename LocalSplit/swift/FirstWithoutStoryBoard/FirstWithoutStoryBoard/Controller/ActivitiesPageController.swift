@@ -13,8 +13,7 @@ protocol MembersDataCallBackDelegate {
 }
 
 protocol ActivityInfoCallBackDelegate {
-    func createActivity(data: ActivityInfoData)
-    func modifyActivityInfo(data: ActivityInfoData)
+    func receiveData(data: ActivityInfoData)
 }
 
 protocol ActivityGridControllerCallBackDelegate {
@@ -23,7 +22,7 @@ protocol ActivityGridControllerCallBackDelegate {
 
 
 class ActivitiesPage: UIViewController {
-    private var activitiesPageViewModel: ActivitiesPageViewModel!
+    private var viewModel: ActivitiesPageViewModel!
     private var members: [MemberModel] = [MemberModel(id: "", name: "Apple")]
     
     override func viewDidLoad() {
@@ -62,14 +61,14 @@ class ActivitiesPage: UIViewController {
     }()
     
     lazy var activitiesGridViewController: ActivityGridController = {
-        let gridController = ActivityGridController(count: 2, activities: activitiesPageViewModel.activities)
+        let gridController = ActivityGridController(count: 2, activities: viewModel.activities)
         gridController.view.translatesAutoresizingMaskIntoConstraints = false
         gridController.activityGridControllerCallBackDelegate = self
         return gridController
     }()
 }
 
-// Slot
+// MARK: - Slot
 extension ActivitiesPage {
     @objc private func didClickCreatButton() {
         let activityInfoPage =
@@ -94,13 +93,13 @@ extension ActivitiesPage {
     }
 }
 
-// Private method
+// MARK: - Private method
 extension ActivitiesPage {
     private func initViewModel() {
-        self.activitiesPageViewModel = ActivitiesPageViewModel()
-        self.activitiesPageViewModel.bindActivitiesPageViewModelToController = {
+        self.viewModel = ActivitiesPageViewModel()
+        self.viewModel.bindActivitiesPageViewModelToController = {
             DispatchQueue.main.async {
-                self.activitiesGridViewController.setActivitiesData(activities: self.activitiesPageViewModel.activities)
+                self.activitiesGridViewController.setActivitiesData(activities: self.viewModel.activities)
             }
         }
     }
@@ -132,33 +131,41 @@ extension ActivitiesPage {
     }
 }
 
+// MARK: - MemberDataCallBackDelegate
 extension ActivitiesPage: MembersDataCallBackDelegate {
     func replaceMembersData(members: [MemberModel]) {
         self.members = members
     }
 }
 
+// MARK: - ActivityInfoCallBackDelegate
 extension ActivitiesPage: ActivityInfoCallBackDelegate {
-    func createActivity(data: ActivityInfoData) {
-        activitiesPageViewModel.addActivitu(
-            ActivityModel(id: data.id, name: data.activityName, people: data.selectedMembers, expense: []))
-    }
-    
-    func modifyActivityInfo(data: ActivityInfoData) {
-        
+    func receiveData(data: ActivityInfoData) {
+        var activity = viewModel.getActivity(data.id) ?? ActivityModel()
+        activity.id = data.id
+        activity.name = data.activityName
+        activity.people = data.selectedMembers
+        viewModel.setActivity(activity)
     }
 }
 
+// MARK: - ActivityGridControllerCallBackDelegate
 extension ActivitiesPage: ActivityGridControllerCallBackDelegate {
     func didActivitySelected(id: String) {
+        let activity = viewModel.getActivity(id)
+        
+        guard activity != nil else {
+            return
+        }
+        
         let activityInfoPage =
         ActivityInfoPage(
             data: ActivityInfoData(
-                id: UUID().uuidString,
-                activityName: "",
-                selectedMembers: []
+                id: activity?.id,
+                activityName: activity?.name,
+                selectedMembers: activity?.people
             ),
-            mode: ActivityInfoPageMode.Create, totalMembers: members
+            mode: ActivityInfoPageMode.Modify, totalMembers: members
         )
         activityInfoPage.activityInfoCallBackDelegate = self
         activityInfoPage.view.backgroundColor = .white

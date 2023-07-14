@@ -15,7 +15,7 @@ struct ActivityInfoData {
 }
 
 class ActivityInfoPage: UIViewController {
-    var activityInfoPageViewModel: ActivityInfoPageViewModel!
+    var viewModel: ActivityInfoPageViewModel!
     var activityInfoCallBackDelegate: ActivityInfoCallBackDelegate?
     
     convenience init (data: ActivityInfoData, mode: ActivityInfoPageMode, totalMembers: [MemberModel]) {
@@ -26,7 +26,7 @@ class ActivityInfoPage: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        switch activityInfoPageViewModel.mode {
+        switch viewModel.mode {
         case ActivityInfoPageMode.Create:
             self.title = "CreateActivity"
         case ActivityInfoPageMode.Modify:
@@ -36,10 +36,11 @@ class ActivityInfoPage: UIViewController {
         super.view.addSubview(textField)
         super.view.addSubview(addMemberButton)
         add(memberTableViewController)
-        super.view.addSubview(createButton)
+        super.view.addSubview(confirmButton)
         doLayout()
         
         updateCreateButtonEnabled()
+        applyDataOnView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -63,14 +64,23 @@ class ActivityInfoPage: UIViewController {
         return stackView
     }()
     
-    lazy var createButton: UIButton = {
+    lazy var confirmButton: UIButton = {
+        var buttonTitle = ""
+        
+        switch viewModel.mode {
+        case ActivityInfoPageMode.Create:
+            buttonTitle = "Create"
+        case ActivityInfoPageMode.Modify:
+            buttonTitle = "Modify"
+        }
+        
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Create", for: .normal)
+        button.setTitle(buttonTitle, for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
-        button.addTarget(self, action: #selector(didCreateButtonClick), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didConfirmButtonClick), for: .touchUpInside)
         return button
     }()
     
@@ -86,26 +96,31 @@ class ActivityInfoPage: UIViewController {
     }()
     
     lazy var memberTableViewController: MemberTableController = {
-        let controller = MemberTableController(members: activityInfoPageViewModel.selectedMembers)
+        let controller = MemberTableController(members: viewModel.selectedMembers, showDelete: false)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         return controller
     }()
 }
 
-// Private method
+// MARK: - Private method
 extension ActivityInfoPage {
     private func initViewModel(data: ActivityInfoData, mode: ActivityInfoPageMode, totalMembers: [MemberModel]) {
-        activityInfoPageViewModel = ActivityInfoPageViewModel(data: data, mode: mode, totalMembers: totalMembers)
-        activityInfoPageViewModel.bindDidSelectedMemberChanged = {
+        viewModel = ActivityInfoPageViewModel(data: data, mode: mode, totalMembers: totalMembers)
+        viewModel.bindDidSelectedMemberChanged = {
             DispatchQueue.main.async {
-                self.memberTableViewController.setData(members: self.activityInfoPageViewModel.selectedMembers)
+                self.memberTableViewController.setData(members: self.viewModel.selectedMembers)
             }
         }
-        activityInfoPageViewModel.bindDidTotalMemberChanged = {
+        viewModel.bindDidTotalMemberChanged = {
             DispatchQueue.main.async {
                 
             }
         }
+    }
+    
+    private func applyDataOnView() {
+        memberTableViewController.setData(members: viewModel.selectedMembers)
+        textField.text = viewModel.activityName
     }
     
     private func doLayout() {
@@ -130,36 +145,35 @@ extension ActivityInfoPage {
             memberTableViewController.view.topAnchor.constraint(equalTo: addMemberButton.bottomAnchor),
             memberTableViewController.view.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
             memberTableViewController.view.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
-            memberTableViewController.view.bottomAnchor.constraint(equalTo: createButton.topAnchor),
+            memberTableViewController.view.bottomAnchor.constraint(equalTo: confirmButton.topAnchor),
         ])
         
         // layout create button
         NSLayoutConstraint.activate([
-            createButton.heightAnchor.constraint(equalToConstant: 40),
-            createButton.widthAnchor.constraint(equalToConstant: 100),
-            createButton.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
-            createButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
-            createButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
-            createButton.topAnchor.constraint(equalTo: memberTableViewController.view.bottomAnchor),
+            confirmButton.heightAnchor.constraint(equalToConstant: 40),
+            confirmButton.widthAnchor.constraint(equalToConstant: 100),
+            confirmButton.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
+            confirmButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
+            confirmButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
+            confirmButton.topAnchor.constraint(equalTo: memberTableViewController.view.bottomAnchor),
         ])
     }
     
-    func updateCreateButtonEnabled() {
+    private func updateCreateButtonEnabled() {
         print(!(textField.text?.isEmpty ?? true))
-        self.createButton.isUserInteractionEnabled = !(textField.text?.isEmpty ?? true)
+        self.confirmButton.isUserInteractionEnabled = !(textField.text?.isEmpty ?? true)
     }
 }
 
-// Slot
+// MARK: - Slot
 extension ActivityInfoPage {
-    @objc func didCreateButtonClick() {
-        activityInfoCallBackDelegate?.createActivity(
+    @objc func didConfirmButtonClick() {
+        activityInfoCallBackDelegate?.receiveData(
             data: ActivityInfoData(
-                id: self.activityInfoPageViewModel.id,
-                activityName: self.activityInfoPageViewModel.activityName,
-                selectedMembers: self.activityInfoPageViewModel.selectedMembers
+                id: self.viewModel.id,
+                activityName: self.viewModel.activityName,
+                selectedMembers: self.viewModel.selectedMembers
             )
-            
         )
         self.navigationController?.popViewController(animated: true)
     }
@@ -169,11 +183,12 @@ extension ActivityInfoPage {
     }
     
     @objc func didActivityNameChanged() {
-        self.activityInfoPageViewModel.activityName = textField.text ?? ""
+        self.viewModel.activityName = textField.text ?? ""
         updateCreateButtonEnabled()
     }
 }
 
+// MARK: - UITableViewDelegate
 extension ActivityInfoPage: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40

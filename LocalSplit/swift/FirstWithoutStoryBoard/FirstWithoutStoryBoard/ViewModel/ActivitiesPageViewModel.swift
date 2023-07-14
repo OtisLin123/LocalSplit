@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct Activities {
+    var activities : [ActivityModel] = []
+}
+
 class ActivitiesPageViewModel: NSObject {
     private(set) var activities : [ActivityModel]! {
         didSet {
@@ -26,8 +30,24 @@ class ActivitiesPageViewModel: NSObject {
     }
 }
 
+// MARK: - Public method
 extension ActivitiesPageViewModel {
-    func addActivitu(_ data: ActivityModel) {
+    func getActivity(_ id: String) -> ActivityModel? {
+        for activity in activities {
+            if activity.id == id {
+                return activity
+            }
+        }
+        return nil
+    }
+    
+    func setActivity(_ data: ActivityModel) {
+        for (index, activity) in activities.enumerated() {
+            if activity.id == data.id {
+                activities[index] = data
+                return
+            }
+        }
         activities.append(data)
     }
 }
