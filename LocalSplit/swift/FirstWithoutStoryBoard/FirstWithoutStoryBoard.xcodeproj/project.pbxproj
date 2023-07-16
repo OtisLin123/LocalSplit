@@ -10,6 +10,10 @@
 		17723B9C2A60F21300D2B6CD /* MemberSelectorPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723B9B2A60F21300D2B6CD /* MemberSelectorPageController.swift */; };
 		17723B9E2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723B9D2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift */; };
 		17723BA02A61722600D2B6CD /* membersData.json in Resources */ = {isa = PBXBuildFile; fileRef = 17723B9F2A61722600D2B6CD /* membersData.json */; };
+		17723BA22A63998800D2B6CD /* SpendsPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BA12A63998800D2B6CD /* SpendsPageController.swift */; };
+		17723BA52A639E9B00D2B6CD /* TableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BA42A639E9B00D2B6CD /* TableController.swift */; };
+		17723BA72A63ABB100D2B6CD /* SpendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BA62A63ABB100D2B6CD /* SpendCell.swift */; };
+		17723BA92A63AEE400D2B6CD /* SpendsPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BA82A63AEE400D2B6CD /* SpendsPageViewModel.swift */; };
 		1784B70C2A5AF1DA00E744D0 /* MemberTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */; };
 		1784B70E2A5AF33100E744D0 /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784B70D2A5AF33100E744D0 /* MemberCell.swift */; };
 		179B91122A5959A90089C810 /* MemberEditorPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179B91112A5959A90089C810 /* MemberEditorPageController.swift */; };
@@ -21,7 +25,7 @@
 		1B2A11402A58109F0016A4FC /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A113F2A58109F0016A4FC /* Extension.swift */; };
 		1B758E2C2A5BF87600CCC186 /* MemberCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B758E2B2A5BF87600CCC186 /* MemberCellDelegate.swift */; };
 		1B758E2E2A5C0FD700CCC186 /* ActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B758E2D2A5C0FD700CCC186 /* ActivityModel.swift */; };
-		1B758E302A5C10FD00CCC186 /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B758E2F2A5C10FD00CCC186 /* ExpenseModel.swift */; };
+		1B758E302A5C10FD00CCC186 /* SpendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B758E2F2A5C10FD00CCC186 /* SpendModel.swift */; };
 		1B996EE62A5D2E0E006167AB /* ActivityGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EE52A5D2E0E006167AB /* ActivityGridViewModel.swift */; };
 		1B996EE92A5D428B006167AB /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EE82A5D428B006167AB /* helper.swift */; };
 		1B996EEB2A5D5514006167AB /* ActivitiesPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */; };
@@ -61,6 +65,10 @@
 		17723B9B2A60F21300D2B6CD /* MemberSelectorPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSelectorPageController.swift; sourceTree = "<group>"; };
 		17723B9D2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSelectorPageViewModel.swift; sourceTree = "<group>"; };
 		17723B9F2A61722600D2B6CD /* membersData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = membersData.json; sourceTree = "<group>"; };
+		17723BA12A63998800D2B6CD /* SpendsPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendsPageController.swift; sourceTree = "<group>"; };
+		17723BA42A639E9B00D2B6CD /* TableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableController.swift; sourceTree = "<group>"; };
+		17723BA62A63ABB100D2B6CD /* SpendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendCell.swift; sourceTree = "<group>"; };
+		17723BA82A63AEE400D2B6CD /* SpendsPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendsPageViewModel.swift; sourceTree = "<group>"; };
 		1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTableController.swift; sourceTree = "<group>"; };
 		1784B70D2A5AF33100E744D0 /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
 		179B91112A5959A90089C810 /* MemberEditorPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberEditorPageController.swift; sourceTree = "<group>"; };
@@ -72,7 +80,7 @@
 		1B2A113F2A58109F0016A4FC /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		1B758E2B2A5BF87600CCC186 /* MemberCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCellDelegate.swift; sourceTree = "<group>"; };
 		1B758E2D2A5C0FD700CCC186 /* ActivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityModel.swift; sourceTree = "<group>"; };
-		1B758E2F2A5C10FD00CCC186 /* ExpenseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseModel.swift; sourceTree = "<group>"; };
+		1B758E2F2A5C10FD00CCC186 /* SpendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendModel.swift; sourceTree = "<group>"; };
 		1B996EE52A5D2E0E006167AB /* ActivityGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGridViewModel.swift; sourceTree = "<group>"; };
 		1B996EE82A5D428B006167AB /* helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
 		1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesPageViewModel.swift; sourceTree = "<group>"; };
@@ -120,6 +128,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17723BA32A639DF600D2B6CD /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				17723BA42A639E9B00D2B6CD /* TableController.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		1B2A11322A57EAF70016A4FC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +145,7 @@
 				1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */,
 				1B996EF02A5E7B50006167AB /* ActivityInfoPage.swift */,
 				17723B9B2A60F21300D2B6CD /* MemberSelectorPageController.swift */,
+				17723BA12A63998800D2B6CD /* SpendsPageController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -138,7 +155,7 @@
 			children = (
 				1B2A11382A57ED660016A4FC /* activitiesData.json */,
 				1B758E2D2A5C0FD700CCC186 /* ActivityModel.swift */,
-				1B758E2F2A5C10FD00CCC186 /* ExpenseModel.swift */,
+				1B758E2F2A5C10FD00CCC186 /* SpendModel.swift */,
 				1B996EF62A5EA8E2006167AB /* MemberModel.swift */,
 				17723B9F2A61722600D2B6CD /* membersData.json */,
 			);
@@ -150,6 +167,7 @@
 			children = (
 				1B2A113B2A5800990016A4FC /* ActivitiesCell.swift */,
 				1784B70D2A5AF33100E744D0 /* MemberCell.swift */,
+				17723BA62A63ABB100D2B6CD /* SpendCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -170,6 +188,7 @@
 				1B996EEE2A5E4FF8006167AB /* MemberEditorPageViewModel.swift */,
 				1B996EF42A5E8B44006167AB /* ActivityInfoPageViewModel.swift */,
 				17723B9D2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift */,
+				17723BA82A63AEE400D2B6CD /* SpendsPageViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -205,6 +224,7 @@
 		1BEEC9292A567EB7003ABD4A /* FirstWithoutStoryBoard */ = {
 			isa = PBXGroup;
 			children = (
+				17723BA32A639DF600D2B6CD /* Component */,
 				1B996EE72A5D427F006167AB /* Helper */,
 				1B996EDE2A5D2434006167AB /* ViewModel */,
 				1B758E2A2A5BF85F00CCC186 /* Protocol */,
@@ -377,10 +397,13 @@
 				1B2A113C2A5800990016A4FC /* ActivitiesCell.swift in Sources */,
 				17723B9E2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift in Sources */,
 				179B91122A5959A90089C810 /* MemberEditorPageController.swift in Sources */,
+				17723BA72A63ABB100D2B6CD /* SpendCell.swift in Sources */,
 				1B758E2C2A5BF87600CCC186 /* MemberCellDelegate.swift in Sources */,
 				1B996EF12A5E7B50006167AB /* ActivityInfoPage.swift in Sources */,
 				1B758E2E2A5C0FD700CCC186 /* ActivityModel.swift in Sources */,
-				1B758E302A5C10FD00CCC186 /* ExpenseModel.swift in Sources */,
+				1B758E302A5C10FD00CCC186 /* SpendModel.swift in Sources */,
+				17723BA52A639E9B00D2B6CD /* TableController.swift in Sources */,
+				17723BA92A63AEE400D2B6CD /* SpendsPageViewModel.swift in Sources */,
 				1B2A113E2A5806FF0016A4FC /* ActivityGridController.swift in Sources */,
 				1784B70C2A5AF1DA00E744D0 /* MemberTableController.swift in Sources */,
 				1B996EF52A5E8B44006167AB /* ActivityInfoPageViewModel.swift in Sources */,
@@ -394,6 +417,7 @@
 				1B2A11312A57E4A10016A4FC /* SecondViewController.swift in Sources */,
 				1B996EEF2A5E4FF8006167AB /* MemberEditorPageViewModel.swift in Sources */,
 				17723B9C2A60F21300D2B6CD /* MemberSelectorPageController.swift in Sources */,
+				17723BA22A63998800D2B6CD /* SpendsPageController.swift in Sources */,
 				1BEEC92D2A567EB7003ABD4A /* SceneDelegate.swift in Sources */,
 				1B2A11362A57EB320016A4FC /* ActivitiesPageController.swift in Sources */,
 				1B996EEB2A5D5514006167AB /* ActivitiesPageViewModel.swift in Sources */,

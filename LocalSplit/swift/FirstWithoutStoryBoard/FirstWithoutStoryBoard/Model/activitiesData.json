@@ -13,9 +13,10 @@
                 "name": "Orange"
             }
         ],
-        "expense": [
+        "spend": [
             {
                 "id": "201",
+                "name": "drinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrink",
                 "cost": 100,
                 "people": {
                     "Apple": 1,
@@ -25,6 +26,7 @@
             },
             {
                 "id": "202",
+                "name": "buy apple",
                 "cost": 150,
                 "people": {
                     "Apple": 1
@@ -50,10 +52,11 @@
                 "name": "Orange"
             }
         ],
-        "expense": [
+        "spend": [
             {
                 "id": "203",
                 "cost": 70,
+                "name": "buy water",
                 "people": {
                     "Aapple": 1,
                     "Orange": 1,
@@ -64,6 +67,7 @@
             {
                 "id": "204",
                 "cost": 150,
+                "name": "buy ticky",
                 "people": {
                     "Apple": 1,
                     "Banana": 1

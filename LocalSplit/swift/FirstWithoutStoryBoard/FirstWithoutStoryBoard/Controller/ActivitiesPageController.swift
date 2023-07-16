@@ -139,6 +139,9 @@ extension ActivitiesPage: ActivityGridControllerCallBackDelegate {
         guard activity != nil else {
             return
         }
+     
+        let spendsPage = SpendsPageController(activity?.spend ?? [])
+        self.navigationController?.pushViewController(spendsPage, animated: true)
     }
     
     func didClickModify(id: String) {
