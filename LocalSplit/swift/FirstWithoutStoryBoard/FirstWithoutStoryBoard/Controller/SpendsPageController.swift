@@ -29,8 +29,8 @@ class SpendsPageController: UIViewController {
         self.view.backgroundColor = .white
         self.title = "Spends"
         self.view.addSubview(tableView)
+        self.view.addSubview(buttonStack)
         doLayout()
-        tableView.reloadData()
     }
     
     lazy var tableView: UITableView = {
@@ -53,6 +53,36 @@ class SpendsPageController: UIViewController {
         }
         return data
     }()
+    
+    lazy var addButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("AddSpend", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        return button
+    }()
+    
+    lazy var resultButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Settle", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        return button
+    }()
+    
+    lazy var buttonStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.distribution = .fillEqually
+        stack.addArrangedSubview(addButton)
+        stack.addArrangedSubview(resultButton)
+        return stack
+    }()
 }
 
 // MARK: - Public method
@@ -69,7 +99,14 @@ extension SpendsPageController {
             tableView.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
             tableView.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
             tableView.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            buttonStack.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            buttonStack.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
+            buttonStack.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
+            buttonStack.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
         ])
     }
     
