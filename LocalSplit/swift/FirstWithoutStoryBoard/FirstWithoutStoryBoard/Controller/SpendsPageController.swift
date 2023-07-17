@@ -48,6 +48,7 @@ class SpendsPageController: UIViewController {
         let data = UITableViewDiffableDataSource<SpendSection, SpendsItemModel>(tableView: tableView) { tableView, indexPath, model in
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SpendCell
             cell.selectionStyle = .none
+            cell.delegate = self
             cell.setData(model.data)
             return cell
         }
@@ -61,6 +62,7 @@ class SpendsPageController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(didClickAddSpendButton), for: .touchUpInside)
         return button
     }()
     
@@ -131,28 +133,37 @@ extension SpendsPageController: SpendsPageViewModelDelegate {
     }
 }
 
-// MARK: - UITableViewDelegate
-extension SpendsPageController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-    
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        cell.backgroundColor = .black
-//    }
-//
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        var memberItem = members[indexPath.row]
-//        memberItem.isSelected = true
-//        members[indexPath.row] = memberItem
-//        callBackDelegate?.didMemberSelectedChanged(members)
+// MARK: - SLOT
+extension SpendsPageController {
+    @objc func didClickAddSpendButton() {
+        let spendModel: SpendModel = SpendModel(id: UUID().uuidString)
+        let spendEditor = SpendEditorController(mode: SpendEditorMode.Create, spendModel: spendModel)
+        spendEditor.delegate = self
+        self.navigationController?.pushViewController(spendEditor, animated: true)
+    }
+}
+
+// MARK: - SpendCellDelegate
+extension SpendsPageController: SpendCellDelegate {
+    func didClickDelete(_ spendId: String) {
+        print("click spend delete")
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        var memberItem = members[indexPath.row]
-//        memberItem.isSelected = false
-//        members[indexPath.row] = memberItem
-//        callBackDelegate?.didMemberSelectedChanged(members)
+    func didClickModify(_ spendId: String) {
+        let spendModel: SpendModel? = viewModel?.getSpendData(spendId)
+        guard spendModel != nil else {
+            return
+        }
+        let spendEditor = SpendEditorController(mode: SpendEditorMode.Modify, spendModel: spendModel!)
+        spendEditor.delegate = self
+        self.navigationController?.pushViewController(spendEditor, animated: true)
+    }
+}
+
+// MARK: - SpendEditorControllerDelegate
+extension SpendsPageController: SpendEditorControllerDelegate {
+    func didApplyClick(_ model: SpendModel) {
+        print(model.name)
+        print(model)
     }
 }

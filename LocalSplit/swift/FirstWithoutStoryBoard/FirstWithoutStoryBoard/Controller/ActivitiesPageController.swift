@@ -59,7 +59,7 @@ class ActivitiesPage: UIViewController {
     }()
 }
 
-// MARK: - Slot
+// MARK: - SLOT
 extension ActivitiesPage {
     @objc private func didClickCreatButton() {
         let activityInfoPage =

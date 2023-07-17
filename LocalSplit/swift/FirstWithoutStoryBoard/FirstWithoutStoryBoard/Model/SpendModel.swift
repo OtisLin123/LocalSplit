@@ -8,8 +8,8 @@
 import Foundation
 struct SpendModel: Hashable, Codable, Identifiable {
     var id: String
-    var name: String
+    var name: String = ""
     var cost: Double = 0.0
-    var people: [String : Double] = [String : Double]()
+    var people: [SplitModel] = []
     var payer: String = ""
 }

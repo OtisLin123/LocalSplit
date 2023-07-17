@@ -7,16 +7,21 @@
 
 import UIKit
 
+protocol SpendCellDelegate {
+    func didClickDelete(_ spendId: String) -> ()
+    func didClickModify(_ spendId: String) -> ()
+}
+
 class SpendCell: UITableViewCell {
+    var delegate: SpendCellDelegate?
+    var data: SpendModel?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.contentView.addSubview(lableStack)
         self.contentView.addSubview(buttonStack)
-//        self.contentView.layer.cornerRadius = 15
-//        self.contentView.layer.masksToBounds = true
         self.contentView.backgroundColor = .white
-//        self.backgroundColor = .clear
         doLayout()
     }
     
@@ -73,6 +78,7 @@ class SpendCell: UITableViewCell {
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
         button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(didClickModify), for: .touchUpInside)
         return button
     }()
     
@@ -83,6 +89,7 @@ class SpendCell: UITableViewCell {
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
         button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(didClickDelete), for: .touchUpInside)
         return button
     }()
 }
@@ -90,17 +97,18 @@ class SpendCell: UITableViewCell {
 // MARK: - Public method
 extension SpendCell {
     func setData(_ data: SpendModel) {
+        self.data = data
         titleLabel.numberOfLines = 0
         titleLabel.text = "SpendName: \(data.name)"
         payerLabel.text = "Payer: \(data.payer) $\(data.cost)"
         
         var peopleStr = ""
-        data.people.forEach { (key: String, value: Double) in
+        data.people.forEach { splitModel in
             if peopleStr.isEmpty {
-                peopleStr = key
+                peopleStr = splitModel.name
             }
             else {
-                peopleStr += ", \(key)"
+                peopleStr += ", \(splitModel.name)"
             }
         }
         peopleLabel.text = "SplitPeople: \(peopleStr)"
@@ -140,5 +148,21 @@ extension SpendCell {
 //            titleLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
 //            titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
 //        ])
+    }
+}
+
+extension SpendCell {
+    @objc func didClickDelete() {
+        guard self.data != nil else {
+            return
+        }
+        delegate?.didClickDelete(self.data!.id)
+    }
+    
+    @objc func didClickModify() {
+        guard self.data?.id != nil else {
+            return
+        }
+        delegate?.didClickModify(self.data!.id)
     }
 }

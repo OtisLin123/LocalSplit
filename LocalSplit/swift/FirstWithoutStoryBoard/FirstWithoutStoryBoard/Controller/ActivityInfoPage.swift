@@ -165,7 +165,7 @@ extension ActivityInfoPage {
     }
 }
 
-// MARK: - Slot
+// MARK: - SLOT
 extension ActivityInfoPage {
     @objc func didConfirmButtonClick() {
         activityInfoCallBackDelegate?.receiveData(

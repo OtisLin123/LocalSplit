@@ -11,9 +11,13 @@
 		17723B9E2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723B9D2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift */; };
 		17723BA02A61722600D2B6CD /* membersData.json in Resources */ = {isa = PBXBuildFile; fileRef = 17723B9F2A61722600D2B6CD /* membersData.json */; };
 		17723BA22A63998800D2B6CD /* SpendsPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BA12A63998800D2B6CD /* SpendsPageController.swift */; };
-		17723BA52A639E9B00D2B6CD /* TableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BA42A639E9B00D2B6CD /* TableController.swift */; };
 		17723BA72A63ABB100D2B6CD /* SpendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BA62A63ABB100D2B6CD /* SpendCell.swift */; };
 		17723BA92A63AEE400D2B6CD /* SpendsPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BA82A63AEE400D2B6CD /* SpendsPageViewModel.swift */; };
+		17723BAB2A63EA2300D2B6CD /* SpendEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BAA2A63EA2300D2B6CD /* SpendEditorController.swift */; };
+		17723BAD2A63EA4400D2B6CD /* SpendEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BAC2A63EA4400D2B6CD /* SpendEditorViewModel.swift */; };
+		17723BAF2A64E5FD00D2B6CD /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BAE2A64E5FD00D2B6CD /* Input.swift */; };
+		17723BB12A64F35700D2B6CD /* SplitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BB02A64F35700D2B6CD /* SplitCell.swift */; };
+		17723BB32A64F72700D2B6CD /* SplitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BB22A64F72700D2B6CD /* SplitModel.swift */; };
 		1784B70C2A5AF1DA00E744D0 /* MemberTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */; };
 		1784B70E2A5AF33100E744D0 /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784B70D2A5AF33100E744D0 /* MemberCell.swift */; };
 		179B91122A5959A90089C810 /* MemberEditorPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179B91112A5959A90089C810 /* MemberEditorPageController.swift */; };
@@ -66,9 +70,13 @@
 		17723B9D2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSelectorPageViewModel.swift; sourceTree = "<group>"; };
 		17723B9F2A61722600D2B6CD /* membersData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = membersData.json; sourceTree = "<group>"; };
 		17723BA12A63998800D2B6CD /* SpendsPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendsPageController.swift; sourceTree = "<group>"; };
-		17723BA42A639E9B00D2B6CD /* TableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableController.swift; sourceTree = "<group>"; };
 		17723BA62A63ABB100D2B6CD /* SpendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendCell.swift; sourceTree = "<group>"; };
 		17723BA82A63AEE400D2B6CD /* SpendsPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendsPageViewModel.swift; sourceTree = "<group>"; };
+		17723BAA2A63EA2300D2B6CD /* SpendEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendEditorController.swift; sourceTree = "<group>"; };
+		17723BAC2A63EA4400D2B6CD /* SpendEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendEditorViewModel.swift; sourceTree = "<group>"; };
+		17723BAE2A64E5FD00D2B6CD /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
+		17723BB02A64F35700D2B6CD /* SplitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitCell.swift; sourceTree = "<group>"; };
+		17723BB22A64F72700D2B6CD /* SplitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitModel.swift; sourceTree = "<group>"; };
 		1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTableController.swift; sourceTree = "<group>"; };
 		1784B70D2A5AF33100E744D0 /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
 		179B91112A5959A90089C810 /* MemberEditorPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberEditorPageController.swift; sourceTree = "<group>"; };
@@ -131,7 +139,7 @@
 		17723BA32A639DF600D2B6CD /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				17723BA42A639E9B00D2B6CD /* TableController.swift */,
+				17723BAE2A64E5FD00D2B6CD /* Input.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -146,6 +154,7 @@
 				1B996EF02A5E7B50006167AB /* ActivityInfoPage.swift */,
 				17723B9B2A60F21300D2B6CD /* MemberSelectorPageController.swift */,
 				17723BA12A63998800D2B6CD /* SpendsPageController.swift */,
+				17723BAA2A63EA2300D2B6CD /* SpendEditorController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -158,6 +167,7 @@
 				1B758E2F2A5C10FD00CCC186 /* SpendModel.swift */,
 				1B996EF62A5EA8E2006167AB /* MemberModel.swift */,
 				17723B9F2A61722600D2B6CD /* membersData.json */,
+				17723BB22A64F72700D2B6CD /* SplitModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -167,6 +177,7 @@
 			children = (
 				1B2A113B2A5800990016A4FC /* ActivitiesCell.swift */,
 				1784B70D2A5AF33100E744D0 /* MemberCell.swift */,
+				17723BB02A64F35700D2B6CD /* SplitCell.swift */,
 				17723BA62A63ABB100D2B6CD /* SpendCell.swift */,
 			);
 			path = View;
@@ -189,6 +200,7 @@
 				1B996EF42A5E8B44006167AB /* ActivityInfoPageViewModel.swift */,
 				17723B9D2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift */,
 				17723BA82A63AEE400D2B6CD /* SpendsPageViewModel.swift */,
+				17723BAC2A63EA4400D2B6CD /* SpendEditorViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -393,6 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17723BB12A64F35700D2B6CD /* SplitCell.swift in Sources */,
 				1BEEC9352A567EB7003ABD4A /* FirstWithoutStoryBoard.xcdatamodeld in Sources */,
 				1B2A113C2A5800990016A4FC /* ActivitiesCell.swift in Sources */,
 				17723B9E2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift in Sources */,
@@ -400,19 +413,22 @@
 				17723BA72A63ABB100D2B6CD /* SpendCell.swift in Sources */,
 				1B758E2C2A5BF87600CCC186 /* MemberCellDelegate.swift in Sources */,
 				1B996EF12A5E7B50006167AB /* ActivityInfoPage.swift in Sources */,
+				17723BB32A64F72700D2B6CD /* SplitModel.swift in Sources */,
+				17723BAB2A63EA2300D2B6CD /* SpendEditorController.swift in Sources */,
 				1B758E2E2A5C0FD700CCC186 /* ActivityModel.swift in Sources */,
 				1B758E302A5C10FD00CCC186 /* SpendModel.swift in Sources */,
-				17723BA52A639E9B00D2B6CD /* TableController.swift in Sources */,
 				17723BA92A63AEE400D2B6CD /* SpendsPageViewModel.swift in Sources */,
 				1B2A113E2A5806FF0016A4FC /* ActivityGridController.swift in Sources */,
 				1784B70C2A5AF1DA00E744D0 /* MemberTableController.swift in Sources */,
 				1B996EF52A5E8B44006167AB /* ActivityInfoPageViewModel.swift in Sources */,
 				1B996EE92A5D428B006167AB /* helper.swift in Sources */,
+				17723BAD2A63EA4400D2B6CD /* SpendEditorViewModel.swift in Sources */,
 				1B2A11402A58109F0016A4FC /* Extension.swift in Sources */,
 				1B996EE62A5D2E0E006167AB /* ActivityGridViewModel.swift in Sources */,
 				1BEEC92F2A567EB7003ABD4A /* FirstViewController.swift in Sources */,
 				1784B70E2A5AF33100E744D0 /* MemberCell.swift in Sources */,
 				1BEEC92B2A567EB7003ABD4A /* AppDelegate.swift in Sources */,
+				17723BAF2A64E5FD00D2B6CD /* Input.swift in Sources */,
 				1B996EF72A5EA8E2006167AB /* MemberModel.swift in Sources */,
 				1B2A11312A57E4A10016A4FC /* SecondViewController.swift in Sources */,
 				1B996EEF2A5E4FF8006167AB /* MemberEditorPageViewModel.swift in Sources */,

@@ -38,4 +38,13 @@ extension SpendsPageViewModel {
         
         return result
     }
+    
+    func getSpendData(_ id: String) -> SpendModel? {
+        for data in spendDatas {
+            if data.id == id {
+                return data
+            }
+        }
+        return nil
+    }
 }

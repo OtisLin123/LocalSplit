@@ -18,19 +18,31 @@
                 "id": "201",
                 "name": "drinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrinkdrink",
                 "cost": 100,
-                "people": {
-                    "Apple": 1,
-                    "Orange": 1
-                },
+                "people": [
+                    {
+                        "id": "111",
+                        "name": "Aapple",
+                        "ratio": 1
+                    },
+                    {
+                        "id": "112",
+                        "name": "Orange",
+                        "ratio": 1
+                    }
+                ],
                 "payer": "Apple"
             },
             {
                 "id": "202",
                 "name": "buy apple",
                 "cost": 150,
-                "people": {
-                    "Apple": 1
-                },
+                "people": [
+                    {
+                        "id": "111",
+                        "name": "Aapple",
+                        "ratio": 1
+                    }
+                ],
                 "payer": "Apple"
             }
         ]
@@ -57,21 +69,41 @@
                 "id": "203",
                 "cost": 70,
                 "name": "buy water",
-                "people": {
-                    "Aapple": 1,
-                    "Orange": 1,
-                    "Banana": 1
-                },
+                "people": [
+                    {
+                        "id": "111",
+                        "name": "Aapple",
+                        "ratio": 1
+                    },
+                    {
+                        "id": "112",
+                        "name": "Orange",
+                        "ratio": 1
+                    },
+                    {
+                        "id": "113",
+                        "name": "Banana",
+                        "ratio": 1
+                    }
+                ],
                 "payer": "Banana"
             },
             {
                 "id": "204",
                 "cost": 150,
                 "name": "buy ticky",
-                "people": {
-                    "Apple": 1,
-                    "Banana": 1
-                },
+                "people": [
+                    {
+                        "id": "111",
+                        "name": "Aapple",
+                        "ratio": 1
+                    },
+                    {
+                        "id": "113",
+                        "name": "Banana",
+                        "ratio": 1
+                    }
+                ],
                 "payer": "Banana"
             }
         ]

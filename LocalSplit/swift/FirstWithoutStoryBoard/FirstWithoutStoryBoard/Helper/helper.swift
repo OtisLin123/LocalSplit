@@ -29,4 +29,10 @@ class Helper {
             fatalError("Coluden't parse \(filename) as \(T.self):\n\(error)")
         }
     }
+    
+    func isDecimalString(_ string: String) -> Bool {
+        let digits = CharacterSet(charactersIn: "0123456789.")
+        let stringSet = CharacterSet(charactersIn: string)
+        return digits.isSuperset(of: stringSet)
+    }
 }
