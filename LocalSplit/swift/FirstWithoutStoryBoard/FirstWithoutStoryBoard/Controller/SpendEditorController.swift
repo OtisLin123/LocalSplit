@@ -17,7 +17,7 @@ enum SpendEditorMode: String, CaseIterable {
 }
 
 protocol SpendEditorControllerDelegate {
-    func didApplyClick(_ model: SpendModel) -> ()
+    func didClickApply(_ model: SpendModel) -> ()
 }
 
 class SpendEditorController: UIViewController {
@@ -79,7 +79,7 @@ class SpendEditorController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Apply", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(didApplyClick), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didClickApply), for: .touchUpInside)
         return button
     }()
 
@@ -107,6 +107,7 @@ class SpendEditorController: UIViewController {
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.cornerRadius = 5
         button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.addTarget(self, action: #selector(didClickSplitorButton), for: .touchUpInside)
         return button
     }()
     
@@ -216,8 +217,15 @@ extension SpendEditorController {
         viewModel?.spendData?.cost = Double(textField.text!) ?? 0
     }
     
-    @objc func didApplyClick() {
-        delegate?.didApplyClick(viewModel!.spendData!)
+    @objc func didClickApply() {
+        delegate?.didClickApply(viewModel!.spendData!)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func didClickSplitorButton() {
+        let page = MemberSelectorPageController(memberItems: viewModel?.getSplitorMemberItem() ?? [])
+        page.callBackDelegate = self
+        self.navigationController?.present(UINavigationController(rootViewController:page), animated: true)
     }
 }
 
@@ -261,3 +269,19 @@ extension SpendEditorController: SplitCellDelegate {
         viewModel?.updateSplitModel(splitModel)
     }
 }
+
+// MARK: - MemberSelectorCallBackDelegate
+extension SpendEditorController: MemberSelectorCallBackDelegate {
+    func receiveSelectedMembers(_ members: [MemberModel]) {
+        var splitDatas: [SplitModel] = []
+        for member in members {
+            var splitModel = viewModel?.getSplitModel(member.id)
+            if splitModel == nil {
+                splitModel = SplitModel(id: member.id, name: member.name, ratio: 1)
+            }
+            splitDatas.append(splitModel!)
+        }
+        viewModel?.setSplitDatas(splitDatas)
+    }
+}
+

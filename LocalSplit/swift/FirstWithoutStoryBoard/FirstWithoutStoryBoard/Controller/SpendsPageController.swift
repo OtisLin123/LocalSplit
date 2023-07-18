@@ -129,7 +129,6 @@ extension SpendsPageController {
 extension SpendsPageController: SpendsPageViewModelDelegate {
     func bindSpendDatasChanged() {
         applySnapShot()
-        tableView.reloadData()
     }
 }
 
@@ -146,7 +145,7 @@ extension SpendsPageController {
 // MARK: - SpendCellDelegate
 extension SpendsPageController: SpendCellDelegate {
     func didClickDelete(_ spendId: String) {
-        print("click spend delete")
+        viewModel?.removeSpendData(spendId)
     }
     
     func didClickModify(_ spendId: String) {
@@ -162,8 +161,7 @@ extension SpendsPageController: SpendCellDelegate {
 
 // MARK: - SpendEditorControllerDelegate
 extension SpendsPageController: SpendEditorControllerDelegate {
-    func didApplyClick(_ model: SpendModel) {
-        print(model.name)
-        print(model)
+    func didClickApply(_ model: SpendModel) {
+        viewModel?.setSpendData(model)
     }
 }

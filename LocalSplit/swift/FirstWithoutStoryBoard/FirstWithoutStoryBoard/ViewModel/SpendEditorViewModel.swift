@@ -24,20 +24,20 @@ extension SpendEditorViewModel {
     }
     
     func setSplitDatas(_ datas: [SplitModel]) {
-        var currentSplitDatas = spendData?.people ?? []
-        for data in datas.reversed() {
-            let index = currentSplitDatas.firstIndex{ splitData in
-                data.id == splitData.id
-            }
-            
-            if index == nil {
-                currentSplitDatas.append(data)
-            }
-            else {
-                currentSplitDatas[index!] = data
-            }
-        }
-        spendData?.people = currentSplitDatas
+//        var currentSplitDatas = spendData?.people ?? []
+//        for data in datas.reversed() {
+//            let index = currentSplitDatas.firstIndex{ splitData in
+//                data.id == splitData.id
+//            }
+//
+//            if index == nil {
+//                currentSplitDatas.append(data)
+//            }
+//            else {
+//                currentSplitDatas[index!] = data
+//            }
+//        }
+        spendData?.people = datas
         delegate?.bindSplitDatasChanged()
     }
     
@@ -54,7 +54,7 @@ extension SpendEditorViewModel {
     }
     
     func getSplitModel(_ id: String) -> SplitModel? {
-        var currentSplitDatas = spendData?.people ?? []
+        let currentSplitDatas = spendData?.people ?? []
         for splitData in currentSplitDatas {
             if splitData.id == id {
                 return splitData
@@ -63,15 +63,6 @@ extension SpendEditorViewModel {
         return nil
     }
     
-//    func setSplitData(id: String, ratio: Double) {
-//        var data =  getSplitModel(id)
-//        guard data != nil else {
-//            return
-//        }
-//        data?.ratio = ratio
-//        setSplitData(data!)
-//    }
-//
     func updateSplitModel(_ splitModel: SplitModel) {
         var currentSplitDatas = spendData?.people ?? []
         for (index, splitData) in currentSplitDatas.enumerated() {
@@ -81,5 +72,17 @@ extension SpendEditorViewModel {
             }
         }
         spendData?.people = currentSplitDatas
+    }
+    
+    func getSplitorMemberItem() -> [MemberItem] {
+        var memberItem: [MemberItem] = []
+        MainModel.shard.members.forEach { member in
+            let isSelected = spendData?.people.contains {
+                person in
+                person.id == member.id
+            }
+            memberItem.append(MemberItem(data: member, isSelected: isSelected ?? false))
+        }
+        return memberItem
     }
 }

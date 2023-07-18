@@ -14,8 +14,6 @@ protocol MembersDataCallBackDelegate {
 
 class ActivitiesPage: UIViewController {
     private var viewModel: ActivitiesPageViewModel!
-    private var members: [MemberModel] = Helper().load("membersData")
-//    [MemberModel(id: "111", name: "Apple"), MemberModel(id: "113", name: "Banana"), MemberModel(id: "112", name: "Orange")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +67,7 @@ extension ActivitiesPage {
                 activityName: "",
                 selectedMembers: []
             ),
-            mode: ActivityInfoPageMode.Create, totalMembers: members
+            mode: ActivityInfoPageMode.Create, totalMembers: MainModel.shard.members
         )
         activityInfoPage.activityInfoCallBackDelegate = self
         activityInfoPage.view.backgroundColor = .white
@@ -77,7 +75,7 @@ extension ActivitiesPage {
     }
     
     @objc private func didClickMemberEditorButton() {
-        let memberEditorController = MemberEditorPageController(members: self.members)
+        let memberEditorController = MemberEditorPageController(members: MainModel.shard.members)
         memberEditorController.view.backgroundColor = .white
         memberEditorController.membersDataCallBackDelegate = self
         self.navigationController?.pushViewController(memberEditorController, animated: true)
@@ -116,7 +114,7 @@ extension ActivitiesPage {
 // MARK: - MemberDataCallBackDelegate
 extension ActivitiesPage: MembersDataCallBackDelegate {
     func replaceMembersData(members: [MemberModel]) {
-        self.members = members
+        MainModel.shard.members = members
     }
 }
 
@@ -158,7 +156,7 @@ extension ActivitiesPage: ActivityGridControllerCallBackDelegate {
                 activityName: activity?.name,
                 selectedMembers: activity?.people
             ),
-            mode: ActivityInfoPageMode.Modify, totalMembers: members
+            mode: ActivityInfoPageMode.Modify, totalMembers: MainModel.shard.members
         )
         activityInfoPage.activityInfoCallBackDelegate = self
         activityInfoPage.view.backgroundColor = .white

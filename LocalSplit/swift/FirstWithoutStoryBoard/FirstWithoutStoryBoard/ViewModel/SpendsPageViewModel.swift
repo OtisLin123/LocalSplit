@@ -24,7 +24,38 @@ class SpendsPageViewModel: NSObject {
 // MARK: - Public method
 extension SpendsPageViewModel {
     func setSpendDatas(_ datas: [SpendModel]) {
-        spendDatas = datas
+        datas.forEach { data in
+            let index = spendDatas.firstIndex { spendModel in
+                spendModel.id == data.id
+            }
+            if index != nil {
+                spendDatas[index!] = data
+            }
+            else {
+                spendDatas.append(data)
+            }
+        }
+    }
+    
+    func setSpendData(_ data: SpendModel) {
+        let index = spendDatas.firstIndex { spendModel in
+            spendModel.id == data.id
+        }
+        if index != nil {
+            spendDatas[index!] = data
+        }
+        else {
+            spendDatas.append(data)
+        }
+    }
+    
+    func removeSpendData(_ id: String) {
+        let index = spendDatas.firstIndex { spendModel in
+            spendModel.id == id
+        }
+        if index != nil {
+            spendDatas.remove(at: index!)
+        }
     }
     
     func getSpendItemModels() -> [SpendsItemModel] {
