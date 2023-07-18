@@ -30,7 +30,10 @@
                         "ratio": 1
                     }
                 ],
-                "payer": "Apple"
+                "payer": {
+                    "id": "111",
+                    "name": "Aapple"
+                }
             },
             {
                 "id": "202",
@@ -43,7 +46,10 @@
                         "ratio": 1
                     }
                 ],
-                "payer": "Apple"
+                "payer": {
+                    "id": "111",
+                    "name": "Aapple"
+                }
             }
         ]
     },
@@ -86,7 +92,10 @@
                         "ratio": 1
                     }
                 ],
-                "payer": "Banana"
+                "payer": {
+                    "id": "113",
+                    "name": "Banana"
+                }
             },
             {
                 "id": "204",
@@ -104,7 +113,10 @@
                         "ratio": 1
                     }
                 ],
-                "payer": "Banana"
+                "payer": {
+                    "id": "113",
+                    "name": "Banana"
+                }
             }
         ]
     }

@@ -32,6 +32,7 @@ class SpendEditorController: UIViewController {
         initViewModel(spendModel: spendModel)
         costInput.textField.text = String(viewModel?.spendData?.cost ?? 0)
         spendNameInput.textField.text = viewModel?.spendData?.name
+        payerLabel.text = viewModel?.spendData?.payer.name
     }
     
     override func viewDidLoad() {
@@ -52,7 +53,8 @@ class SpendEditorController: UIViewController {
         splitorArea.addSubview(splitorLabel)
         splitorArea.addSubview(addSplitorButton)
         super.view.addSubview(splitorArea)
-        
+        super.view.addSubview(payerTitle)
+        super.view.addSubview(payerLabel)
         doLayout()
     }
     
@@ -93,6 +95,22 @@ class SpendEditorController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Splitor"
+        label.textColor = .black
+        return label
+    }()
+    
+    lazy var payerTitle: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Payer"
+        label.textColor = .black
+        return label
+    }()
+    
+    lazy var payerLabel: UILabel = {
+        let label = UILabel()
+        label.isUserInteractionEnabled = true
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         return label
     }()
@@ -151,9 +169,23 @@ extension SpendEditorController {
             costInput.rightAnchor.constraint(equalTo: self.view.safeRightAnchor, constant: -20),
             costInput.heightAnchor.constraint(equalToConstant: 80)
         ])
+    
+        NSLayoutConstraint.activate([
+            payerTitle.topAnchor.constraint(equalTo: costInput.bottomAnchor),
+            payerTitle.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
+            payerTitle.rightAnchor.constraint(equalTo: self.view.safeRightAnchor, constant: -20),
+            payerTitle.heightAnchor.constraint(equalToConstant: 40)
+        ])
         
         NSLayoutConstraint.activate([
-            splitorArea.topAnchor.constraint(equalTo: costInput.bottomAnchor),
+            payerLabel.topAnchor.constraint(equalTo: payerTitle.bottomAnchor),
+            payerLabel.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
+            payerLabel.rightAnchor.constraint(equalTo: self.view.safeRightAnchor, constant: -20),
+            payerLabel.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        NSLayoutConstraint.activate([
+            splitorArea.topAnchor.constraint(equalTo: payerLabel.bottomAnchor),
             splitorArea.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
             splitorArea.rightAnchor.constraint(equalTo: self.view.safeRightAnchor, constant: -20),
             splitorArea.heightAnchor.constraint(equalToConstant: 40)
@@ -231,6 +263,10 @@ extension SpendEditorController {
 
 // MARK: - SpendEditorViewModelDelegate
 extension SpendEditorController: SpendEditorViewModelDelegate {
+    func bindPayerDatasChanged() {
+        payerLabel.text = viewModel?.spendData?.payer.name
+    }
+    
     func bindSplitDatasChanged() {
         applySnapShot()
         tableView.reloadData()

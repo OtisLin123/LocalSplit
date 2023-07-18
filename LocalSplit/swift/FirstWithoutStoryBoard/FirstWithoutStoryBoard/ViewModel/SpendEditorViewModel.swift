@@ -9,6 +9,7 @@ import Foundation
 
 protocol SpendEditorViewModelDelegate {
     func bindSplitDatasChanged() -> ()
+    func bindPayerDatasChanged() -> ()
 }
 
 class SpendEditorViewModel: NSObject {
@@ -84,5 +85,10 @@ extension SpendEditorViewModel {
             memberItem.append(MemberItem(data: member, isSelected: isSelected ?? false))
         }
         return memberItem
+    }
+    
+    func setPayer(member: MemberModel) {
+        spendData?.payer = member
+        delegate?.bindPayerDatasChanged()
     }
 }

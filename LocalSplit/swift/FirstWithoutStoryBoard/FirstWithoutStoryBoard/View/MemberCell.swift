@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol MemberCellDelegate: AnyObject {
+    func didDeleteTap(_ indexPath: IndexPath)
+}
+
 class MemberCell: UITableViewCell {
     var indexPath: IndexPath!
     weak var cellDelegate: MemberCellDelegate? = nil

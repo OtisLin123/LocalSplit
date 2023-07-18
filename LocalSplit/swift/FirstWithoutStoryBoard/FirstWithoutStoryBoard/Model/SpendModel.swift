@@ -11,5 +11,5 @@ struct SpendModel: Hashable, Codable, Identifiable {
     var name: String = ""
     var cost: Double = 0.0
     var people: [SplitModel] = []
-    var payer: String = ""
+    var payer: MemberModel = MemberModel()
 }
