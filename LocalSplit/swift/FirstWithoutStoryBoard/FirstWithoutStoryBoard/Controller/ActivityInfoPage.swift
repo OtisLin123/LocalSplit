@@ -29,6 +29,8 @@ class ActivityInfoPage: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tap)
         
         switch viewModel.mode {
         case ActivityInfoPageMode.Create:
@@ -179,7 +181,7 @@ extension ActivityInfoPage {
     }
     
     @objc func didAddActivityMemberButtonClick() {
-        let page = MemberSelectorPageController(memberItems: viewModel.getMemberItems())
+        let page = MemberSelectorPageController(memberItems: viewModel.getMemberItems(), allowsMultipleSelection: true)
         page.callBackDelegate = self
         self.navigationController?.present(UINavigationController(rootViewController:page), animated: true)
     }
@@ -187,6 +189,10 @@ extension ActivityInfoPage {
     @objc func didActivityNameChanged() {
         self.viewModel.activityName = textField.text ?? ""
         updateCreateButtonEnabled()
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 

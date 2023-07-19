@@ -21,13 +21,15 @@ class MemberTableController: UIViewController {
     var memberDataDelegate: MemberDataDelegate? = nil
     var showDelete: Bool = true
     var allowsMultipleSelection: Bool = false
+    var allowSelection: Bool = false
     var callBackDelegate: MemberTableCallBackDelegate?
     
-    convenience init (members: [MemberItem], showDelete: Bool = false, allowsMultipleSelection: Bool = false) {
+    convenience init (members: [MemberItem], showDelete: Bool = false, allowSelection: Bool = false, allowsMultipleSelection: Bool = false) {
         self.init()
         self.members = members
         self.showDelete = showDelete
         self.allowsMultipleSelection = allowsMultipleSelection
+        self.allowSelection = allowSelection
     }
     
     override func viewDidLoad() {
@@ -63,7 +65,7 @@ class MemberTableController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.register(MemberCell.self, forCellReuseIdentifier: "Cell")
         view.delegate = self
-        view.allowsSelection = false
+        view.allowsSelection = allowSelection
         view.allowsMultipleSelection = allowsMultipleSelection
         return view
     }()
@@ -95,7 +97,7 @@ extension MemberTableController {
 // MARK: - Private method
 extension MemberTableController {
     private func setDefaultSelectOnTable() {
-        guard allowsMultipleSelection else {
+        guard allowsMultipleSelection || allowSelection else {
             return
         }
         

@@ -91,4 +91,13 @@ extension SpendEditorViewModel {
         spendData?.payer = member
         delegate?.bindPayerDatasChanged()
     }
+    
+    func getPayerMemberItem() -> [MemberItem] {
+        var memberItem: [MemberItem] = []
+        MainModel.shard.members.forEach { member in
+            let isSelected = (spendData?.payer.id == member.id)
+            memberItem.append(MemberItem(data: member, isSelected: isSelected))
+        }
+        return memberItem
+    }
 }

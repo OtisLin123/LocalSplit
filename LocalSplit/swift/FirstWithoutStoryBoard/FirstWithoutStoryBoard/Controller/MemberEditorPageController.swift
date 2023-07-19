@@ -22,7 +22,8 @@ class MemberEditorPageController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tap)
         self.view.backgroundColor = .white
         self.title = "MemberEditor"
         
@@ -140,5 +141,9 @@ extension MemberEditorPageController {
             id: UUID().uuidString,
             name: textField.text!))
         textField.text = ""
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

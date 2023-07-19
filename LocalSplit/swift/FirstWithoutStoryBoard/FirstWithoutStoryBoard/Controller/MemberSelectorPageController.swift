@@ -14,10 +14,14 @@ protocol MemberSelectorCallBackDelegate {
 class MemberSelectorPageController: UIViewController{
     private var viewModel: MemberSelectorPageViewModel!
     var callBackDelegate: MemberSelectorCallBackDelegate?
+    var allowsMultipleSelection: Bool = false
+    var allowSelection: Bool = false
     
-    convenience init(memberItems: [MemberItem]) {
+    convenience init(memberItems: [MemberItem], allowSelection: Bool = false, allowsMultipleSelection: Bool = false) {
         self.init()
         initViewModel(memberItems: memberItems)
+        self.allowSelection = allowSelection
+        self.allowsMultipleSelection = allowsMultipleSelection
     }
     
     override func viewDidLoad() {
@@ -40,7 +44,7 @@ class MemberSelectorPageController: UIViewController{
     }
     
     lazy var memberTableViewController: MemberTableController = {
-        let controller = MemberTableController(members: viewModel.memberItems, allowsMultipleSelection: true)
+        let controller = MemberTableController(members: viewModel.memberItems, allowSelection: self.allowSelection, allowsMultipleSelection: self.allowsMultipleSelection)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         controller.callBackDelegate = self
         return controller

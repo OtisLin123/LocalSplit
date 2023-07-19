@@ -100,7 +100,7 @@ extension SpendCell {
         self.data = data
         titleLabel.numberOfLines = 0
         titleLabel.text = "SpendName: \(data.name)"
-        payerLabel.text = "Payer: \(data.payer) $\(data.cost)"
+        payerLabel.text = "Payer: \(data.payer.name) " + String(data.cost.removeZerosFromEnd())
         
         var peopleStr = ""
         data.people.forEach { splitModel in

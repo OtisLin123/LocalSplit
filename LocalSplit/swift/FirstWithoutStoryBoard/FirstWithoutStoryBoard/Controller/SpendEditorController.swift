@@ -25,18 +25,24 @@ class SpendEditorController: UIViewController {
     var mode: SpendEditorMode = SpendEditorMode.Create
     var viewModel: SpendEditorViewModel?
     var delegate: SpendEditorControllerDelegate?
+    var splitorDelegate: SplitorMemberSelectorCallBack = SplitorMemberSelectorCallBack()
+    var payerDelegate: PayerMemberSelectorCallBack = PayerMemberSelectorCallBack()
     
     convenience init(mode: SpendEditorMode, spendModel: SpendModel) {
         self.init()
         self.mode = mode
+        splitorDelegate.delegate = self
+        payerDelegate.delegate = self
         initViewModel(spendModel: spendModel)
-        costInput.textField.text = String(viewModel?.spendData?.cost ?? 0)
+        costInput.textField.text = viewModel?.spendData?.cost.removeZerosFromEnd()
         spendNameInput.textField.text = viewModel?.spendData?.name
         payerLabel.text = viewModel?.spendData?.payer.name
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tap)
         self.view.backgroundColor = .white
         
         switch self.mode {
@@ -54,7 +60,9 @@ class SpendEditorController: UIViewController {
         splitorArea.addSubview(addSplitorButton)
         super.view.addSubview(splitorArea)
         super.view.addSubview(payerTitle)
-        super.view.addSubview(payerLabel)
+        payerLabelBackground.addSubview(payerLabel)
+        super.view.addSubview(payerLabelBackground)
+        super.view.addSubview(line)
         doLayout()
     }
     
@@ -99,6 +107,18 @@ class SpendEditorController: UIViewController {
         return label
     }()
     
+    lazy var payerLabelBackground = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        view.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didClickPayer))
+        view.addGestureRecognizer(tap)
+        return view
+    }()
+
     lazy var payerTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -109,9 +129,9 @@ class SpendEditorController: UIViewController {
     
     lazy var payerLabel: UILabel = {
         let label = UILabel()
-        label.isUserInteractionEnabled = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
+        label.layer.borderColor = UIColor.black.cgColor
         return label
     }()
     
@@ -127,6 +147,14 @@ class SpendEditorController: UIViewController {
         button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         button.addTarget(self, action: #selector(didClickSplitorButton), for: .touchUpInside)
         return button
+    }()
+    
+    lazy var line: UIView = {
+        let line = UIView()
+        line.translatesAutoresizingMaskIntoConstraints = false
+        line.layer.borderColor = UIColor.black.cgColor
+        line.layer.borderWidth = 1
+        return line
     }()
     
     lazy var tableView: UITableView = {
@@ -178,14 +206,28 @@ extension SpendEditorController {
         ])
         
         NSLayoutConstraint.activate([
-            payerLabel.topAnchor.constraint(equalTo: payerTitle.bottomAnchor),
-            payerLabel.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
-            payerLabel.rightAnchor.constraint(equalTo: self.view.safeRightAnchor, constant: -20),
-            payerLabel.heightAnchor.constraint(equalToConstant: 40)
+            payerLabel.topAnchor.constraint(equalTo: payerLabelBackground.topAnchor),
+            payerLabel.leftAnchor.constraint(equalTo: payerLabelBackground.leftAnchor, constant: 20),
+            payerLabel.rightAnchor.constraint(equalTo: payerLabelBackground.rightAnchor),
+            payerLabel.bottomAnchor.constraint(equalTo: payerLabelBackground.bottomAnchor),
         ])
         
         NSLayoutConstraint.activate([
-            splitorArea.topAnchor.constraint(equalTo: payerLabel.bottomAnchor),
+            payerLabelBackground.topAnchor.constraint(equalTo: payerTitle.bottomAnchor),
+            payerLabelBackground.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
+            payerLabelBackground.rightAnchor.constraint(equalTo: self.view.safeRightAnchor, constant: -20),
+            payerLabelBackground.heightAnchor.constraint(equalToConstant: 60)
+        ])
+        
+        NSLayoutConstraint.activate([
+            line.topAnchor.constraint(equalTo: payerLabelBackground.bottomAnchor, constant: 20),
+            line.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
+            line.rightAnchor.constraint(equalTo: self.view.safeRightAnchor, constant: -20),
+            line.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        
+        NSLayoutConstraint.activate([
+            splitorArea.topAnchor.constraint(equalTo: line.bottomAnchor, constant: 10),
             splitorArea.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
             splitorArea.rightAnchor.constraint(equalTo: self.view.safeRightAnchor, constant: -20),
             splitorArea.heightAnchor.constraint(equalToConstant: 40)
@@ -255,9 +297,19 @@ extension SpendEditorController {
     }
     
     @objc func didClickSplitorButton() {
-        let page = MemberSelectorPageController(memberItems: viewModel?.getSplitorMemberItem() ?? [])
-        page.callBackDelegate = self
+        let page = MemberSelectorPageController(memberItems: viewModel?.getSplitorMemberItem() ?? [], allowSelection: true, allowsMultipleSelection: true)
+        page.callBackDelegate = splitorDelegate
         self.navigationController?.present(UINavigationController(rootViewController:page), animated: true)
+    }
+    
+    @objc func didClickPayer() {
+        let page = MemberSelectorPageController(memberItems: viewModel?.getPayerMemberItem() ?? [], allowSelection: true, allowsMultipleSelection: false)
+        page.callBackDelegate = payerDelegate
+        self.navigationController?.present(UINavigationController(rootViewController:page), animated: true)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
@@ -321,3 +373,47 @@ extension SpendEditorController: MemberSelectorCallBackDelegate {
     }
 }
 
+class SplitorMemberSelectorCallBack: MemberSelectorCallBackDelegate {
+    var delegate: SplitorMemberSelectorDelegate?
+    func receiveSelectedMembers(_ members: [MemberModel]) {
+        delegate?.receiveSplictorMembers(members)
+    }
+}
+
+class PayerMemberSelectorCallBack: MemberSelectorCallBackDelegate {
+    var delegate: PayerMemberSelectorDelegate?
+    func receiveSelectedMembers(_ members: [MemberModel]) {
+        delegate?.receivePayerMember(members)
+    }
+}
+
+protocol SplitorMemberSelectorDelegate {
+    func receiveSplictorMembers(_: [MemberModel])
+}
+
+protocol PayerMemberSelectorDelegate {
+    func receivePayerMember(_: [MemberModel])
+}
+
+extension SpendEditorController: SplitorMemberSelectorDelegate {
+    func receiveSplictorMembers(_ members: [MemberModel]) {
+        var splitDatas: [SplitModel] = []
+        for member in members {
+            var splitModel = viewModel?.getSplitModel(member.id)
+            if splitModel == nil {
+                splitModel = SplitModel(id: member.id, name: member.name, ratio: 1)
+            }
+            splitDatas.append(splitModel!)
+        }
+        viewModel?.setSplitDatas(splitDatas)
+    }
+}
+
+extension SpendEditorController: PayerMemberSelectorDelegate {
+    func receivePayerMember(_ members: [MemberModel]) {
+        guard members.count > 0 else {
+            return
+        }
+        viewModel?.setPayer(member: members.first!)
+    }
+}
