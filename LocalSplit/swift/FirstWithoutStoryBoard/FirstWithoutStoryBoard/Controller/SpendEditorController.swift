@@ -16,15 +16,24 @@ enum SpendEditorMode: String, CaseIterable {
     case Create
 }
 
-protocol SpendEditorControllerDelegate {
+protocol SpendEditorControllerDelegate: NSObjectProtocol {
     func didClickApply(_ model: SpendModel) -> ()
 }
+
+protocol SplitorMemberSelectorDelegate: NSObjectProtocol {
+    func receiveSplictorMembers(_: [MemberModel])
+}
+
+protocol PayerMemberSelectorDelegate: NSObjectProtocol {
+    func receivePayerMember(_: [MemberModel])
+}
+
 
 class SpendEditorController: UIViewController {
     
     var mode: SpendEditorMode = SpendEditorMode.Create
     var viewModel: SpendEditorViewModel?
-    var delegate: SpendEditorControllerDelegate?
+    weak var delegate: SpendEditorControllerDelegate?
     var splitorDelegate: SplitorMemberSelectorCallBack = SplitorMemberSelectorCallBack()
     var payerDelegate: PayerMemberSelectorCallBack = PayerMemberSelectorCallBack()
     
@@ -298,13 +307,13 @@ extension SpendEditorController {
     
     @objc func didClickSplitorButton() {
         let page = MemberSelectorPageController(memberItems: viewModel?.getSplitorMemberItem() ?? [], allowSelection: true, allowsMultipleSelection: true)
-        page.callBackDelegate = splitorDelegate
+        page.delegate = splitorDelegate
         self.navigationController?.present(UINavigationController(rootViewController:page), animated: true)
     }
     
     @objc func didClickPayer() {
         let page = MemberSelectorPageController(memberItems: viewModel?.getPayerMemberItem() ?? [], allowSelection: true, allowsMultipleSelection: false)
-        page.callBackDelegate = payerDelegate
+        page.delegate = payerDelegate
         self.navigationController?.present(UINavigationController(rootViewController:page), animated: true)
     }
     
@@ -359,7 +368,7 @@ extension SpendEditorController: SplitCellDelegate {
 }
 
 // MARK: - MemberSelectorCallBackDelegate
-extension SpendEditorController: MemberSelectorCallBackDelegate {
+extension SpendEditorController: MemberSelectorDelegate {
     func receiveSelectedMembers(_ members: [MemberModel]) {
         var splitDatas: [SplitModel] = []
         for member in members {
@@ -373,28 +382,22 @@ extension SpendEditorController: MemberSelectorCallBackDelegate {
     }
 }
 
-class SplitorMemberSelectorCallBack: MemberSelectorCallBackDelegate {
-    var delegate: SplitorMemberSelectorDelegate?
+// MARK: - MemberSelectorCallBackDelegate
+class SplitorMemberSelectorCallBack: NSObject, MemberSelectorDelegate {
+    weak var delegate: SplitorMemberSelectorDelegate?
     func receiveSelectedMembers(_ members: [MemberModel]) {
         delegate?.receiveSplictorMembers(members)
     }
 }
 
-class PayerMemberSelectorCallBack: MemberSelectorCallBackDelegate {
-    var delegate: PayerMemberSelectorDelegate?
+class PayerMemberSelectorCallBack: NSObject, MemberSelectorDelegate {
+    weak var delegate: PayerMemberSelectorDelegate?
     func receiveSelectedMembers(_ members: [MemberModel]) {
         delegate?.receivePayerMember(members)
     }
 }
 
-protocol SplitorMemberSelectorDelegate {
-    func receiveSplictorMembers(_: [MemberModel])
-}
-
-protocol PayerMemberSelectorDelegate {
-    func receivePayerMember(_: [MemberModel])
-}
-
+// MARK: - SplitorMemberSelectorDelegate
 extension SpendEditorController: SplitorMemberSelectorDelegate {
     func receiveSplictorMembers(_ members: [MemberModel]) {
         var splitDatas: [SplitModel] = []
@@ -409,6 +412,7 @@ extension SpendEditorController: SplitorMemberSelectorDelegate {
     }
 }
 
+// MARK: - PayerMemberSelectorDelegate
 extension SpendEditorController: PayerMemberSelectorDelegate {
     func receivePayerMember(_ members: [MemberModel]) {
         guard members.count > 0 else {

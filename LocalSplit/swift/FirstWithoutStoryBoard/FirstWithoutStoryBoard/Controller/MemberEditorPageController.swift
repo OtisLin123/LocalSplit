@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol MemberDataDelegate {
-    func deleteMember(index: Int)
+protocol MemberEditorPageDelegate: NSObjectProtocol {
+    func replaceMembersData(members: [MemberModel])
 }
 
 class MemberEditorPageController: UIViewController {
     private var viewModel: MemberEditorPageViewModel!
-    var membersDataCallBackDelegate: MembersDataCallBackDelegate? = nil
+    weak var delegate: MemberEditorPageDelegate?
     
     convenience init(members: [MemberModel]) {
         self.init()
@@ -35,7 +35,7 @@ class MemberEditorPageController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        membersDataCallBackDelegate?.replaceMembersData(members: viewModel.members)
+        delegate?.replaceMembersData(members: viewModel.members)
         super.viewWillDisappear(animated)
     }
     
@@ -67,17 +67,13 @@ class MemberEditorPageController: UIViewController {
     lazy var memberTableViewController: MemberTableController = {
         let controller = MemberTableController(members: viewModel.getMemberItems(), showDelete: true)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
-        controller.memberDataDelegate = self
+        controller.delegate = self
         return controller
     }()
 }
 
 // MARK: - Public method
-extension MemberEditorPageController: MemberDataDelegate {
-    func deleteMember(index: Int) {
-        viewModel.removeMember(index)
-    }
-    
+extension MemberEditorPageController {
     func addMember(_ data: MemberModel) {
         viewModel.addMember(data)
     }
@@ -145,5 +141,16 @@ extension MemberEditorPageController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+// MARK: - MemberTableDelegate
+extension MemberEditorPageController: MemberTableDelegate {
+    func didMemberSelectedChanged(_: [MemberItem]) {
+        
+    }
+    
+    func deleteMember(index: Int) {
+        viewModel.removeMember(index)
     }
 }

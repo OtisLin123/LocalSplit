@@ -12,17 +12,17 @@ struct MemberItem: Hashable {
     var isSelected: Bool = false
 }
 
-protocol MemberTableCallBackDelegate {
+protocol MemberTableDelegate: NSObjectProtocol {
     func didMemberSelectedChanged(_: [MemberItem])
+    func deleteMember(index: Int)
 }
 
 class MemberTableController: UIViewController {
     var members: [MemberItem] = []
-    var memberDataDelegate: MemberDataDelegate? = nil
     var showDelete: Bool = true
     var allowsMultipleSelection: Bool = false
     var allowSelection: Bool = false
-    var callBackDelegate: MemberTableCallBackDelegate?
+    weak var delegate: MemberTableDelegate?
     
     convenience init (members: [MemberItem], showDelete: Bool = false, allowSelection: Bool = false, allowsMultipleSelection: Bool = false) {
         self.init()
@@ -75,7 +75,7 @@ class MemberTableController: UIViewController {
         tableView, indexPath, model in
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MemberCell
             cell.selectionStyle = .none
-            cell.cellDelegate = self
+            cell.delegate = self
             cell.setData(model.data, showDelete: self.showDelete)
             cell.indexPath = indexPath
             return cell
@@ -120,21 +120,21 @@ extension MemberTableController: UITableViewDelegate {
         var memberItem = members[indexPath.row]
         memberItem.isSelected = true
         members[indexPath.row] = memberItem
-        callBackDelegate?.didMemberSelectedChanged(members)
+        delegate?.didMemberSelectedChanged(members)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         var memberItem = members[indexPath.row]
         memberItem.isSelected = false
         members[indexPath.row] = memberItem
-        callBackDelegate?.didMemberSelectedChanged(members)
+        delegate?.didMemberSelectedChanged(members)
     }
 }
 
 // MARK: - MemberCellDelegate
 extension MemberTableController: MemberCellDelegate {
     func didDeleteTap(_ indexPath: IndexPath) {
-        memberDataDelegate?.deleteMember(index: indexPath.row)
+        delegate?.deleteMember(index: indexPath.row)
     }
 }
 

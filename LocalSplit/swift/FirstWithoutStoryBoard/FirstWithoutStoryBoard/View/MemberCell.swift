@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol MemberCellDelegate: AnyObject {
+protocol MemberCellDelegate: NSObjectProtocol {
     func didDeleteTap(_ indexPath: IndexPath)
 }
 
 class MemberCell: UITableViewCell {
     var indexPath: IndexPath!
-    weak var cellDelegate: MemberCellDelegate? = nil
+    weak var delegate: MemberCellDelegate? = nil
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -50,7 +50,7 @@ class MemberCell: UITableViewCell {
 
 extension MemberCell {
     @objc func didDeleteClick() {
-        cellDelegate?.didDeleteTap(indexPath)
+        delegate?.didDeleteTap(indexPath)
     }
 }
 

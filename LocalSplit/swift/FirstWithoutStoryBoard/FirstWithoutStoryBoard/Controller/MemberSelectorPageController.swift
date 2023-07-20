@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol MemberSelectorCallBackDelegate {
+protocol MemberSelectorDelegate: NSObjectProtocol {
     func receiveSelectedMembers(_: [MemberModel])
 }
 
 class MemberSelectorPageController: UIViewController{
     private var viewModel: MemberSelectorPageViewModel!
-    var callBackDelegate: MemberSelectorCallBackDelegate?
+    weak var delegate: MemberSelectorDelegate?
     var allowsMultipleSelection: Bool = false
     var allowSelection: Bool = false
     
@@ -39,14 +39,14 @@ class MemberSelectorPageController: UIViewController{
                 selectedMembers.append(member.data)
             }
         }
-        callBackDelegate?.receiveSelectedMembers(selectedMembers)
+        delegate?.receiveSelectedMembers(selectedMembers)
         super.viewWillDisappear(animated)
     }
     
     lazy var memberTableViewController: MemberTableController = {
         let controller = MemberTableController(members: viewModel.memberItems, allowSelection: self.allowSelection, allowsMultipleSelection: self.allowsMultipleSelection)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
-        controller.callBackDelegate = self
+        controller.delegate = self
         return controller
     }()
 }
@@ -68,7 +68,11 @@ extension MemberSelectorPageController {
 }
 
 // MARK: - MemberTableCallBackDelegate
-extension MemberSelectorPageController: MemberTableCallBackDelegate {
+extension MemberSelectorPageController: MemberTableDelegate {
+    func deleteMember(index: Int) {
+        
+    }
+    
     func didMemberSelectedChanged(_ memberItems: [MemberItem]) {
         self.viewModel.setMemberItems(memberItems: memberItems)
     }

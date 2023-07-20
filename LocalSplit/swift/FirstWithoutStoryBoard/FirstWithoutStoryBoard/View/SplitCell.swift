@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol SplitCellDelegate {
+protocol SplitCellDelegate: NSObjectProtocol {
     func didRatioEditChanged(_ splitModel: SplitModel) -> ()
 }
 
 class SplitCell: UITableViewCell {
     var splitModel: SplitModel?
-    var delegate: SplitCellDelegate?
+    weak var delegate: SplitCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

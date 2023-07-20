@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol SpendEditorViewModelDelegate {
+protocol SpendEditorViewModelDelegate: NSObjectProtocol {
     func bindSplitDatasChanged() -> ()
     func bindPayerDatasChanged() -> ()
 }
 
 class SpendEditorViewModel: NSObject {
-    var delegate: SpendEditorViewModelDelegate?
+    weak var delegate: SpendEditorViewModelDelegate?
     var spendData: SpendModel?
 }
 
@@ -25,19 +25,6 @@ extension SpendEditorViewModel {
     }
     
     func setSplitDatas(_ datas: [SplitModel]) {
-//        var currentSplitDatas = spendData?.people ?? []
-//        for data in datas.reversed() {
-//            let index = currentSplitDatas.firstIndex{ splitData in
-//                data.id == splitData.id
-//            }
-//
-//            if index == nil {
-//                currentSplitDatas.append(data)
-//            }
-//            else {
-//                currentSplitDatas[index!] = data
-//            }
-//        }
         spendData?.people = datas
         delegate?.bindSplitDatasChanged()
     }

@@ -14,13 +14,13 @@ struct ActivityInfoData {
     var selectedMembers: [MemberModel]!
 }
 
-protocol ActivityInfoCallBackDelegate {
+protocol ActivityInfoDelegate: NSObjectProtocol {
     func receiveData(data: ActivityInfoData)
 }
 
 class ActivityInfoPage: UIViewController {
     var viewModel: ActivityInfoPageViewModel!
-    var activityInfoCallBackDelegate: ActivityInfoCallBackDelegate?
+    weak var delegate: ActivityInfoDelegate?
     
     convenience init (data: ActivityInfoData, mode: ActivityInfoPageMode, totalMembers: [MemberModel]) {
         self.init()
@@ -170,7 +170,7 @@ extension ActivityInfoPage {
 // MARK: - SLOT
 extension ActivityInfoPage {
     @objc func didConfirmButtonClick() {
-        activityInfoCallBackDelegate?.receiveData(
+        delegate?.receiveData(
             data: ActivityInfoData(
                 id: self.viewModel.id,
                 activityName: self.viewModel.activityName,
@@ -182,7 +182,7 @@ extension ActivityInfoPage {
     
     @objc func didAddActivityMemberButtonClick() {
         let page = MemberSelectorPageController(memberItems: viewModel.getMemberItems(), allowsMultipleSelection: true)
-        page.callBackDelegate = self
+        page.delegate = self
         self.navigationController?.present(UINavigationController(rootViewController:page), animated: true)
     }
     
@@ -203,7 +203,7 @@ extension ActivityInfoPage: UITableViewDelegate {
     }
 }
 
-extension ActivityInfoPage: MemberSelectorCallBackDelegate {
+extension ActivityInfoPage: MemberSelectorDelegate {
     func receiveSelectedMembers(_ members: [MemberModel]) {
         self.viewModel.setSelectedMember(members)
     }

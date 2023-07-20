@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol SpendCellDelegate {
+protocol SpendCellDelegate: NSObjectProtocol {
     func didClickDelete(_ spendId: String) -> ()
     func didClickModify(_ spendId: String) -> ()
 }
 
 class SpendCell: UITableViewCell {
-    var delegate: SpendCellDelegate?
+    weak var delegate: SpendCellDelegate?
     var data: SpendModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -129,9 +129,8 @@ extension SpendCell {
             buttonStack.leftAnchor.constraint(equalTo: lableStack.rightAnchor),
             buttonStack.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -15),
             buttonStack.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-//            buttonStack.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
         ])
-//        
+
         NSLayoutConstraint.activate([
             modifyButton.widthAnchor.constraint(equalToConstant: 40),
             modifyButton.heightAnchor.constraint(equalToConstant: 40),
@@ -141,13 +140,6 @@ extension SpendCell {
             deleteButton.widthAnchor.constraint(equalToConstant: 40),
             deleteButton.heightAnchor.constraint(equalToConstant: 40),
         ])
-
-//        NSLayoutConstraint.activate([
-//            titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-//            titleLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
-//            titleLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
-//            titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-//        ])
     }
 }
 

@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol SpendsPageViewModelDelegate {
+protocol SpendsPageViewModelDelegate: NSObjectProtocol {
     func bindSpendDatasChanged() -> ()
 }
 
 class SpendsPageViewModel: NSObject {
-    var delegate: SpendsPageViewModelDelegate?
+    weak var delegate: SpendsPageViewModelDelegate?
     
     private(set) var spendDatas: [SpendModel] = [] {
         didSet {

@@ -8,10 +8,6 @@
 import UIKit
 import Combine
 
-protocol MembersDataCallBackDelegate {
-    func replaceMembersData(members: [MemberModel])
-}
-
 class ActivitiesPage: UIViewController {
     private var viewModel: ActivitiesPageViewModel!
     
@@ -77,7 +73,7 @@ extension ActivitiesPage {
     @objc private func didClickMemberEditorButton() {
         let memberEditorController = MemberEditorPageController(members: MainModel.shard.members)
         memberEditorController.view.backgroundColor = .white
-        memberEditorController.membersDataCallBackDelegate = self
+        memberEditorController.delegate = self
         self.navigationController?.pushViewController(memberEditorController, animated: true)
     }
 }
@@ -111,8 +107,8 @@ extension ActivitiesPage {
     }
 }
 
-// MARK: - MemberDataCallBackDelegate
-extension ActivitiesPage: MembersDataCallBackDelegate {
+// MARK: - MemberEditorPageDelegate
+extension ActivitiesPage: MemberEditorPageDelegate {
     func replaceMembersData(members: [MemberModel]) {
         MainModel.shard.members = members
     }

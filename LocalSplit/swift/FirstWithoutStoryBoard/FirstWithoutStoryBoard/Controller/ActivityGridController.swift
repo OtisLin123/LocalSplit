@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol ActivityGridControllerCallBackDelegate {
+protocol ActivityGridControllerDelegate: NSObjectProtocol {
     func didClickActivity(id: String)
     func didClickModify(id: String)
 }
@@ -17,7 +17,7 @@ class ActivityGridController: UIViewController {
     var fullScreenSize: CGSize?
     var countOfRow: Int = 1
     private var activityGridViewModel: ActivityGridViewModel!
-    var activityGridControllerCallBackDelegate: ActivityGridControllerCallBackDelegate?
+    weak var delegate: ActivityGridControllerDelegate?
     
     convenience init(count countOfRow: Int, activities: [ActivityModel]){
         self.init()
@@ -96,7 +96,7 @@ extension ActivityGridController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        activityGridControllerCallBackDelegate?.didClickActivity(id: activityGridViewModel.activitiesData[indexPath.row].id)
+        delegate?.didClickActivity(id: activityGridViewModel.activitiesData[indexPath.row].id)
     }
 }
 
@@ -110,6 +110,6 @@ extension ActivityGridController: UICollectionViewDataSource {
 // MARK: - ActivitiesCellCallBack
 extension ActivityGridController: ActivitiesCellCallBack {
     func didClickModifyButton(id: String) {
-        activityGridControllerCallBackDelegate?.didClickModify(id: id)
+        delegate?.didClickModify(id: id)
     }
 }
