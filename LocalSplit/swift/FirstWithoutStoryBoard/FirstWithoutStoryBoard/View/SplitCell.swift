@@ -19,6 +19,8 @@ class SplitCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(nameLabel)
         self.contentView.addSubview(splitRatio)
+        self.backgroundColor = UIColor(named: "ActivityCard")
+        self.tintColor = UIColor(named: "PrimaryText")
         doLayout()
     }
     

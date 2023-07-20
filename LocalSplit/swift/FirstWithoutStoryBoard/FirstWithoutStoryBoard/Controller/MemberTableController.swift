@@ -30,6 +30,7 @@ class MemberTableController: UIViewController {
         self.showDelete = showDelete
         self.allowsMultipleSelection = allowsMultipleSelection
         self.allowSelection = allowSelection
+        self.tableView.backgroundColor = UIColor(named: "SecondaryBackground")
     }
     
     override func viewDidLoad() {

@@ -20,7 +20,7 @@
 		17723BB32A64F72700D2B6CD /* SplitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17723BB22A64F72700D2B6CD /* SplitModel.swift */; };
 		1784B70C2A5AF1DA00E744D0 /* MemberTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */; };
 		1784B70E2A5AF33100E744D0 /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1784B70D2A5AF33100E744D0 /* MemberCell.swift */; };
-		179B91122A5959A90089C810 /* MemberEditorPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179B91112A5959A90089C810 /* MemberEditorPageController.swift */; };
+		179B91122A5959A90089C810 /* MemberEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179B91112A5959A90089C810 /* MemberEditorController.swift */; };
 		1B2A11312A57E4A10016A4FC /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A11302A57E4A10016A4FC /* SecondViewController.swift */; };
 		1B2A11362A57EB320016A4FC /* ActivitiesPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A11352A57EB320016A4FC /* ActivitiesPageController.swift */; };
 		1B2A11392A57ED660016A4FC /* activitiesData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1B2A11382A57ED660016A4FC /* activitiesData.json */; };
@@ -33,9 +33,9 @@
 		1B996EE62A5D2E0E006167AB /* ActivityGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EE52A5D2E0E006167AB /* ActivityGridViewModel.swift */; };
 		1B996EE92A5D428B006167AB /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EE82A5D428B006167AB /* helper.swift */; };
 		1B996EEB2A5D5514006167AB /* ActivitiesPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */; };
-		1B996EEF2A5E4FF8006167AB /* MemberEditorPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EEE2A5E4FF8006167AB /* MemberEditorPageViewModel.swift */; };
-		1B996EF12A5E7B50006167AB /* ActivityInfoPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EF02A5E7B50006167AB /* ActivityInfoPage.swift */; };
-		1B996EF52A5E8B44006167AB /* ActivityInfoPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EF42A5E8B44006167AB /* ActivityInfoPageViewModel.swift */; };
+		1B996EEF2A5E4FF8006167AB /* MemberEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EEE2A5E4FF8006167AB /* MemberEditorViewModel.swift */; };
+		1B996EF12A5E7B50006167AB /* ActivityEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EF02A5E7B50006167AB /* ActivityEditorController.swift */; };
+		1B996EF52A5E8B44006167AB /* ActivityEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EF42A5E8B44006167AB /* ActivityEditorViewModel.swift */; };
 		1B996EF72A5EA8E2006167AB /* MemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B996EF62A5EA8E2006167AB /* MemberModel.swift */; };
 		1BEEC92B2A567EB7003ABD4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEC92A2A567EB7003ABD4A /* AppDelegate.swift */; };
 		1BEEC92D2A567EB7003ABD4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEC92C2A567EB7003ABD4A /* SceneDelegate.swift */; };
@@ -79,7 +79,7 @@
 		17723BB22A64F72700D2B6CD /* SplitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitModel.swift; sourceTree = "<group>"; };
 		1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTableController.swift; sourceTree = "<group>"; };
 		1784B70D2A5AF33100E744D0 /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
-		179B91112A5959A90089C810 /* MemberEditorPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberEditorPageController.swift; sourceTree = "<group>"; };
+		179B91112A5959A90089C810 /* MemberEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberEditorController.swift; sourceTree = "<group>"; };
 		1B2A11302A57E4A10016A4FC /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		1B2A11352A57EB320016A4FC /* ActivitiesPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesPageController.swift; sourceTree = "<group>"; };
 		1B2A11382A57ED660016A4FC /* activitiesData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = activitiesData.json; sourceTree = "<group>"; };
@@ -92,9 +92,9 @@
 		1B996EE52A5D2E0E006167AB /* ActivityGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGridViewModel.swift; sourceTree = "<group>"; };
 		1B996EE82A5D428B006167AB /* helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
 		1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesPageViewModel.swift; sourceTree = "<group>"; };
-		1B996EEE2A5E4FF8006167AB /* MemberEditorPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberEditorPageViewModel.swift; sourceTree = "<group>"; };
-		1B996EF02A5E7B50006167AB /* ActivityInfoPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityInfoPage.swift; sourceTree = "<group>"; };
-		1B996EF42A5E8B44006167AB /* ActivityInfoPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityInfoPageViewModel.swift; sourceTree = "<group>"; };
+		1B996EEE2A5E4FF8006167AB /* MemberEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberEditorViewModel.swift; sourceTree = "<group>"; };
+		1B996EF02A5E7B50006167AB /* ActivityEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityEditorController.swift; sourceTree = "<group>"; };
+		1B996EF42A5E8B44006167AB /* ActivityEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityEditorViewModel.swift; sourceTree = "<group>"; };
 		1B996EF62A5EA8E2006167AB /* MemberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModel.swift; sourceTree = "<group>"; };
 		1BEEC9272A567EB7003ABD4A /* FirstWithoutStoryBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirstWithoutStoryBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEEC92A2A567EB7003ABD4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -149,9 +149,9 @@
 			children = (
 				1B2A11352A57EB320016A4FC /* ActivitiesPageController.swift */,
 				1B2A113D2A5806FF0016A4FC /* ActivityGridController.swift */,
-				179B91112A5959A90089C810 /* MemberEditorPageController.swift */,
+				179B91112A5959A90089C810 /* MemberEditorController.swift */,
 				1784B70B2A5AF1DA00E744D0 /* MemberTableController.swift */,
-				1B996EF02A5E7B50006167AB /* ActivityInfoPage.swift */,
+				1B996EF02A5E7B50006167AB /* ActivityEditorController.swift */,
 				17723B9B2A60F21300D2B6CD /* MemberSelectorPageController.swift */,
 				17723BA12A63998800D2B6CD /* SpendsPageController.swift */,
 				17723BAA2A63EA2300D2B6CD /* SpendEditorController.swift */,
@@ -189,8 +189,8 @@
 			children = (
 				1B996EE52A5D2E0E006167AB /* ActivityGridViewModel.swift */,
 				1B996EEA2A5D5514006167AB /* ActivitiesPageViewModel.swift */,
-				1B996EEE2A5E4FF8006167AB /* MemberEditorPageViewModel.swift */,
-				1B996EF42A5E8B44006167AB /* ActivityInfoPageViewModel.swift */,
+				1B996EEE2A5E4FF8006167AB /* MemberEditorViewModel.swift */,
+				1B996EF42A5E8B44006167AB /* ActivityEditorViewModel.swift */,
 				17723B9D2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift */,
 				17723BA82A63AEE400D2B6CD /* SpendsPageViewModel.swift */,
 				17723BAC2A63EA4400D2B6CD /* SpendEditorViewModel.swift */,
@@ -401,9 +401,9 @@
 				1BEEC9352A567EB7003ABD4A /* FirstWithoutStoryBoard.xcdatamodeld in Sources */,
 				1B2A113C2A5800990016A4FC /* ActivitiesCell.swift in Sources */,
 				17723B9E2A6109F000D2B6CD /* MemberSelectorPageViewModel.swift in Sources */,
-				179B91122A5959A90089C810 /* MemberEditorPageController.swift in Sources */,
+				179B91122A5959A90089C810 /* MemberEditorController.swift in Sources */,
 				17723BA72A63ABB100D2B6CD /* SpendCell.swift in Sources */,
-				1B996EF12A5E7B50006167AB /* ActivityInfoPage.swift in Sources */,
+				1B996EF12A5E7B50006167AB /* ActivityEditorController.swift in Sources */,
 				17723BB32A64F72700D2B6CD /* SplitModel.swift in Sources */,
 				17723BAB2A63EA2300D2B6CD /* SpendEditorController.swift in Sources */,
 				1B758E2E2A5C0FD700CCC186 /* ActivityModel.swift in Sources */,
@@ -411,7 +411,7 @@
 				17723BA92A63AEE400D2B6CD /* SpendsPageViewModel.swift in Sources */,
 				1B2A113E2A5806FF0016A4FC /* ActivityGridController.swift in Sources */,
 				1784B70C2A5AF1DA00E744D0 /* MemberTableController.swift in Sources */,
-				1B996EF52A5E8B44006167AB /* ActivityInfoPageViewModel.swift in Sources */,
+				1B996EF52A5E8B44006167AB /* ActivityEditorViewModel.swift in Sources */,
 				1B996EE92A5D428B006167AB /* helper.swift in Sources */,
 				1B7F6A6B2A663F24003ED9B7 /* MainModel.swift in Sources */,
 				17723BAD2A63EA4400D2B6CD /* SpendEditorViewModel.swift in Sources */,
@@ -423,7 +423,7 @@
 				17723BAF2A64E5FD00D2B6CD /* Input.swift in Sources */,
 				1B996EF72A5EA8E2006167AB /* MemberModel.swift in Sources */,
 				1B2A11312A57E4A10016A4FC /* SecondViewController.swift in Sources */,
-				1B996EEF2A5E4FF8006167AB /* MemberEditorPageViewModel.swift in Sources */,
+				1B996EEF2A5E4FF8006167AB /* MemberEditorViewModel.swift in Sources */,
 				17723B9C2A60F21300D2B6CD /* MemberSelectorPageController.swift in Sources */,
 				17723BA22A63998800D2B6CD /* SpendsPageController.swift in Sources */,
 				1BEEC92D2A567EB7003ABD4A /* SceneDelegate.swift in Sources */,

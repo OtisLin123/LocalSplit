@@ -11,8 +11,8 @@ protocol MemberEditorPageDelegate: NSObjectProtocol {
     func replaceMembersData(members: [MemberModel])
 }
 
-class MemberEditorPageController: UIViewController {
-    private var viewModel: MemberEditorPageViewModel!
+class MemberEditorController: UIViewController {
+    private var viewModel: MemberEditorViewModel!
     weak var delegate: MemberEditorPageDelegate?
     
     convenience init(members: [MemberModel]) {
@@ -24,13 +24,13 @@ class MemberEditorPageController: UIViewController {
         super.viewDidLoad()
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tap)
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(named: "Background")
         self.title = "MemberEditor"
         
-        add(safeArea)
-        safeArea.view.addSubview(textField)
-        safeArea.view.addSubview(addButton)
-        safeArea.add(memberTableViewController)
+        inputArea.addSubview(textField)
+        inputArea.addSubview(addButton)
+        self.view.addSubview(inputArea)
+        add(memberTableViewController)
         doLayout()
     }
     
@@ -43,23 +43,26 @@ class MemberEditorPageController: UIViewController {
         textField.addUnderLine(color: UIColor.darkGray.cgColor)
     }
     
-    lazy var safeArea: UIViewController = {
-        let safeArea = UIViewController()
-        safeArea.view.translatesAutoresizingMaskIntoConstraints = false
-        return safeArea
+    lazy var inputArea: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(named: "Background")
+        return view
     }()
     
     lazy var textField: UITextField = {
         let textField = UITextField(frame: .zero)
         textField.textColor = .black
         textField.translatesAutoresizingMaskIntoConstraints = false;
+        textField.placeholder = "EntryMemberName"
         return textField
     }()
     
     lazy var addButton: UIButton = {
         let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
         addButton.translatesAutoresizingMaskIntoConstraints = false;
-        addButton.setImage(UIImage(systemName: "plus.app")?.withTintColor(.black), for: .normal)
+        addButton.setImage(UIImage(systemName: "plus.app"), for: .normal)
+        addButton.tintColor = UIColor(named: "PrimaryText")
         addButton.addTarget(self, action: #selector(didAddButtonClick), for: .touchUpInside)
         return addButton
     }()
@@ -73,16 +76,16 @@ class MemberEditorPageController: UIViewController {
 }
 
 // MARK: - Public method
-extension MemberEditorPageController {
+extension MemberEditorController {
     func addMember(_ data: MemberModel) {
         viewModel.addMember(data)
     }
 }
 
 // MARK: - Private method
-extension MemberEditorPageController {
+extension MemberEditorController {
     private func initViewModel(members: [MemberModel]) {
-        viewModel = MemberEditorPageViewModel(members: members)
+        viewModel = MemberEditorViewModel(members: members)
         viewModel.bindDidMemberChanged = {
             DispatchQueue.main.async {
                 self.memberTableViewController.setData(members: self.viewModel.getMemberItems())
@@ -91,41 +94,40 @@ extension MemberEditorPageController {
     }
     
     private func doLayout() {
-        /// layout safe area
+        /// layout input area
         NSLayoutConstraint.activate([
-            safeArea.view.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
-            safeArea.view.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
-            safeArea.view.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
-            safeArea.view.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
+            inputArea.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
+            inputArea.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
+            inputArea.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
+            inputArea.heightAnchor.constraint(equalToConstant: 80)
         ])
         
         /// layout text field
         NSLayoutConstraint.activate([
-            textField.leftAnchor.constraint(equalTo: safeArea.view.leftAnchor, constant: 10),
-            textField.heightAnchor.constraint(equalToConstant: 40),
+            textField.leftAnchor.constraint(equalTo: inputArea.leftAnchor, constant: 10),
             textField.rightAnchor.constraint(equalTo: addButton.leftAnchor),
-            textField.topAnchor.constraint(equalTo: safeArea.view.topAnchor),
+            textField.centerYAnchor.constraint(equalTo: inputArea.centerYAnchor)
         ])
         
         /// add button
         NSLayoutConstraint.activate([
             addButton.widthAnchor.constraint(equalToConstant: 40),
             addButton.heightAnchor.constraint(equalToConstant: 40),
-            addButton.rightAnchor.constraint(equalTo: safeArea.view.rightAnchor),
-            addButton.topAnchor.constraint(equalTo: safeArea.view.topAnchor),
+            addButton.rightAnchor.constraint(equalTo: inputArea.rightAnchor),
+            addButton.centerYAnchor.constraint(equalTo: inputArea.centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            memberTableViewController.view.topAnchor.constraint(equalTo: textField.bottomAnchor),
-            memberTableViewController.view.leftAnchor.constraint(equalTo: safeArea.view.leftAnchor),
-            memberTableViewController.view.rightAnchor.constraint(equalTo: safeArea.view.rightAnchor),
-            memberTableViewController.view.bottomAnchor.constraint(equalTo: safeArea.view.bottomAnchor),
+            memberTableViewController.view.topAnchor.constraint(equalTo: inputArea.bottomAnchor),
+            memberTableViewController.view.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
+            memberTableViewController.view.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
+            memberTableViewController.view.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
         ])
     }
 }
 
 // MARK: - SLOT
-extension MemberEditorPageController {
+extension MemberEditorController {
     @objc func didAddButtonClick() {
         guard ((textField.text) != nil) else {
             return
@@ -145,7 +147,7 @@ extension MemberEditorPageController {
 }
 
 // MARK: - MemberTableDelegate
-extension MemberEditorPageController: MemberTableDelegate {
+extension MemberEditorController: MemberTableDelegate {
     func didMemberSelectedChanged(_: [MemberItem]) {
         
     }

@@ -21,7 +21,8 @@ class SpendCell: UITableViewCell {
         
         self.contentView.addSubview(lableStack)
         self.contentView.addSubview(buttonStack)
-        self.contentView.backgroundColor = .white
+        self.contentView.backgroundColor = UIColor(named: "ActivityCard")
+        
         doLayout()
     }
     

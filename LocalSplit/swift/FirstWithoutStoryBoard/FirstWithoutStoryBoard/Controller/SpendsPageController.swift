@@ -26,7 +26,7 @@ class SpendsPageController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(named: "Background")
         self.title = "Spends"
         self.view.addSubview(tableView)
         self.view.addSubview(buttonStack)
@@ -40,7 +40,7 @@ class SpendsPageController: UIViewController {
         tableView.allowsSelection = false
         tableView.estimatedRowHeight = 85
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.backgroundColor = .gray
+        tableView.backgroundColor = UIColor(named: "SecondaryBackground")
         return tableView
     }()
     
@@ -59,8 +59,8 @@ class SpendsPageController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("AddSpend", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = UIColor.black.cgColor
+        button.setTitleColor(UIColor(named: "PrimaryText"), for: .normal)
+        button.layer.borderColor = UIColor(named: "PrimaryText")!.cgColor
         button.layer.borderWidth = 1
         button.addTarget(self, action: #selector(didClickAddSpendButton), for: .touchUpInside)
         return button
@@ -70,8 +70,8 @@ class SpendsPageController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Settle", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = UIColor.black.cgColor
+        button.setTitleColor(UIColor(named: "PrimaryText"), for: .normal)
+        button.layer.borderColor = UIColor(named: "PrimaryText")!.cgColor
         button.layer.borderWidth = 1
         return button
     }()
@@ -108,7 +108,7 @@ extension SpendsPageController {
             buttonStack.topAnchor.constraint(equalTo: tableView.bottomAnchor),
             buttonStack.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
             buttonStack.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
-            buttonStack.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
+            buttonStack.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -50),
         ])
     }
     

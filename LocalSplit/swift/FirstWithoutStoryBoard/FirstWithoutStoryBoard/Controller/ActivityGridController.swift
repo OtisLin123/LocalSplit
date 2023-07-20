@@ -27,7 +27,7 @@ class ActivityGridController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .green
+        self.view.backgroundColor = UIColor(named: "PrimaryBackground")
         fullScreenSize = UIScreen.main.bounds.size
         
         self.view.addSubview(collectionView)
@@ -48,6 +48,7 @@ class ActivityGridController: UIViewController {
         collectionView.register(ActivitiesCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.backgroundColor = UIColor(named: "PrimaryBackground")
         return collectionView
     }()
 }
@@ -90,7 +91,7 @@ extension ActivityGridController: UICollectionViewDelegate {
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.cornerRadius = CGFloat(8)
-        cell.layer.backgroundColor = UIColor.random.cgColor
+        cell.layer.backgroundColor = UIColor(named: "ActivityCard")?.cgColor
         cell.callBack = self
         return cell
     }

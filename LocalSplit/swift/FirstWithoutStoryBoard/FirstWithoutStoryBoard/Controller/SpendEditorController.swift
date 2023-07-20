@@ -40,6 +40,7 @@ class SpendEditorController: UIViewController {
     convenience init(mode: SpendEditorMode, spendModel: SpendModel) {
         self.init()
         self.mode = mode
+        self.view.backgroundColor = UIColor(named: "Background")
         splitorDelegate.delegate = self
         payerDelegate.delegate = self
         initViewModel(spendModel: spendModel)
@@ -154,6 +155,7 @@ class SpendEditorController: UIViewController {
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.cornerRadius = 5
         button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.tintColor = UIColor(named: "PrimaryText")
         button.addTarget(self, action: #selector(didClickSplitorButton), for: .touchUpInside)
         return button
     }()
@@ -173,7 +175,7 @@ class SpendEditorController: UIViewController {
         tableView.allowsSelection = false
         tableView.estimatedRowHeight = 85
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.backgroundColor = .gray
+        tableView.backgroundColor = UIColor(named: "SecondaryBackground")
         tableView.delegate = self
         return tableView
     }()

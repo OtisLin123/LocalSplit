@@ -14,8 +14,8 @@ class ActivitiesPage: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initViewModel()
-        
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(named: "Background")
+        self.navigationController?.navigationBar.tintColor = UIColor(named: "PrimaryText")
         self.title = "Activities"
         
         self.navigationItem.rightBarButtonItem = userBarButton;
@@ -34,21 +34,26 @@ class ActivitiesPage: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         button.setTitle("Create Activity", for: .normal)
-        button.backgroundColor = .lightGray
+//        button.backgroundColor = UIColor(named: "PrimaryBackground")
+//        button.setTitleColor(UIColor(named: "PrimaryText"), for: .normal)
+        
         button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        
         button.addTarget(self, action: #selector(didClickCreatButton), for: .touchUpInside)
         return button
     }()
     
     lazy var userBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "person.badge.plus"), style: .plain, target: self, action: #selector(didClickMemberEditorButton))
+        let button = UIBarButtonItem(image: UIImage(systemName: "person.badge.plus")?.withTintColor(UIColor(named: "PrimaryText")!), style: .plain, target: self, action: #selector(didClickMemberEditorButton))
         return button
     }()
     
     lazy var activitiesGridViewController: ActivityGridController = {
         let gridController = ActivityGridController(count: 2, activities: viewModel.activities)
         gridController.view.translatesAutoresizingMaskIntoConstraints = false
-        gridController.activityGridControllerCallBackDelegate = self
+        gridController.delegate = self
         return gridController
     }()
 }
@@ -57,22 +62,20 @@ class ActivitiesPage: UIViewController {
 extension ActivitiesPage {
     @objc private func didClickCreatButton() {
         let activityInfoPage =
-        ActivityInfoPage(
-            data: ActivityInfoData(
+        ActivityEditorController(
+            data: ActivityEditorData(
                 id: UUID().uuidString,
                 activityName: "",
                 selectedMembers: []
             ),
-            mode: ActivityInfoPageMode.Create, totalMembers: MainModel.shard.members
+            mode: ActivityEditorMode.Create, totalMembers: MainModel.shard.members
         )
-        activityInfoPage.activityInfoCallBackDelegate = self
-        activityInfoPage.view.backgroundColor = .white
+        activityInfoPage.delegate = self
         self.navigationController?.pushViewController(activityInfoPage, animated: true)
     }
     
     @objc private func didClickMemberEditorButton() {
-        let memberEditorController = MemberEditorPageController(members: MainModel.shard.members)
-        memberEditorController.view.backgroundColor = .white
+        let memberEditorController = MemberEditorController(members: MainModel.shard.members)
         memberEditorController.delegate = self
         self.navigationController?.pushViewController(memberEditorController, animated: true)
     }
@@ -100,8 +103,7 @@ extension ActivitiesPage {
         
         /// layout  button
         NSLayoutConstraint.activate([
-            createButton.topAnchor.constraint(equalTo: activitiesGridViewController.view.bottomAnchor, constant: 20),
-            createButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
+            createButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -50),
             createButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
         ])
     }
@@ -115,8 +117,8 @@ extension ActivitiesPage: MemberEditorPageDelegate {
 }
 
 // MARK: - ActivityInfoCallBackDelegate
-extension ActivitiesPage: ActivityInfoCallBackDelegate {
-    func receiveData(data: ActivityInfoData) {
+extension ActivitiesPage: ActivityEditorDelegate {
+    func receiveData(data: ActivityEditorData) {
         var activity = viewModel.getActivity(data.id) ?? ActivityModel()
         activity.id = data.id
         activity.name = data.activityName
@@ -126,7 +128,7 @@ extension ActivitiesPage: ActivityInfoCallBackDelegate {
 }
 
 // MARK: - ActivityGridControllerCallBackDelegate
-extension ActivitiesPage: ActivityGridControllerCallBackDelegate {
+extension ActivitiesPage: ActivityGridControllerDelegate {
     func didClickActivity(id: String) {
         let activity = viewModel.getActivity(id)
         
@@ -146,16 +148,15 @@ extension ActivitiesPage: ActivityGridControllerCallBackDelegate {
         }
         
         let activityInfoPage =
-        ActivityInfoPage(
-            data: ActivityInfoData(
+        ActivityEditorController(
+            data: ActivityEditorData(
                 id: activity?.id,
                 activityName: activity?.name,
                 selectedMembers: activity?.people
             ),
-            mode: ActivityInfoPageMode.Modify, totalMembers: MainModel.shard.members
+            mode: ActivityEditorMode.Modify, totalMembers: MainModel.shard.members
         )
-        activityInfoPage.activityInfoCallBackDelegate = self
-        activityInfoPage.view.backgroundColor = .white
+        activityInfoPage.delegate = self
         self.navigationController?.pushViewController(activityInfoPage, animated: true)
     }
 }

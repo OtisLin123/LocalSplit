@@ -19,6 +19,9 @@ class MemberCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(titleLabel)
         contentView.addSubview(deleteButton)
+        contentView.backgroundColor = UIColor(named: "ActivityCard")
+        self.backgroundColor = UIColor(named: "ActivityCard")
+        self.tintColor = UIColor(named: "PrimaryText")
         doLayout()
     }
     
@@ -33,7 +36,7 @@ class MemberCell: UITableViewCell {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor(named: "PrimaryText")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -42,6 +45,7 @@ class MemberCell: UITableViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.tintColor = UIColor(named: "PrimaryText")
         button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         button.addTarget(self, action: #selector(didDeleteClick), for: .touchUpInside)
         return button
@@ -77,9 +81,7 @@ extension MemberCell {
             deleteButton.heightAnchor.constraint(equalToConstant: 40),
             deleteButton.widthAnchor.constraint(equalToConstant: 40),
             deleteButton.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            deleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            deleteButton.leftAnchor.constraint(equalTo: titleLabel.rightAnchor),
+            deleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 }
