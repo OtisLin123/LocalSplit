@@ -28,7 +28,6 @@ protocol PayerMemberSelectorDelegate: NSObjectProtocol {
     func receivePayerMember(_: [MemberModel])
 }
 
-
 class SpendEditorController: UIViewController {
     
     var mode: SpendEditorMode = SpendEditorMode.Create
@@ -98,7 +97,11 @@ class SpendEditorController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Apply", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(UIColor(named: "PrimaryText"), for: .normal)
+        button.layer.borderColor = UIColor(named: "PrimaryText")!.cgColor
+        button.layer.borderWidth = 1
+        button.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.addTarget(self, action: #selector(didClickApply), for: .touchUpInside)
         return button
     }()
@@ -268,7 +271,7 @@ extension SpendEditorController {
             applyButton.heightAnchor.constraint(equalToConstant: 40),
             applyButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
             applyButton.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
-            applyButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
+            applyButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -50),
         ])
     }
     

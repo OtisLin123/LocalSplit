@@ -52,7 +52,6 @@ class ActivityEditorController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         textField.addUnderLine(color: UIColor.darkGray.cgColor)
-        confirmButton.sizeThatFits(.zero)
     }
     
     lazy var textField: UITextField = {
@@ -89,6 +88,7 @@ class ActivityEditorController: UIViewController {
         button.setTitleColor(UIColor(named: "PrimaryText"), for: .normal)
         button.layer.borderColor = UIColor(named: "PrimaryText")!.cgColor
         button.layer.borderWidth = 1
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.addTarget(self, action: #selector(didConfirmButtonClick), for: .touchUpInside)
         return button
     }()
@@ -100,6 +100,8 @@ class ActivityEditorController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
+        button.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.addTarget(self, action: #selector(didAddActivityMemberButtonClick), for: .touchUpInside)
         return button
     }()
@@ -157,7 +159,8 @@ extension ActivityEditorController {
         
         // layout create button
         NSLayoutConstraint.activate([
-            confirmButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            confirmButton.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            confirmButton.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             confirmButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -50),
         ])
     }

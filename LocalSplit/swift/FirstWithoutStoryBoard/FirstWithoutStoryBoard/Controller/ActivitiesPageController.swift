@@ -26,7 +26,6 @@ class ActivitiesPage: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        createButton.sizeThatFits(.zero)
     }
     
     lazy var createButton: UIButton = {
@@ -34,12 +33,10 @@ class ActivitiesPage: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         button.setTitle("Create Activity", for: .normal)
-//        button.backgroundColor = UIColor(named: "PrimaryBackground")
-//        button.setTitleColor(UIColor(named: "PrimaryText"), for: .normal)
-        
-        button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = UIColor.black.cgColor
+        button.setTitleColor(UIColor(named: "PrimaryText"), for: .normal)
+        button.layer.borderColor = UIColor(named: "PrimaryText")!.cgColor
         button.layer.borderWidth = 1
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         
         button.addTarget(self, action: #selector(didClickCreatButton), for: .touchUpInside)
         return button
@@ -104,7 +101,8 @@ extension ActivitiesPage {
         /// layout  button
         NSLayoutConstraint.activate([
             createButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -50),
-            createButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            createButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
+            createButton.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
         ])
     }
 }
