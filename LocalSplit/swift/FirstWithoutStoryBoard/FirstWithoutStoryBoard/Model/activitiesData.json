@@ -20,13 +20,19 @@
                 "cost": 100,
                 "people": [
                     {
-                        "id": "111",
-                        "name": "Aapple",
+                        "id": "1241",
+                        "member": {
+                            "id": "111",
+                            "name": "Aapple"
+                        },
                         "ratio": 1
                     },
                     {
-                        "id": "112",
-                        "name": "Orange",
+                        "id": "1242",
+                        "member": {
+                            "id": "112",
+                            "name": "Orange"
+                        },
                         "ratio": 1
                     }
                 ],
@@ -41,8 +47,11 @@
                 "cost": 150,
                 "people": [
                     {
-                        "id": "111",
-                        "name": "Aapple",
+                        "id": "1243",
+                        "member": {
+                            "id": "111",
+                            "name": "Apple"
+                        },
                         "ratio": 1
                     }
                 ],
@@ -77,18 +86,27 @@
                 "name": "buy water",
                 "people": [
                     {
-                        "id": "111",
-                        "name": "Aapple",
+                        "id": "1231",
+                        "member": {
+                            "id": "113",
+                            "name": "Aapple"
+                        },
                         "ratio": 1
                     },
                     {
-                        "id": "112",
-                        "name": "Orange",
+                        "id": "1232",
+                        "member": {
+                            "id": "112",
+                            "name": "Orange"
+                        },
                         "ratio": 1
                     },
                     {
-                        "id": "113",
-                        "name": "Banana",
+                        "id": "1233",
+                        "member": {
+                            "id": "113",
+                            "name": "Banana"
+                        },
                         "ratio": 1
                     }
                 ],
@@ -103,13 +121,19 @@
                 "name": "buy ticky",
                 "people": [
                     {
-                        "id": "111",
-                        "name": "Aapple",
+                        "id": "1234",
+                        "member": {
+                            "id": "111",
+                            "name": "Aapple"
+                        },
                         "ratio": 1
                     },
                     {
-                        "id": "113",
-                        "name": "Banana",
+                        "id": "1235",
+                        "member": {
+                            "id": "113",
+                            "name": "Banana"
+                        },
                         "ratio": 1
                     }
                 ],

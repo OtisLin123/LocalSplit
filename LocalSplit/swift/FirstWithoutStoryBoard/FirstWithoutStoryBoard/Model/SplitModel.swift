@@ -9,6 +9,6 @@ import Foundation
 
 struct SplitModel: Hashable, Codable, Identifiable {
     var id: String
-    var name: String
+    var member: MemberModel
     var ratio: Double
 }

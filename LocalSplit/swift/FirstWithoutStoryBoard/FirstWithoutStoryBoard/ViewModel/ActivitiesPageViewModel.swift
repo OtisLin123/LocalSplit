@@ -12,7 +12,7 @@ struct Activities {
 }
 
 class ActivitiesPageViewModel: NSObject {
-    private(set) var activities : [ActivityModel]! {
+    private(set) var activities : [ActivityModel] = [] {
         didSet {
             self.bindActivitiesPageViewModelToController()
         }
@@ -26,7 +26,7 @@ class ActivitiesPageViewModel: NSObject {
     }
     
     func callFuncToGetActivitiesData() {
-        activities = Helper().load("activitiesData")
+//        activities = Helper().load("activitiesData")
     }
 }
 

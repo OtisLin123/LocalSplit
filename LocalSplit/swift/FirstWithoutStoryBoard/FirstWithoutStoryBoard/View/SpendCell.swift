@@ -106,10 +106,10 @@ extension SpendCell {
         var peopleStr = ""
         data.people.forEach { splitModel in
             if peopleStr.isEmpty {
-                peopleStr = splitModel.name
+                peopleStr = splitModel.member.name
             }
             else {
-                peopleStr += ", \(splitModel.name)"
+                peopleStr += ", \(splitModel.member.name)"
             }
         }
         peopleLabel.text = "SplitPeople: \(peopleStr)"

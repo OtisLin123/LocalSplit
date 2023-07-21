@@ -56,7 +56,7 @@ class SplitCell: UITableViewCell {
 extension SplitCell {
     func setData(_ data: SplitModel) {
         splitModel = data
-        nameLabel.text = data.name
+        nameLabel.text = data.member.name
         splitRatio.text = String(data.ratio)
     }
 }

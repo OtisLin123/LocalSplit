@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 class Helper {
     func load<T: Decodable>(_ filename: String) -> T {
         let decoder = JSONDecoder()
@@ -34,5 +35,46 @@ class Helper {
         let digits = CharacterSet(charactersIn: "0123456789.")
         let stringSet = CharacterSet(charactersIn: string)
         return digits.isSuperset(of: stringSet)
+    }
+    
+    func accountCalculation(spends: [SpendModel]) -> [SplitResultModel] {
+        for spend in spends {
+            guard !spend.people.isEmpty else {
+                continue
+            }
+            
+            // 統計總份數
+            var totalDenominator: Double = 0
+            for person in spend.people {
+                totalDenominator += person.ratio
+            }
+            if totalDenominator == 0 {
+                totalDenominator = 1
+            }
+            
+            // 統計分帳資訊
+            var splitResult: SplitResult = SplitResult()
+            for person in spend.people {
+                // 分帳與付款同一人則不統計
+                guard spend.payer.id != person.id else {
+                    continue
+                }
+                splitResult.addResult(
+                SplitResultModel(
+                    payer: spend.payer,
+                    splitPerson: person.member,
+                    cost: spend.cost * (person.ratio / totalDenominator)
+                ))
+            }
+            
+            splitResult.integrate()
+            
+            for result in splitResult.result {
+                print("\(result.splitPerson.name) need pay to \(result.payer.name) \(result.cost)$")
+            }
+            
+            return splitResult.result
+        }
+        return []
     }
 }

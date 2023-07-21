@@ -73,6 +73,7 @@ class SpendsPageController: UIViewController {
         button.setTitleColor(UIColor(named: "PrimaryText"), for: .normal)
         button.layer.borderColor = UIColor(named: "PrimaryText")!.cgColor
         button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(didClickResultButton), for: .touchUpInside)
         return button
     }()
     
@@ -139,6 +140,10 @@ extension SpendsPageController {
         let spendEditor = SpendEditorController(mode: SpendEditorMode.Create, spendModel: spendModel)
         spendEditor.delegate = self
         self.navigationController?.pushViewController(spendEditor, animated: true)
+    }
+    
+    @objc func didClickResultButton() {
+        Helper().accountCalculation(spends: viewModel?.spendDatas ?? [])
     }
 }
 

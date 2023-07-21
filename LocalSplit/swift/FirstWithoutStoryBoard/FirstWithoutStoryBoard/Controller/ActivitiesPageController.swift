@@ -48,7 +48,7 @@ class ActivitiesPage: UIViewController {
     }()
     
     lazy var activitiesGridViewController: ActivityGridController = {
-        let gridController = ActivityGridController(count: 2, activities: viewModel.activities)
+        let gridController = ActivityGridController(count: 2, activities: viewModel.activities ?? [])
         gridController.view.translatesAutoresizingMaskIntoConstraints = false
         gridController.delegate = self
         return gridController

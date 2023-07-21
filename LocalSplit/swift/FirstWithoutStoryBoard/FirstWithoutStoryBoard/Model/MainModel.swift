@@ -13,6 +13,6 @@ class MainModel {
     var members: [MemberModel] = []
     
     private init(){
-        members = Helper().load("membersData")
+//        members = Helper().load("membersData")
     }
 }

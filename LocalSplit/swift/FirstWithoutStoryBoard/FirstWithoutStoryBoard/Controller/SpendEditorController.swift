@@ -379,7 +379,7 @@ extension SpendEditorController: MemberSelectorDelegate {
         for member in members {
             var splitModel = viewModel?.getSplitModel(member.id)
             if splitModel == nil {
-                splitModel = SplitModel(id: member.id, name: member.name, ratio: 1)
+                splitModel = SplitModel(id: UUID().uuidString, member: member, ratio: 1)
             }
             splitDatas.append(splitModel!)
         }
@@ -409,7 +409,7 @@ extension SpendEditorController: SplitorMemberSelectorDelegate {
         for member in members {
             var splitModel = viewModel?.getSplitModel(member.id)
             if splitModel == nil {
-                splitModel = SplitModel(id: member.id, name: member.name, ratio: 1)
+                splitModel = SplitModel(id: UUID().uuidString, member: member, ratio: 1)
             }
             splitDatas.append(splitModel!)
         }
