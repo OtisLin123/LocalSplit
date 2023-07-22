@@ -38,6 +38,8 @@ class Helper {
     }
     
     func accountCalculation(spends: [SpendModel]) -> [SplitResultModel] {
+        let splitResult: SplitResult = SplitResult()
+        
         for spend in spends {
             guard !spend.people.isEmpty else {
                 continue
@@ -53,10 +55,9 @@ class Helper {
             }
             
             // 統計分帳資訊
-            var splitResult: SplitResult = SplitResult()
             for person in spend.people {
                 // 分帳與付款同一人則不統計
-                guard spend.payer.id != person.id else {
+                guard spend.payer.id != person.member.id else {
                     continue
                 }
                 splitResult.addResult(
@@ -66,15 +67,14 @@ class Helper {
                     cost: spend.cost * (person.ratio / totalDenominator)
                 ))
             }
-            
-            splitResult.integrate()
-            
-            for result in splitResult.result {
-                print("\(result.splitPerson.name) need pay to \(result.payer.name) \(result.cost)$")
-            }
-            
-            return splitResult.result
         }
-        return []
+        
+        splitResult.integrate()
+        
+        for result in splitResult.result {
+            print("\(result.splitPerson.name) need pay to \(result.payer.name) \(result.cost)$")
+        }
+        
+        return splitResult.result
     }
 }
