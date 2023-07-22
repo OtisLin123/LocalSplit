@@ -134,7 +134,8 @@ extension ActivitiesPage: ActivityGridControllerDelegate {
             return
         }
      
-        let spendsPage = SpendsPageController(activity?.spend ?? [])
+        let spendsPage = SpendsPageController(activity?.spend ?? [], activityId: activity?.id ?? "")
+        spendsPage.delegate = self
         self.navigationController?.pushViewController(spendsPage, animated: true)
     }
     
@@ -156,5 +157,16 @@ extension ActivitiesPage: ActivityGridControllerDelegate {
         )
         activityInfoPage.delegate = self
         self.navigationController?.pushViewController(activityInfoPage, animated: true)
+    }
+}
+
+extension ActivitiesPage: SpendsPageControllerDelegate {
+    func receiveSpendsData(_ datas: [SpendModel], activityId: String) {
+        var activity = viewModel.getActivity(activityId)
+        guard activity != nil else {
+            return
+        }
+        activity!.spend = datas
+        viewModel.setActivity(activity!)
     }
 }

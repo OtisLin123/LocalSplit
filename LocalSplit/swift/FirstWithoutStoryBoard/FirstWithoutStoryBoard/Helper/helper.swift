@@ -31,6 +31,25 @@ class Helper {
         }
     }
     
+    func read() -> () {
+        do {
+            let fileURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("mainData.json")
+            let data = try Data(contentsOf: fileURL)
+            MainModel.shard.activities = try JSONDecoder().decode([ActivityModel].self, from: data)
+        } catch {
+            print("error reading data")
+        }
+    }
+    
+    func save() -> () {
+        do {
+            let fileURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("mainData.json")
+            try JSONEncoder().encode(MainModel.shard.activities).write(to: fileURL)
+        } catch {
+            print("error writing data")
+        }
+    }
+    
     func isDecimalString(_ string: String) -> Bool {
         let digits = CharacterSet(charactersIn: "0123456789.")
         let stringSet = CharacterSet(charactersIn: string)

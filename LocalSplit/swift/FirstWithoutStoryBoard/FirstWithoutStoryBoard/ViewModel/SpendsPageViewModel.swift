@@ -13,6 +13,11 @@ protocol SpendsPageViewModelDelegate: NSObjectProtocol {
 
 class SpendsPageViewModel: NSObject {
     weak var delegate: SpendsPageViewModelDelegate?
+    var activityId: String = ""
+    
+    init(activityId: String) {
+        self.activityId = activityId
+    }
     
     private(set) var spendDatas: [SpendModel] = [] {
         didSet {

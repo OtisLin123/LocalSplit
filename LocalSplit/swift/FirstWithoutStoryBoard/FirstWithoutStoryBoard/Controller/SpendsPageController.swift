@@ -15,12 +15,17 @@ enum SpendSection: CaseIterable {
     case main
 }
 
+protocol SpendsPageControllerDelegate {
+    func receiveSpendsData(_ datas: [SpendModel], activityId: String)
+}
+
 class SpendsPageController: UIViewController {
     private var viewModel: SpendsPageViewModel?
+    var delegate: SpendsPageControllerDelegate?
     
-    convenience init(_ datas: [SpendModel]) {
+    convenience init(_ datas: [SpendModel], activityId: String) {
         self.init()
-        initViewModel()
+        initViewModel(activityId: activityId)
         setSpendDatas(datas)
     }
     
@@ -120,8 +125,8 @@ extension SpendsPageController {
         dataSource.apply(snapShot, animatingDifferences: true)
     }
     
-    private func initViewModel() {
-        viewModel = SpendsPageViewModel()
+    private func initViewModel(activityId: String) {
+        viewModel = SpendsPageViewModel(activityId: activityId)
         viewModel?.delegate = self
     }
 }
@@ -130,6 +135,7 @@ extension SpendsPageController {
 extension SpendsPageController: SpendsPageViewModelDelegate {
     func bindSpendDatasChanged() {
         applySnapShot()
+        delegate?.receiveSpendsData(viewModel!.spendDatas, activityId: viewModel!.activityId)
     }
 }
 

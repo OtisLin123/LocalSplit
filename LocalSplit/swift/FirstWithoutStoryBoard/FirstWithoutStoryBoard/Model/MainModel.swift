@@ -11,6 +11,7 @@ class MainModel {
     static let shard = MainModel()
     
     var members: [MemberModel] = []
+    var activities : [ActivityModel] = []
     
     private init(){
 //        members = Helper().load("membersData")
