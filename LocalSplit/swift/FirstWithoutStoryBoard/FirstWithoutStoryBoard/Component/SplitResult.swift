@@ -58,7 +58,7 @@ class SplitResult {
     
     func isNeedIntegrate() -> CheckIntegrateResult {
         // 檢查是否有互相欠款資訊
-        for i in 0...result.count-1 {
+        for i in 0..<result.count {
             for j in i+1..<result.count {
                 if result[i].payer.id == result[j].splitPerson.id && result[i].splitPerson.id == result[j].payer.id {
                     return CheckIntegrateResult(

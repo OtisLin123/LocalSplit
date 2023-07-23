@@ -32,14 +32,9 @@ class MemberSelectorPageController: UIViewController{
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        var selectedMembers: [MemberModel] = []
-        viewModel.memberItems.forEach {
-            member in
-            if member.isSelected{
-                selectedMembers.append(member.data)
-            }
+        if self.allowsMultipleSelection {
+            sentSelectedMembers()
         }
-        delegate?.receiveSelectedMembers(selectedMembers)
         super.viewWillDisappear(animated)
     }
     
@@ -55,6 +50,17 @@ class MemberSelectorPageController: UIViewController{
 extension MemberSelectorPageController {
     private func initViewModel(memberItems: [MemberItem]) {
         viewModel = MemberSelectorPageViewModel(memberItems: memberItems)
+    }
+    
+    private func sentSelectedMembers() {
+        var selectedMembers: [MemberModel] = []
+        viewModel.memberItems.forEach {
+            member in
+            if member.isSelected{
+                selectedMembers.append(member.data)
+            }
+        }
+        delegate?.receiveSelectedMembers(selectedMembers)
     }
     
     private func doLayout() {
@@ -75,5 +81,9 @@ extension MemberSelectorPageController: MemberTableDelegate {
     
     func didMemberSelectedChanged(_ memberItems: [MemberItem]) {
         self.viewModel.setMemberItems(memberItems: memberItems)
+        if !self.allowsMultipleSelection {
+            sentSelectedMembers()
+            self.navigationController?.dismiss(animated: true)
+        }
     }
 }

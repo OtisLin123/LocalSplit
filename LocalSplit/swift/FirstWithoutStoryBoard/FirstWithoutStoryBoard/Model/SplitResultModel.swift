@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SplitResultModel {
+struct SplitResultModel: Hashable {
     var payer: MemberModel
     var splitPerson: MemberModel
     var cost: Double = 0.0

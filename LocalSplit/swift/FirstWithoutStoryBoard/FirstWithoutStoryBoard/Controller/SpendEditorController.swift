@@ -79,6 +79,7 @@ class SpendEditorController: UIViewController {
         let input = Input()
         input.translatesAutoresizingMaskIntoConstraints = false
         input.titleLabel.text = "SpendName"
+        input.textField.placeholder = "EntrySpendName"
         input.textField.addTarget(self, action: #selector(didSpendNameChanged), for: .editingChanged)
         return input
     }()
@@ -176,8 +177,6 @@ class SpendEditorController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(SplitCell.self, forCellReuseIdentifier: "Cell")
         tableView.allowsSelection = false
-        tableView.estimatedRowHeight = 85
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = UIColor(named: "SecondaryBackground")
         tableView.delegate = self
         return tableView
@@ -361,7 +360,7 @@ extension SpendEditorController: UITextFieldDelegate {
 // MARK: - UITableViewDelegate
 extension SpendEditorController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 85
     }
 }
 

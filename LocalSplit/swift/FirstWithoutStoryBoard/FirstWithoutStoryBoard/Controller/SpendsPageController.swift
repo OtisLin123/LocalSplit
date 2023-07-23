@@ -46,6 +46,7 @@ class SpendsPageController: UIViewController {
         tableView.estimatedRowHeight = 85
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = UIColor(named: "SecondaryBackground")
+        tableView.delegate = self
         return tableView
     }()
     
@@ -149,7 +150,8 @@ extension SpendsPageController {
     }
     
     @objc func didClickResultButton() {
-        Helper().accountCalculation(spends: viewModel?.spendDatas ?? [])
+        let settlePage = SettlePageController(viewModel?.spendDatas ?? [])
+        self.navigationController?.pushViewController(settlePage, animated: true)
     }
 }
 
@@ -174,5 +176,12 @@ extension SpendsPageController: SpendCellDelegate {
 extension SpendsPageController: SpendEditorControllerDelegate {
     func didClickApply(_ model: SpendModel) {
         viewModel?.setSpendData(model)
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension SpendsPageController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
