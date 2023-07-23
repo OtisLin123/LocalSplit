@@ -11,18 +11,18 @@ class Helper {
     func load<T: Decodable>(_ filename: String) -> T {
         let decoder = JSONDecoder()
         let data: Data
-        
+
         guard let file = Bundle.main.url(forResource: filename, withExtension: "json")
         else {
             fatalError("Coluden't find \(filename) in main bundle")
         }
-        
+
         do {
             data = try Data(contentsOf: file)
         } catch {
             fatalError("Coluden't load \(filename) from main bundle: \n\(error)")
         }
-        
+
         do {
             let decoder = JSONDecoder()
             return try decoder.decode(T.self, from: data)
@@ -31,20 +31,34 @@ class Helper {
         }
     }
     
-    func read() -> () {
+    func readData() {
+        MainModel.shard.activities = read("mainData.json") ?? []
+        MainModel.shard.members = read("memberData.json") ?? []
+    }
+    
+    func saveData() {
+        save("mainData.json", data: MainModel.shard.activities)
+        save("memberData.json", data: MainModel.shard.members)
+    }
+    
+    func read<T: Decodable>(_ fileName: String) -> T? {
         do {
-            let fileURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("mainData.json")
-            let data = try Data(contentsOf: fileURL)
-            MainModel.shard.activities = try JSONDecoder().decode([ActivityModel].self, from: data)
+            let fileURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(fileName)
+            if FileManager().fileExists(atPath: fileURL.path) {
+                let data = try Data(contentsOf: fileURL)
+                return try JSONDecoder().decode(T.self, from: data)
+            }
+            return nil
         } catch {
             print("error reading data")
         }
+        return nil
     }
     
-    func save() -> () {
+    func save<T: Encodable>(_ fileName: String, data: T) {
         do {
-            let fileURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("mainData.json")
-            try JSONEncoder().encode(MainModel.shard.activities).write(to: fileURL)
+            let fileURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(fileName)
+            try JSONEncoder().encode(data).write(to: fileURL)
         } catch {
             print("error writing data")
         }

@@ -55,6 +55,7 @@ class MemberEditorController: UIViewController {
         textField.textColor = .black
         textField.translatesAutoresizingMaskIntoConstraints = false;
         textField.placeholder = "EntryMemberName"
+        textField.addTarget(self, action: #selector(editingFinish), for: .editingDidEndOnExit)
         return textField
     }()
     
@@ -93,6 +94,19 @@ extension MemberEditorController {
         }
     }
     
+    private func addMember() {
+        guard ((textField.text) != nil) else {
+            return
+        }
+        guard !textField.text!.isEmpty else {
+            return
+        }
+        addMember(MemberModel(
+            id: UUID().uuidString,
+            name: textField.text!))
+        textField.text = ""
+    }
+    
     private func doLayout() {
         /// layout input area
         NSLayoutConstraint.activate([
@@ -129,20 +143,15 @@ extension MemberEditorController {
 // MARK: - SLOT
 extension MemberEditorController {
     @objc func didAddButtonClick() {
-        guard ((textField.text) != nil) else {
-            return
-        }
-        guard !textField.text!.isEmpty else {
-            return
-        }
-        addMember(MemberModel(
-            id: UUID().uuidString,
-            name: textField.text!))
-        textField.text = ""
+        addMember()
     }
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    @objc func editingFinish(){
+        addMember()
     }
 }
 

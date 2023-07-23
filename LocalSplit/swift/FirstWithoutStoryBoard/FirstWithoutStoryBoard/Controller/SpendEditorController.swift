@@ -81,6 +81,7 @@ class SpendEditorController: UIViewController {
         input.titleLabel.text = "SpendName"
         input.textField.placeholder = "EntrySpendName"
         input.textField.addTarget(self, action: #selector(didSpendNameChanged), for: .editingChanged)
+        input.textField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
         return input
     }()
     

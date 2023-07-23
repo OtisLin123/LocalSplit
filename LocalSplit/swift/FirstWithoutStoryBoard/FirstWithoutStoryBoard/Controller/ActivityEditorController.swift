@@ -60,6 +60,7 @@ class ActivityEditorController: UIViewController {
         textField.textColor = .black
         textField.placeholder = "EntryActivityName"
         textField.addTarget(self, action: #selector(didActivityNameChanged), for: .editingChanged)
+        textField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
         return textField
     }()
     
@@ -206,6 +207,7 @@ extension ActivityEditorController: UITableViewDelegate {
     }
 }
 
+// MARK: - MemberSelectorDelegate
 extension ActivityEditorController: MemberSelectorDelegate {
     func receiveSelectedMembers(_ members: [MemberModel]) {
         self.viewModel.setSelectedMember(members)
