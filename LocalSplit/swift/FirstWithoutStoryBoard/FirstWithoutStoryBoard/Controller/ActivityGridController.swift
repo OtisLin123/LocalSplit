@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol ActivityGridControllerCallBackDelegate {
+protocol ActivityGridControllerDelegate: NSObjectProtocol {
     func didClickActivity(id: String)
     func didClickModify(id: String)
 }
@@ -17,7 +17,7 @@ class ActivityGridController: UIViewController {
     var fullScreenSize: CGSize?
     var countOfRow: Int = 1
     private var activityGridViewModel: ActivityGridViewModel!
-    var activityGridControllerCallBackDelegate: ActivityGridControllerCallBackDelegate?
+    weak var delegate: ActivityGridControllerDelegate?
     
     convenience init(count countOfRow: Int, activities: [ActivityModel]){
         self.init()
@@ -27,7 +27,7 @@ class ActivityGridController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .green
+        self.view.backgroundColor = UIColor(named: "PrimaryBackground")
         fullScreenSize = UIScreen.main.bounds.size
         
         self.view.addSubview(collectionView)
@@ -48,6 +48,7 @@ class ActivityGridController: UIViewController {
         collectionView.register(ActivitiesCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.backgroundColor = UIColor(named: "PrimaryBackground")
         return collectionView
     }()
 }
@@ -90,13 +91,13 @@ extension ActivityGridController: UICollectionViewDelegate {
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.cornerRadius = CGFloat(8)
-        cell.layer.backgroundColor = UIColor.random.cgColor
+        cell.layer.backgroundColor = UIColor(named: "ActivityCard")?.cgColor
         cell.callBack = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        activityGridControllerCallBackDelegate?.didClickActivity(id: activityGridViewModel.activitiesData[indexPath.row].id)
+        delegate?.didClickActivity(id: activityGridViewModel.activitiesData[indexPath.row].id)
     }
 }
 
@@ -110,6 +111,6 @@ extension ActivityGridController: UICollectionViewDataSource {
 // MARK: - ActivitiesCellCallBack
 extension ActivityGridController: ActivitiesCellCallBack {
     func didClickModifyButton(id: String) {
-        activityGridControllerCallBackDelegate?.didClickModify(id: id)
+        delegate?.didClickModify(id: id)
     }
 }

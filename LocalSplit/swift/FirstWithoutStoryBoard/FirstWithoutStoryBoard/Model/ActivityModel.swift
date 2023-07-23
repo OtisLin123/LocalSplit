@@ -11,5 +11,5 @@ struct ActivityModel: Hashable, Codable, Identifiable {
     var id: String = ""
     var name: String = ""
     var people: [MemberModel] = []
-    var expense: [ExpenseModel] = []
+    var spend: [SpendModel] = []
 }

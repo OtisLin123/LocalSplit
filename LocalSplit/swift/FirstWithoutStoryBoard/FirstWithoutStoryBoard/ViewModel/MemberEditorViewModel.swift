@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class MemberEditorPageViewModel: NSObject {
+class MemberEditorViewModel: NSObject {
     private(set) var members: [MemberModel] {
         didSet {
             self.bindDidMemberChanged()
@@ -22,7 +22,7 @@ class MemberEditorPageViewModel: NSObject {
 }
 
 // MARK: - Public method
-extension MemberEditorPageViewModel {
+extension MemberEditorViewModel {
     func removeMember(_ index: Int) {
         members.remove(at: index)
         print("remove \(index)")

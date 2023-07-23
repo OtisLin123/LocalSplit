@@ -38,7 +38,7 @@ class ActivitiesCell: UICollectionViewCell {
         let w = Double(UIScreen.main.bounds.size.width)
         let titleLabel = UILabel(frame:CGRect(x: 0, y: 0, width: w/3-10, height: 40))
         titleLabel.textAlignment = .center
-        titleLabel.textColor = UIColor.white
+        titleLabel.textColor = UIColor(named: "PrimaryText")
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
     }()
@@ -48,7 +48,7 @@ class ActivitiesCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
-        button.tintColor = .black
+        button.tintColor = UIColor(named: "PrimaryText")
         button.addTarget(self, action: #selector(modifyButtonClick), for: .touchUpInside)
         
         return button

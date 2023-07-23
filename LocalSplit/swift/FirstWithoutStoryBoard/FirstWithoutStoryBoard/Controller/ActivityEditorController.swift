@@ -8,32 +8,35 @@
 import Foundation
 import UIKit
 
-struct ActivityInfoData {
+struct ActivityEditorData {
     var id: String!
     var activityName: String!
     var selectedMembers: [MemberModel]!
 }
 
-protocol ActivityInfoCallBackDelegate {
-    func receiveData(data: ActivityInfoData)
+protocol ActivityEditorDelegate: NSObjectProtocol {
+    func receiveData(data: ActivityEditorData)
 }
 
-class ActivityInfoPage: UIViewController {
-    var viewModel: ActivityInfoPageViewModel!
-    var activityInfoCallBackDelegate: ActivityInfoCallBackDelegate?
+class ActivityEditorController: UIViewController {
+    var viewModel: ActivityEditorViewModel!
+    weak var delegate: ActivityEditorDelegate?
     
-    convenience init (data: ActivityInfoData, mode: ActivityInfoPageMode, totalMembers: [MemberModel]) {
+    convenience init (data: ActivityEditorData, mode: ActivityEditorMode, totalMembers: [MemberModel]) {
         self.init()
         initViewModel(data: data, mode: mode, totalMembers: totalMembers)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(named: "Background")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tap)
         
         switch viewModel.mode {
-        case ActivityInfoPageMode.Create:
+        case ActivityEditorMode.Create:
             self.title = "CreateActivity"
-        case ActivityInfoPageMode.Modify:
+        case ActivityEditorMode.Modify:
             self.title = "ModifyActivity"
         }
         
@@ -57,6 +60,7 @@ class ActivityInfoPage: UIViewController {
         textField.textColor = .black
         textField.placeholder = "EntryActivityName"
         textField.addTarget(self, action: #selector(didActivityNameChanged), for: .editingChanged)
+        textField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
         return textField
     }()
     
@@ -72,9 +76,9 @@ class ActivityInfoPage: UIViewController {
         var buttonTitle = ""
         
         switch viewModel.mode {
-        case ActivityInfoPageMode.Create:
+        case ActivityEditorMode.Create:
             buttonTitle = "Create"
-        case ActivityInfoPageMode.Modify:
+        case ActivityEditorMode.Modify:
             buttonTitle = "Modify"
         }
         
@@ -82,8 +86,10 @@ class ActivityInfoPage: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         button.setTitle(buttonTitle, for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .lightGray
+        button.setTitleColor(UIColor(named: "PrimaryText"), for: .normal)
+        button.layer.borderColor = UIColor(named: "PrimaryText")!.cgColor
+        button.layer.borderWidth = 1
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.addTarget(self, action: #selector(didConfirmButtonClick), for: .touchUpInside)
         return button
     }()
@@ -95,6 +101,8 @@ class ActivityInfoPage: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
+        button.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.addTarget(self, action: #selector(didAddActivityMemberButtonClick), for: .touchUpInside)
         return button
     }()
@@ -107,9 +115,9 @@ class ActivityInfoPage: UIViewController {
 }
 
 // MARK: - Private method
-extension ActivityInfoPage {
-    private func initViewModel(data: ActivityInfoData, mode: ActivityInfoPageMode, totalMembers: [MemberModel]) {
-        viewModel = ActivityInfoPageViewModel(data: data, mode: mode, totalMembers: totalMembers)
+extension ActivityEditorController {
+    private func initViewModel(data: ActivityEditorData, mode: ActivityEditorMode, totalMembers: [MemberModel]) {
+        viewModel = ActivityEditorViewModel(data: data, mode: mode, totalMembers: totalMembers)
         viewModel.bindDidSelectedMemberChanged = {
             DispatchQueue.main.async {
                 self.memberTableViewController.setData(members: self.viewModel.getSelectedMemberItems())
@@ -134,19 +142,17 @@ extension ActivityInfoPage {
             textField.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
             textField.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
             textField.rightAnchor.constraint(equalTo: self.view.safeRightAnchor, constant: -20),
-            textField.bottomAnchor.constraint(equalTo: addMemberButton.topAnchor),
         ])
         
         NSLayoutConstraint.activate([
             addMemberButton.heightAnchor.constraint(equalToConstant: 40),
             addMemberButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
             addMemberButton.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 20),
-            addMemberButton.bottomAnchor.constraint(equalTo: memberTableViewController.view.topAnchor),
         ])
         
         // layout table view
         NSLayoutConstraint.activate([
-            memberTableViewController.view.topAnchor.constraint(equalTo: addMemberButton.bottomAnchor),
+            memberTableViewController.view.topAnchor.constraint(equalTo: addMemberButton.bottomAnchor, constant: 20),
             memberTableViewController.view.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor),
             memberTableViewController.view.rightAnchor.constraint(equalTo: self.view.safeRightAnchor),
             memberTableViewController.view.bottomAnchor.constraint(equalTo: confirmButton.topAnchor),
@@ -154,9 +160,9 @@ extension ActivityInfoPage {
         
         // layout create button
         NSLayoutConstraint.activate([
-            confirmButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            confirmButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor),
-            confirmButton.topAnchor.constraint(equalTo: memberTableViewController.view.bottomAnchor),
+            confirmButton.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            confirmButton.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            confirmButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -50),
         ])
     }
     
@@ -165,11 +171,11 @@ extension ActivityInfoPage {
     }
 }
 
-// MARK: - Slot
-extension ActivityInfoPage {
+// MARK: - SLOT
+extension ActivityEditorController {
     @objc func didConfirmButtonClick() {
-        activityInfoCallBackDelegate?.receiveData(
-            data: ActivityInfoData(
+        delegate?.receiveData(
+            data: ActivityEditorData(
                 id: self.viewModel.id,
                 activityName: self.viewModel.activityName,
                 selectedMembers: self.viewModel.selectedMembers
@@ -179,8 +185,8 @@ extension ActivityInfoPage {
     }
     
     @objc func didAddActivityMemberButtonClick() {
-        let page = MemberSelectorPageController(memberItems: viewModel.getMemberItems())
-        page.callBackDelegate = self
+        let page = MemberSelectorPageController(memberItems: viewModel.getMemberItems(), allowsMultipleSelection: true)
+        page.delegate = self
         self.navigationController?.present(UINavigationController(rootViewController:page), animated: true)
     }
     
@@ -188,16 +194,21 @@ extension ActivityInfoPage {
         self.viewModel.activityName = textField.text ?? ""
         updateCreateButtonEnabled()
     }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 // MARK: - UITableViewDelegate
-extension ActivityInfoPage: UITableViewDelegate {
+extension ActivityEditorController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
     }
 }
 
-extension ActivityInfoPage: MemberSelectorCallBackDelegate {
+// MARK: - MemberSelectorDelegate
+extension ActivityEditorController: MemberSelectorDelegate {
     func receiveSelectedMembers(_ members: [MemberModel]) {
         self.viewModel.setSelectedMember(members)
     }

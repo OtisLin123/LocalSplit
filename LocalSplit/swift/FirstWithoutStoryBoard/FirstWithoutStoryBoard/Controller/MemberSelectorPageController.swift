@@ -7,17 +7,21 @@
 
 import UIKit
 
-protocol MemberSelectorCallBackDelegate {
+protocol MemberSelectorDelegate: NSObjectProtocol {
     func receiveSelectedMembers(_: [MemberModel])
 }
 
 class MemberSelectorPageController: UIViewController{
     private var viewModel: MemberSelectorPageViewModel!
-    var callBackDelegate: MemberSelectorCallBackDelegate?
+    weak var delegate: MemberSelectorDelegate?
+    var allowsMultipleSelection: Bool = false
+    var allowSelection: Bool = false
     
-    convenience init(memberItems: [MemberItem]) {
+    convenience init(memberItems: [MemberItem], allowSelection: Bool = false, allowsMultipleSelection: Bool = false) {
         self.init()
         initViewModel(memberItems: memberItems)
+        self.allowSelection = allowSelection
+        self.allowsMultipleSelection = allowsMultipleSelection
     }
     
     override func viewDidLoad() {
@@ -28,21 +32,16 @@ class MemberSelectorPageController: UIViewController{
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        var selectedMembers: [MemberModel] = []
-        viewModel.memberItems.forEach {
-            member in
-            if member.isSelected{
-                selectedMembers.append(member.data)
-            }
+        if self.allowsMultipleSelection {
+            sentSelectedMembers()
         }
-        callBackDelegate?.receiveSelectedMembers(selectedMembers)
         super.viewWillDisappear(animated)
     }
     
     lazy var memberTableViewController: MemberTableController = {
-        let controller = MemberTableController(members: viewModel.memberItems, allowsMultipleSelection: true)
+        let controller = MemberTableController(members: viewModel.memberItems, allowSelection: self.allowSelection, allowsMultipleSelection: self.allowsMultipleSelection)
         controller.view.translatesAutoresizingMaskIntoConstraints = false
-        controller.callBackDelegate = self
+        controller.delegate = self
         return controller
     }()
 }
@@ -51,6 +50,17 @@ class MemberSelectorPageController: UIViewController{
 extension MemberSelectorPageController {
     private func initViewModel(memberItems: [MemberItem]) {
         viewModel = MemberSelectorPageViewModel(memberItems: memberItems)
+    }
+    
+    private func sentSelectedMembers() {
+        var selectedMembers: [MemberModel] = []
+        viewModel.memberItems.forEach {
+            member in
+            if member.isSelected{
+                selectedMembers.append(member.data)
+            }
+        }
+        delegate?.receiveSelectedMembers(selectedMembers)
     }
     
     private func doLayout() {
@@ -64,8 +74,16 @@ extension MemberSelectorPageController {
 }
 
 // MARK: - MemberTableCallBackDelegate
-extension MemberSelectorPageController: MemberTableCallBackDelegate {
+extension MemberSelectorPageController: MemberTableDelegate {
+    func deleteMember(index: Int) {
+        
+    }
+    
     func didMemberSelectedChanged(_ memberItems: [MemberItem]) {
         self.viewModel.setMemberItems(memberItems: memberItems)
+        if !self.allowsMultipleSelection {
+            sentSelectedMembers()
+            self.navigationController?.dismiss(animated: true)
+        }
     }
 }

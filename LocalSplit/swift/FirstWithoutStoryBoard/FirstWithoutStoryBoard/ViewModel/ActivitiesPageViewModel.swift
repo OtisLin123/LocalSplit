@@ -7,14 +7,11 @@
 
 import Foundation
 
-struct Activities {
-    var activities : [ActivityModel] = []
-}
-
 class ActivitiesPageViewModel: NSObject {
-    private(set) var activities : [ActivityModel]! {
+    private(set) var activities : [ActivityModel] = [] {
         didSet {
             self.bindActivitiesPageViewModelToController()
+             MainModel.shard.activities = activities
         }
     }
     
@@ -26,7 +23,7 @@ class ActivitiesPageViewModel: NSObject {
     }
     
     func callFuncToGetActivitiesData() {
-        activities = Helper().load("activitiesData")
+        activities = MainModel.shard.activities
     }
 }
 

@@ -12,22 +12,25 @@ struct MemberItem: Hashable {
     var isSelected: Bool = false
 }
 
-protocol MemberTableCallBackDelegate {
+protocol MemberTableDelegate: NSObjectProtocol {
     func didMemberSelectedChanged(_: [MemberItem])
+    func deleteMember(index: Int)
 }
 
 class MemberTableController: UIViewController {
     var members: [MemberItem] = []
-    var memberDataDelegate: MemberDataDelegate? = nil
     var showDelete: Bool = true
     var allowsMultipleSelection: Bool = false
-    var callBackDelegate: MemberTableCallBackDelegate?
+    var allowSelection: Bool = false
+    weak var delegate: MemberTableDelegate?
     
-    convenience init (members: [MemberItem], showDelete: Bool = false, allowsMultipleSelection: Bool = false) {
+    convenience init (members: [MemberItem], showDelete: Bool = false, allowSelection: Bool = false, allowsMultipleSelection: Bool = false) {
         self.init()
         self.members = members
         self.showDelete = showDelete
         self.allowsMultipleSelection = allowsMultipleSelection
+        self.allowSelection = allowSelection
+        self.tableView.backgroundColor = UIColor(named: "SecondaryBackground")
     }
     
     override func viewDidLoad() {
@@ -63,7 +66,7 @@ class MemberTableController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.register(MemberCell.self, forCellReuseIdentifier: "Cell")
         view.delegate = self
-        view.allowsSelection = false
+        view.allowsSelection = allowSelection
         view.allowsMultipleSelection = allowsMultipleSelection
         return view
     }()
@@ -73,7 +76,7 @@ class MemberTableController: UIViewController {
         tableView, indexPath, model in
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MemberCell
             cell.selectionStyle = .none
-            cell.cellDelegate = self
+            cell.delegate = self
             cell.setData(model.data, showDelete: self.showDelete)
             cell.indexPath = indexPath
             return cell
@@ -95,7 +98,7 @@ extension MemberTableController {
 // MARK: - Private method
 extension MemberTableController {
     private func setDefaultSelectOnTable() {
-        guard allowsMultipleSelection else {
+        guard allowsMultipleSelection || allowSelection else {
             return
         }
         
@@ -118,21 +121,21 @@ extension MemberTableController: UITableViewDelegate {
         var memberItem = members[indexPath.row]
         memberItem.isSelected = true
         members[indexPath.row] = memberItem
-        callBackDelegate?.didMemberSelectedChanged(members)
+        delegate?.didMemberSelectedChanged(members)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         var memberItem = members[indexPath.row]
         memberItem.isSelected = false
         members[indexPath.row] = memberItem
-        callBackDelegate?.didMemberSelectedChanged(members)
+        delegate?.didMemberSelectedChanged(members)
     }
 }
 
 // MARK: - MemberCellDelegate
 extension MemberTableController: MemberCellDelegate {
     func didDeleteTap(_ indexPath: IndexPath) {
-        memberDataDelegate?.deleteMember(index: indexPath.row)
+        delegate?.deleteMember(index: indexPath.row)
     }
 }
 

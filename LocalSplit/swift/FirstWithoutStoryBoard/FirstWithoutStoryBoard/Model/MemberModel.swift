@@ -8,6 +8,6 @@
 import Foundation
 
 struct MemberModel: Codable, Hashable, Identifiable{
-    var id: String
-    var name: String
+    var id: String = ""
+    var name: String = ""
 }

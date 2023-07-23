@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum ActivityInfoPageMode: String, CaseIterable {
+enum ActivityEditorMode: String, CaseIterable {
     case Modify
     case Create
 }
 
-class ActivityInfoPageViewModel: NSObject {
+class ActivityEditorViewModel: NSObject {
     
     private(set) var totalMembers: [MemberModel] {
         didSet {
@@ -26,13 +26,13 @@ class ActivityInfoPageViewModel: NSObject {
         }
     }
     
-    var mode: ActivityInfoPageMode = ActivityInfoPageMode.Create
+    var mode: ActivityEditorMode = ActivityEditorMode.Create
     var activityName: String
     var id: String
     var bindDidSelectedMemberChanged: (() -> ()) = {}
     var bindDidTotalMemberChanged: (() -> ()) = {}
     
-    init(data: ActivityInfoData, mode: ActivityInfoPageMode, totalMembers: [MemberModel]){
+    init(data: ActivityEditorData, mode: ActivityEditorMode, totalMembers: [MemberModel]){
         self.mode = mode
         self.id = data.id
         self.activityName = data.activityName
@@ -43,7 +43,7 @@ class ActivityInfoPageViewModel: NSObject {
 }
 
 // MARK: - Public method
-extension ActivityInfoPageViewModel {
+extension ActivityEditorViewModel {
     func setSelectedMember(_ members: [MemberModel]) {
         self.selectedMembers = members
     }
